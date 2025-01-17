@@ -1,5 +1,5 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
     import { GEMINI_PROMPT } from './constants';
+		const { GoogleGenerativeAI } = require("@google/generative-ai");
 
     interface GeminiResponse {
       text: string;
@@ -8,18 +8,20 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
     export async function getGeminiResponse(
       input: string,
-      imageBase64?: string
+      imageBase64?: string,
     ): Promise<GeminiResponse> {
       try {
-        const apiKey = process.env.VITE_GEMINI_API_KEY;
+        const apiKey = process.env.NEXT_PUBLIC_VITE_GEMINI_API_KEY;
+        console.log("API Key:", apiKey);
+
         if (!apiKey) {
           throw new Error('Google Cloud API key is not configured');
         }
 
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = GEMINI_PROMPT.replace('{input}', input);
+        let prompt = GEMINI_PROMPT.replace('{input}', input);
 
         const parts = [{ text: prompt }];
 

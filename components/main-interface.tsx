@@ -187,10 +187,10 @@
       }, [textInput, isLoading, handleVoiceCommand]);
 
       return (
-        <div className="h-full flex flex-col p-4 space-y-4">
+        <div className="flex flex-col p-4">
           {/* Video Preview */}
           <div className="relative flex-1">
-            <Card className="relative aspect-video">
+            <Card className="relative w-full aspect-[16/9] max-h-[60vh]">
               <video
                 ref={videoRef}
                 autoPlay

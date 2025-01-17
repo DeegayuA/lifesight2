@@ -5,11 +5,11 @@ import { Eye, MessageSquareText, Phone } from 'lucide-react';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background p-6">
+    <main className="bg-background p-6">
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">
-            Welcome to Lifesight
+            Welcome to Lifesight-V2
           </h1>
           <p className="text-xl text-muted-foreground">
             Your AI-powered assistant for independent navigation and task completion

@@ -5,6 +5,8 @@ import './globals.css';
     import { LanguageProvider } from '@/components/language-provider';
     import { Toaster } from '@/components/ui/sonner';
     import { cn } from '@/lib/utils';
+    import { MainNavbar } from '@/components/main-navbar';
+    import { MainFooter } from '@/components/main-footer';
 
     const inter = Inter({ subsets: ['latin'] });
 
@@ -27,10 +29,14 @@ import './globals.css';
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
             <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👓</text></svg>" sizes="any" />
           </head>
-          <body className={cn(inter.className, 'h-full')}>
+          <body className={cn(inter.className, 'h-full min-h-screen')}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <LanguageProvider>
-                {children}
+                <MainNavbar />
+                <div className="flex-1">
+                  {children}
+                </div>
+                <MainFooter />
                 <Toaster />
               </LanguageProvider>
             </ThemeProvider>

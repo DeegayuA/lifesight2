@@ -26,7 +26,7 @@
 
       return (
         <>
-          <main className={cn('h-screen bg-background overflow-hidden')}>
+          <main className={cn('bg-background overflow-hidden')}>
             <TooltipProvider>
               <MainInterface />
               {!hasSeenOnboarding && (

@@ -15,6 +15,9 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     accentColor,
   } = useSettings();
 
+  // Determine aria-live value based on the screenReader setting
+  const ariaLiveValue = screenReader ? 'polite' : 'off';
+
   return (
     <div
       style={{
@@ -28,7 +31,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
         antiFlicker ? 'no-flicker' : '',
         `accent-[${accentColor}]`
       )}
-      aria-live={screenReader ? 'polite' : 'off'} // Always sets a valid ARIA value
+      aria-live={ariaLiveValue} // Valid ARIA value passed
     >
       {children}
     </div>

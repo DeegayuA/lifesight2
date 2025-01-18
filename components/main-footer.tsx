@@ -16,7 +16,7 @@
         <footer className="border-t bg-background py-8 text-center text-muted-foreground w-full">
           <div className="container flex flex-col items-center justify-center space-y-4 mx-auto">
             <p className="text-sm">
-              LifeSight is a non-profit organization dedicated to helping the visually impaired. This website is done to fulfill a requirement to complete the Master of IT degree [2024], University of Kelaniya.
+              LifeSight is a non-profit organization dedicated to helping the visually impaired.
             </p>
             <Button asChild variant="outline">
               <Link href="/donate">Donate to Support Our Mission</Link>
@@ -27,7 +27,7 @@
                   <TooltipTrigger asChild>
                     <Button variant="ghost" size="icon">
 											{/* <p className="text-sm">Github</p> */}
-                     	<Github size={40} strokeWidth={2.5} absoluteStrokeWidth />
+                     	<Github size={20} strokeWidth={2} absoluteStrokeWidth />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="top" align="center">

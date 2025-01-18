@@ -9,6 +9,8 @@ import './globals.css';
     import { MainFooter } from '@/components/main-footer';
     import { SettingsProvider } from '@/components/settings-provider';
     import { LayoutWrapper } from '@/components/layout-wrapper';
+    import { Theme } from "@radix-ui/themes";
+
 
     const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +36,7 @@ import './globals.css';
             <link rel="preload" href="/_next/static/css/app/layout.css?v=1737186472472" as="style" />
           </head>
           <body className={cn(inter.className, 'h-full min-h-screen')}>
+          <Theme>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <LanguageProvider>
                 <SettingsProvider>
@@ -48,6 +51,7 @@ import './globals.css';
                 </SettingsProvider>
               </LanguageProvider>
             </ThemeProvider>
+            </Theme>
           </body>
         </html>
       );

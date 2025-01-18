@@ -62,7 +62,7 @@
                   Experience a new level of accessibility with our AI-powered tools designed for the visually impaired.
                 </p>
                 <div className="flex justify-center space-x-4">
-                  <Button asChild size="lg">
+                  <Button asChild variant="default" size="lg">
                     <Link href="/app">Get Started</Link>
                   </Button>
                   <Button asChild variant="outline" size="lg">

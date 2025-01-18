@@ -71,14 +71,14 @@
             </DialogHeader>
             <div className="py-4 space-y-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor="theme-toggle">Theme</Label>
+                {/* <Label htmlFor="theme-toggle">Theme</Label>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleThemeChange}
                 >
                   {theme === 'light' ? 'Dark' : 'Light'}
-                </Button>
+                </Button> */}
               </div>
               <div className="flex items-center justify-between">
                 <Label htmlFor="haptic-feedback">Haptic Feedback</Label>

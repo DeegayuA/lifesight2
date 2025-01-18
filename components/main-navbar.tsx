@@ -48,7 +48,7 @@
             <div className="flex items-center space-x-2">
               <div ref={googleTranslateRef} className="mr-2" style={{zIndex: 100, position: 'relative'}}></div>
               <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
-                <Settings className="h-5 w-5" />
+                <Settings className="h-5 w-10" />
               </Button>
               <Button
                 variant="ghost"

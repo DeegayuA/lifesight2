@@ -225,8 +225,7 @@
             />
           </div>
           <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
-        </div>
-
+        
           {/* Controls */}
           <div className="absolute bottom-0 left-0 max-w-[1280px] mx-4 w-full flex flex-col sm:flex-row gap-2 items-center justify-center overflow-hidden">
             <div className="flex flex-wrap flex-1 w-full w-full ">
@@ -281,7 +280,6 @@
               </Button>
             </div>
           </div>
-
-          
+        </div>
       );
     }

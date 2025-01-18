@@ -10,6 +10,9 @@
     import { Input } from '@/components/ui/input';
     import { TooltipProvider } from '@/components/ui/tooltip';
     import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+    import { Analytics } from "@vercel/analytics/react"
+    import { SpeedInsights } from "@vercel/speed-insights/next"
+
 
     export default function Home() {
       const { reducedMotion } = useSettings();
@@ -192,7 +195,7 @@
                 </p>
                 <div className="flex justify-center">
                   <Input type="email" placeholder="Enter your email" className="w-full max-w-sm mr-2" />
-                  <Button>Subscribe</Button>
+                  <Button className="w-16 h-16">Subscribe</Button>
                 </div>
               </div>
             </section>

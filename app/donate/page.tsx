@@ -2,7 +2,7 @@
 
     import { Button } from '@/components/ui/button';
     import { Card } from '@/components/ui/card';
-    import { Phone, ArrowLeft } from 'lucide-react';
+    import { HeartHandshake, ArrowLeft } from 'lucide-react';
     import Link from 'next/link';
 
     export default function DonatePage() {
@@ -17,7 +17,7 @@
             </Button>
 
             <Card className="p-8 text-center space-y-6">
-              <Phone className="w-12 h-12 mx-auto text-primary" />
+              <HeartHandshake className="w-12 h-12 mx-auto text-primary" />
               <h1 className="text-3xl font-bold">Help us to help Others</h1>
               <p className="text-lg text-muted-foreground">
               Every contribution counts, no matter how big or small. Thank you for your support!

@@ -4,7 +4,7 @@
     import { Button } from '@/components/ui/button';
     import { Card } from '@/components/ui/card';
     import { Input } from '@/components/ui/input';
-    import { Camera, Mic, MicOff, CameraOff, Send, Volume2, VolumeX } from 'lucide-react';
+    import { Camera, Mic, MicOff, CameraOff, Send, Volume2, VolumeX, Phone } from 'lucide-react';
     import { useAIResponse } from '@/hooks/use-ai-response';
     import { AIResponseDisplay } from '@/components/ai-response-display';
     import { useLanguage } from '@/components/language-provider';
@@ -15,6 +15,8 @@
       TooltipTrigger,
     } from '@/components/ui/tooltip';
     import { useSettings } from '@/components/settings-provider';
+    import { SettingsPanel } from '@/components/settings-panel';
+    import Link from 'next/link';
 
     export function MainInterface() {
       const [isCameraOn, setIsCameraOn] = useState(false);
@@ -26,6 +28,7 @@
         cameras: [],
         mics: []
       });
+      const [settingsOpen, setSettingsOpen] = useState(false);
 
       const videoRef = useRef<HTMLVideoElement>(null);
       const mediaStreamRef = useRef<MediaStream | null>(null);
@@ -247,6 +250,12 @@
                   </div>
                 </TooltipContent>
               </Tooltip>
+              <Button asChild variant="outline">
+                <Link href="/call-assistant">
+                  <Phone className="h-5 w-5" />
+                  <span className="ml-2">Call for Assistance</span>
+                </Link>
+              </Button>
             </div>
             <div className="flex gap-2 flex-1">
               <Input
@@ -270,6 +279,7 @@
               onResponseEnd={handleResponseEnd}
             />
           </div>
+          <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
         </div>
       );
     }

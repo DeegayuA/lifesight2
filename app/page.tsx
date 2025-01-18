@@ -195,7 +195,7 @@
                 </p>
                 <div className="flex justify-center">
                   <Input type="email" placeholder="Enter your email" className="w-full max-w-sm mr-2" />
-                  <Button className="w-16 h-16">Subscribe</Button>
+                  <Button className="w-24 h-16">Subscribe</Button>
                 </div>
               </div>
             </section>

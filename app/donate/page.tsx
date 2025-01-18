@@ -18,9 +18,9 @@
 
             <Card className="p-8 text-center space-y-6">
               <Phone className="w-12 h-12 mx-auto text-primary" />
-              <h1 className="text-3xl font-bold">Connect with an Assistant</h1>
+              <h1 className="text-3xl font-bold">Help us to help Others</h1>
               <p className="text-lg text-muted-foreground">
-                Our trained assistants are available 24/7 to provide personalized help when you need it.
+              Every contribution counts, no matter how big or small. Thank you for your support!
               </p>
               <Button size="lg" className="w-full">
                 Call Now

@@ -34,7 +34,7 @@
       const mediaStreamRef = useRef<MediaStream | null>(null);
       const { isLoading, response, getResponse } = useAIResponse();
       const { language } = useLanguage();
-      const recognitionRef = useRef<SpeechRecognition | null>(null);
+      const recognitionRef = useRef<any | null>(null);
       const { fontSize, lineHeight, letterSpacing } = useSettings();
 
       useEffect(() => {
@@ -64,7 +64,7 @@
         startMedia();
       }, []);
 
-      const toggleCamera = async (forceOn?: boolean) => {
+      const toggleCamera = async (forceOn: boolean = false) => {
         try {
           if (isCameraOn || forceOn) {
             if (mediaStreamRef.current) {
@@ -89,7 +89,7 @@
         }
       };
 
-      const toggleMic = async (forceOn?: boolean) => {
+      const toggleMic = async (forceOn: boolean = false) => {
         try {
           if (isMicOn || forceOn) {
             if (mediaStreamRef.current) {
@@ -131,7 +131,7 @@
         if (!textInput.trim()) return;
 
         const imageBase64 = isCameraOn ? await captureImage() : undefined;
-        await getResponse(textInput, imageBase64);
+        await getResponse(textInput, typeof imageBase64 === 'string' ? imageBase64 : undefined);
         setTextInput('');
       };
 
@@ -147,20 +147,24 @@
           return;
         }
 
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+          console.error('Speech recognition is not supported in this browser.');
+          return;
+        }
         recognitionRef.current = new SpeechRecognition();
         recognitionRef.current.lang = language;
         recognitionRef.current.interimResults = false;
         recognitionRef.current.maxAlternatives = 1;
 
-        recognitionRef.current.onresult = async (event) => {
+        recognitionRef.current.onresult = async (event: any) => {
           const transcript = event.results[0][0].transcript;
           setTextInput(transcript);
           const imageBase64 = isCameraOn ? await captureImage() : undefined;
-          await getResponse(transcript, imageBase64);
+          await getResponse(transcript, typeof imageBase64 === 'string' ? imageBase64 : undefined);
         };
 
-        recognitionRef.current.onerror = (event) => {
+        recognitionRef.current.onerror = (event: any) => {
           console.error('Speech recognition error:', event.error);
         };
 

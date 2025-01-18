@@ -7,7 +7,6 @@ import './globals.css';
     import { cn } from '@/lib/utils';
     import { MainNavbar } from '@/components/main-navbar';
     import { MainFooter } from '@/components/main-footer';
-    import { TranslationInitializer } from '@/components/translation-initializer';
     import { SettingsProvider } from '@/components/settings-provider';
     import { LayoutWrapper } from '@/components/layout-wrapper';
 
@@ -45,7 +44,6 @@ import './globals.css';
                     </div>
                     <MainFooter />
                     <Toaster />
-                    <TranslationInitializer />
                   </LayoutWrapper>
                 </SettingsProvider>
               </LanguageProvider>

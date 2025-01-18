@@ -9,7 +9,7 @@
       TooltipTrigger,
 			TooltipProvider
     } from '@/components/ui/tooltip';
-    import { GitHub } from 'lucide-react';
+    import { Github } from 'lucide-react';
 
     export function MainFooter() {
       return (
@@ -26,8 +26,8 @@
 								<Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="ghost" size="icon">
-											<p className="text-sm">Github</p>
-                     	{/* <Github size={40} strokeWidth={2.5} absoluteStrokeWidth /> */}
+											{/* <p className="text-sm">Github</p> */}
+                     	<Github size={40} strokeWidth={2.5} absoluteStrokeWidth />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="top" align="center">

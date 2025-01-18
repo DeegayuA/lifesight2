@@ -15,14 +15,16 @@
 
       useEffect(() => {
         const googleTranslateElementInit = () => {
-          new window.google.translate.TranslateElement(
-            {
-              pageLanguage: "en",
-              autoDisplay: false,
-              layout: window.google.translate.TranslateElement.FloatPosition.TOP_LEFT
-            },
-            "google_translate_element"
-          );
+          if (typeof window !== 'undefined' && (window as any).google && (window as any).google.translate) {
+            new (window as any).google.translate.TranslateElement(
+              {
+                pageLanguage: "en",
+                autoDisplay: false,
+                layout: (window as any).google.translate.TranslateElement.FloatPosition.TOP_LEFT
+              },
+              "google_translate_element"
+            );
+          }
         };
 
         var addScript = document.createElement("script");
@@ -31,7 +33,7 @@
           "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         );
         document.body.appendChild(addScript);
-        window.googleTranslateElementInit = googleTranslateElementInit;
+        (window as any).googleTranslateElementInit = googleTranslateElementInit;
       }, []);
 
       return (

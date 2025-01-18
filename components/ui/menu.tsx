@@ -6,9 +6,6 @@
     import { cn } from '@/lib/utils';
 
     const Menu = MenuPrimitive.Root;
-
-    const MenuTrigger = MenuPrimitive.Trigger;
-
     const MenuPortal = MenuPrimitive.Portal;
 
     const MenuContent = React.forwardRef<
@@ -71,7 +68,6 @@
 
     export {
       Menu,
-      MenuTrigger,
       MenuContent,
       MenuItem,
       MenuLabel,

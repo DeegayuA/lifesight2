@@ -6,6 +6,7 @@
       },
       images: { unoptimized: true },
       reactStrictMode: false,
+      swcMinify: false,
     };
 
     module.exports = nextConfig;

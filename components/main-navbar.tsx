@@ -5,11 +5,13 @@
     import { Settings, Moon, Sun } from 'lucide-react';
     import { useTheme } from 'next-themes';
     import { cn } from '@/lib/utils';
-    import { useEffect, useRef } from 'react';
+    import { useEffect, useRef, useState } from 'react';
+    import { SettingsPanel } from '@/components/settings-panel';
 
     export function MainNavbar() {
       const { setTheme, theme } = useTheme();
       const googleTranslateRef = useRef<HTMLDivElement>(null);
+      const [settingsOpen, setSettingsOpen] = useState(false);
 
       useEffect(() => {
         const googleTranslateElementInit = () => {
@@ -42,8 +44,7 @@
               </Link>
             </div>
             <div className="flex items-center space-x-2">
-              <div ref={googleTranslateRef} className="mr-2" style={{zIndex: 100, position: 'relative'}}></div>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
                 <Settings className="h-5 w-5" />
               </Button>
               <Button
@@ -55,6 +56,8 @@
               </Button>
             </div>
           </div>
+          <div id="google_translate_element" className="mr-2" style={{zIndex: 100, position: 'relative', display: 'none'}}></div>
+          <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
         </header>
       );
     }

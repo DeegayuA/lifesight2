@@ -1,6 +1,8 @@
-import { Button } from '@/components/ui/button';
+"use client";
+
+    import { Button } from '@/components/ui/button';
     import { Card } from '@/components/ui/card';
-    import { ArrowLeft } from 'lucide-react';
+    import { Phone, ArrowLeft } from 'lucide-react';
     import Link from 'next/link';
 
     export default function DonatePage() {
@@ -15,12 +17,13 @@ import { Button } from '@/components/ui/button';
             </Button>
 
             <Card className="p-8 text-center space-y-6">
-              <h1 className="text-3xl font-bold">Support LifeSight</h1>
+              <Phone className="w-12 h-12 mx-auto text-primary" />
+              <h1 className="text-3xl font-bold">Connect with an Assistant</h1>
               <p className="text-lg text-muted-foreground">
-                Your donation helps us provide essential AI-powered tools for the visually impaired.
+                Our trained assistants are available 24/7 to provide personalized help when you need it.
               </p>
               <Button size="lg" className="w-full">
-                Donate Now
+                Call Now
               </Button>
             </Card>
           </div>

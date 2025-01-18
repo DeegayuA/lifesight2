@@ -1,5 +1,5 @@
+import { GoogleGenerativeAI } from '@google/generative-ai';
     import { GEMINI_PROMPT } from './constants';
-		const { GoogleGenerativeAI } = require("@google/generative-ai");
 
     interface GeminiResponse {
       text: string;

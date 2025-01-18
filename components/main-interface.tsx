@@ -9,6 +9,12 @@
     import { AIResponseDisplay } from '@/components/ai-response-display';
     import { useLanguage } from '@/components/language-provider';
     import { cn } from '@/lib/utils';
+    import {
+      Tooltip,
+      TooltipContent,
+      TooltipTrigger,
+    } from '@/components/ui/tooltip';
+    import { useSettings } from '@/components/settings-provider';
 
     export function MainInterface() {
       const [isCameraOn, setIsCameraOn] = useState(false);
@@ -26,6 +32,7 @@
       const { isLoading, response, getResponse } = useAIResponse();
       const { language } = useLanguage();
       const recognitionRef = useRef<SpeechRecognition | null>(null);
+      const { fontSize, lineHeight, letterSpacing } = useSettings();
 
       useEffect(() => {
         async function getDevices() {
@@ -187,10 +194,10 @@
       }, [textInput, isLoading, handleVoiceCommand]);
 
       return (
-        <div className="flex flex-col p-4">
+        <div className="h-full flex flex-col p-4 space-y-4" style={{fontSize, lineHeight, letterSpacing: `${letterSpacing}px`}}>
           {/* Video Preview */}
           <div className="relative flex-1">
-            <Card className="relative w-full aspect-[16/9] max-h-[60vh]">
+            <Card className="relative w-full aspect-video">
               <video
                 ref={videoRef}
                 autoPlay
@@ -216,14 +223,30 @@
                 {isCameraOn ? <Camera /> : <CameraOff />}
                 <span className="ml-2">{isCameraOn ? 'Stop Camera' : 'Start Camera'}</span>
               </Button>
-
-              <Button
-                variant={isMicOn ? "default" : "outline"}
-                onClick={() => toggleMic()}
-              >
-                {isMicOn ? <Mic /> : <MicOff />}
-                <span className="ml-2">{isMicOn ? 'Stop Mic' : 'Start Mic'}</span>
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={isMicOn ? "default" : "outline"}
+                    onClick={() => toggleMic()}
+                  >
+                    {isMicOn ? <Mic /> : <MicOff />}
+                    <span className="ml-2">{isMicOn ? 'Stop Mic' : 'Start Mic'}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" align="center">
+                  <div className="space-y-1">
+                    <p>Available voice commands:</p>
+                    <ul className="list-disc pl-4">
+                      <li>start camera</li>
+                      <li>stop camera</li>
+                      <li>start mic</li>
+                      <li>stop mic</li>
+                      <li>repeat</li>
+                      <li>respeak</li>
+                    </ul>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
             </div>
             <div className="flex gap-2 flex-1">
               <Input

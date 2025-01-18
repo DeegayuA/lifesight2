@@ -20,7 +20,7 @@ export function OnboardingDialog({ onComplete }: OnboardingDialogProps) {
     <Dialog open onOpenChange={onComplete}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Welcome to Lifesight_V2</DialogTitle>
+          <DialogTitle>Welcome to Lifesight</DialogTitle>
           <DialogDescription>
             Let's get you started with using our AI-powered assistant.
           </DialogDescription>

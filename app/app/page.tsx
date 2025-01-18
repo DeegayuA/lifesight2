@@ -5,6 +5,7 @@
     import { OnboardingDialog } from '@/components/onboarding-dialog';
     import { useLocalStorage } from '@/hooks/use-local-storage';
     import { cn } from '@/lib/utils';
+    import { TooltipProvider } from '@/components/ui/tooltip';
 
     export default function AppPage() {
       const [hasSeenOnboarding, setHasSeenOnboarding] = useLocalStorage('hasSeenOnboarding', false);
@@ -18,13 +19,17 @@
       }, []);
 
       return (
-        <main className={cn('h-screen bg-background overflow-hidden')}>
-          <MainInterface />
-          {!hasSeenOnboarding && (
-            <OnboardingDialog 
-              onComplete={() => setHasSeenOnboarding(true)} 
-            />
-          )}
-        </main>
+        <>
+          <main className={cn('h-screen bg-background overflow-hidden')}>
+            <TooltipProvider>
+              <MainInterface />
+              {!hasSeenOnboarding && (
+                <OnboardingDialog 
+                  onComplete={() => setHasSeenOnboarding(true)} 
+                />
+              )}
+            </TooltipProvider>
+          </main>
+        </>
       );
     }

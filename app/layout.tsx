@@ -7,6 +7,9 @@ import './globals.css';
     import { cn } from '@/lib/utils';
     import { MainNavbar } from '@/components/main-navbar';
     import { MainFooter } from '@/components/main-footer';
+    import { TranslationInitializer } from '@/components/translation-initializer';
+    import { SettingsProvider } from '@/components/settings-provider';
+    import { LayoutWrapper } from '@/components/layout-wrapper';
 
     const inter = Inter({ subsets: ['latin'] });
 
@@ -32,12 +35,17 @@ import './globals.css';
           <body className={cn(inter.className, 'h-full min-h-screen')}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <LanguageProvider>
-                <MainNavbar />
-                <div className="flex-1">
-                  {children}
-                </div>
-                <MainFooter />
-                <Toaster />
+                <SettingsProvider>
+                  <LayoutWrapper>
+                    <MainNavbar />
+                    <div className="flex-1">
+                      {children}
+                    </div>
+                    <MainFooter />
+                    <Toaster />
+                    <TranslationInitializer />
+                  </LayoutWrapper>
+                </SettingsProvider>
               </LanguageProvider>
             </ThemeProvider>
           </body>

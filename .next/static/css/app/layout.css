@@ -715,9 +715,6 @@ video {
     .z-\[1\] {
   z-index: 1;
 }
-    .m-2 {
-  margin: 0.5rem;
-}
     .-mx-1 {
   margin-left: -0.25rem;
   margin-right: -0.25rem;
@@ -737,14 +734,6 @@ video {
     .my-1 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
-}
-    .mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-    .mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
 }
     .-ml-4 {
   margin-left: -1rem;
@@ -823,9 +812,6 @@ video {
 }
     .aspect-video {
   aspect-ratio: 16 / 9;
-}
-    .aspect-\[16\/9\] {
-  aspect-ratio: 16/9;
 }
     .h-1 {
   height: 0.25rem;
@@ -910,21 +896,6 @@ video {
 }
     .max-h-screen {
   max-height: 100vh;
-}
-    .max-h-\[30vh\] {
-  max-height: 30vh;
-}
-    .max-h-\[20vh\] {
-  max-height: 20vh;
-}
-    .max-h-\[10vh\] {
-  max-height: 10vh;
-}
-    .max-h-\[60vh\] {
-  max-height: 60vh;
-}
-    .max-h-\[40vh\] {
-  max-height: 40vh;
 }
     .min-h-\[80px\] {
   min-height: 80px;
@@ -2661,17 +2632,6 @@ video {
 
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .md\:flex-row {
-    flex-direction: row;
-  }
-}
-
-    @media (min-width: 1280px) {
-
-  .xl\:flex-col {
-    flex-direction: column;
   }
 }
 

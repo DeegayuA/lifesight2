@@ -1900,6 +1900,10 @@ video {
   z-index: 20;
 }
 
+    .hover\:rounded:hover {
+  border-radius: 0.25rem;
+}
+
     .hover\:bg-accent:hover {
   background-color: hsl(var(--accent));
 }

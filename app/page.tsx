@@ -48,7 +48,7 @@
         <main className="min-h-screen p-4 sm:p-6">
           <TooltipProvider>
             {/* Hero Section */}
-            <section className="relative h-[80vh] flex items-center justify-center overflow-hidden  mx-auto z-20">
+            <section className="rounded-lg relative h-[80vh] flex items-center justify-center overflow-hidden  mx-auto z-20">
               <div className="absolute inset-0">
                 <img
                   src="https://pub-f3746e8bbc624ef5a6987eac05efe3f7.r2.dev/hero.jpg"

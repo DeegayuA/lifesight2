@@ -35,9 +35,10 @@
 
     export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
       const { setTheme, theme, setHapticFeedback, hapticFeedback, setFontSize, fontSize, setLineHeight, lineHeight, setLetterSpacing, letterSpacing, setReducedMotion, reducedMotion, setHighContrast, highContrast, setScreenReader, screenReader, setAntiFlicker, antiFlicker, setAccentColor, accentColor } = useSettings();
+      const { setTheme: setNextTheme } = useTheme();
 
       const handleThemeChange = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+        setNextTheme(theme === 'light' ? 'dark' : 'light');
       };
 
       const handleHapticFeedbackChange = (haptic: boolean) => {

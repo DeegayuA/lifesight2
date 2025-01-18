@@ -197,11 +197,11 @@
       }, [textInput, isLoading, handleVoiceCommand]);
 
       return (
-        <div className="h-full flex flex-col p-4 space-y-4" style={{fontSize, lineHeight, letterSpacing: `${letterSpacing}px`}}>
+        <div className="flex flex-col p-4 space-y-4" style={{fontSize, lineHeight, letterSpacing: `${letterSpacing}px`}}>
           {/* Video Preview */}
-          <div className="relative flex-1">
-            <Card className="relative w-full aspect-video">
-              <video
+          <div className="relative flex-1 max-h-[10vh]">
+						<Card className="relative w-full aspect-[16/9] max-h-[60vh]">
+							<video
                 ref={videoRef}
                 autoPlay
                 playsInline
@@ -216,9 +216,20 @@
             </Card>
           </div>
 
+					{/* Response Area */}
+          <div className="flex-1 overflow-y-auto">
+            <AIResponseDisplay
+              response={response}
+              isLoading={isLoading}
+              onResponseEnd={handleResponseEnd}
+            />
+          </div>
+          <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
+        </div>
+
           {/* Controls */}
-          <div className="flex flex-wrap gap-2">
-            <div className="flex flex-wrap gap-2 flex-1">
+          <div className="absolute bottom-0 left-0 max-w-[1280px] mx-4 w-full flex flex-col sm:flex-row gap-2 items-center justify-center overflow-hidden">
+            <div className="flex flex-wrap flex-1 w-full w-full ">
               <Button
                 variant={isCameraOn ? "default" : "outline"}
                 onClick={() => toggleCamera()}
@@ -253,11 +264,11 @@
               <Button asChild variant="outline">
                 <Link href="/call-assistant">
                   <Phone className="h-5 w-5" />
-                  <span className="ml-2">Call for Assistance</span>
+                  <span className="ml-2">Call Assistance</span>
                 </Link>
               </Button>
             </div>
-            <div className="flex gap-2 flex-1">
+            <div className="flex flex-1 mr-2 w-full ">
               <Input
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
@@ -271,15 +282,6 @@
             </div>
           </div>
 
-          {/* Response Area */}
-          <div className="flex-1 overflow-y-auto">
-            <AIResponseDisplay
-              response={response}
-              isLoading={isLoading}
-              onResponseEnd={handleResponseEnd}
-            />
-          </div>
-          <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
-        </div>
+          
       );
     }

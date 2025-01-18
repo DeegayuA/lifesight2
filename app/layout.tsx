@@ -31,6 +31,8 @@ import './globals.css';
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
             <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👓</text></svg>" sizes="any" />
+            <link rel="preload" href="/_next/static/media/a34f9d1faa5f3315-s.p.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+            <link rel="preload" href="/_next/static/css/app/layout.css?v=1737186472472" as="style" />
           </head>
           <body className={cn(inter.className, 'h-full min-h-screen')}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

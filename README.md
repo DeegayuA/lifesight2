@@ -3,6 +3,8 @@
 
 An **AI-Enabled Web Tool** designed to enhance accessibility and empower differently-abled individuals, especially those with visual and hearing impairments. By leveraging AI, OCR, and voice recognition, Lifesight aims to create an inclusive digital environment for improved educational, social, and daily life experiences.
 
+![image]({[BadgeURLHere](https://img.shields.io/badge/Google%20Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)})
+
 ---
 
 ## Features

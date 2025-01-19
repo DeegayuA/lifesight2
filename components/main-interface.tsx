@@ -262,6 +262,13 @@ export function MainInterface() {
   
 
   const getMicStatusIndicator = () => {
+    let micText = isMicOn ? 'Listening' : 'Off';
+    if (devices.mics.length > 1) {
+      const micIndex = devices.mics.findIndex(m => m.deviceId === selectedMic);
+      micText = isMicOn ? `Listening ${micIndex + 1} of ${devices.mics.length}` : `Off ${micIndex + 1} of ${devices.mics.length}`;
+    } else if (devices.mics.length === 1) {
+      micText = isMicOn ? 'Listening (only 1 device)' : 'Off (only 1 device)';
+    }
     if (isPlaying) {
       return (
         <div className="absolute left-3 top-2 flex items-center gap-1">
@@ -274,33 +281,72 @@ export function MainInterface() {
       return (
         <div className="absolute left-3 top-2 flex items-center gap-1">
           <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-s text-green-500">Listening</span>
+          <span className="text-s text-green-500">{micText}</span>
         </div>
       );
     }
     return (
       <div className="absolute left-3 top-2 flex items-center gap-1">
         <div className="h-2 w-2 rounded-full bg-red-500" />
-        <span className="text-s text-red-500">Off</span>
+        <span className="text-s text-red-500">{micText}</span>
       </div>
     );
   };
 
   const getCameraStatusIndicator = () => {
+    let cameraText = isCameraOn ? 'Live' : 'Off';
+    if (devices.cameras.length > 1) {
+      const cameraIndex = devices.cameras.findIndex(c => c.deviceId === selectedCamera);
+      cameraText = isCameraOn ? `Live ${cameraIndex + 1} of ${devices.cameras.length}` : `Off ${cameraIndex + 1} of ${devices.cameras.length}`;
+    } else if (devices.cameras.length === 1) {
+      cameraText = isCameraOn ? 'Live (only 1 device)' : 'Off (only 1 device)';
+    }
     if (isCameraOn) {
       return (
         <div className="absolute left-3 top-2 flex items-center gap-1">
           <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-s text-green-500">Live</span>
+          <span className="text-s text-green-500">{cameraText}</span>
         </div>
       );
     }
     return (
       <div className="absolute left-3 top-2 flex items-center gap-1">
         <div className="h-2 w-2 rounded-full bg-red-500" />
-        <span className="text-s text-red-500">Off</span>
+        <span className="text-s text-red-500">{cameraText}</span>
       </div>
     );
+  };
+
+  const handleCameraToggle = async () => {
+    if (devices.cameras.length > 1) {
+      const currentIndex = devices.cameras.findIndex(c => c.deviceId === selectedCamera);
+      const nextIndex = (currentIndex + 1) % (devices.cameras.length + 1);
+      if (nextIndex === devices.cameras.length) {
+        setSelectedCamera('');
+        await toggleCamera(false);
+      } else {
+        setSelectedCamera(devices.cameras[nextIndex].deviceId);
+        await toggleCamera(true);
+      }
+    } else {
+      await toggleCamera();
+    }
+  };
+
+  const handleMicToggle = async () => {
+    if (devices.mics.length > 1) {
+      const currentIndex = devices.mics.findIndex(m => m.deviceId === selectedMic);
+      const nextIndex = (currentIndex + 1) % (devices.mics.length + 1);
+      if (nextIndex === devices.mics.length) {
+        setSelectedMic('');
+        await toggleMic(false);
+      } else {
+        setSelectedMic(devices.mics[nextIndex].deviceId);
+        await toggleMic(true);
+      }
+    } else {
+      await toggleMic();
+    }
   };
 
   return (
@@ -332,7 +378,7 @@ export function MainInterface() {
           <AIResponseDisplay
             response={response}
             isLoading={isLoading}
-            onResponseEnd={() => { }}
+            onResponseEnd={handleResponseEnd}
           />
         </Card>
       </div>
@@ -341,23 +387,30 @@ export function MainInterface() {
       {/* Controls Section */}
       <div className="flex flex-col gap-2 w-100 xl:flex-row">
         <div className="flex gap-2 flex-1">
-          <Button
-            variant={isCameraOn ? "default" : "outline"}
-            onClick={() => toggleCamera()}
-            className="flex-1 relative min-h-[48px]"
-          >
-            <div className="flex items-center justify-center">
-              {isCameraOn ? <Camera className="mr-2" /> : <CameraOff className="mr-2" />}
-              <span>{isCameraOn ? 'Stop Camera' : 'Start Camera'}</span>
-            </div>
-            {getCameraStatusIndicator()}
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant={isCameraOn ? "default" : "outline"}
+                onClick={handleCameraToggle}
+                className="flex-1 relative min-h-[48px]"
+              >
+                <div className="flex items-center justify-center">
+                  {isCameraOn ? <Camera className="mr-2" /> : <CameraOff className="mr-2" />}
+                  <span>{isCameraOn ? 'Stop Camera' : 'Start Camera'}</span>
+                </div>
+                {getCameraStatusIndicator()}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top" align="center">
+              {devices.cameras.length > 1 ? 'Click to toggle camera, cycles through devices and off' : 'Click to toggle camera'}
+            </TooltipContent>
+          </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant={isMicOn ? "default" : "outline"}
-                onClick={() => toggleMic()}
+                onClick={handleMicToggle}
                 className="flex-1 relative min-h-[48px]"
               >
                 <div className="flex items-center justify-center">
@@ -368,6 +421,7 @@ export function MainInterface() {
               </Button>
             </TooltipTrigger>
             <TooltipContent side="top" align="center">
+              {devices.mics.length > 1 ? 'Click to toggle microphone, cycles through devices and off' : 'Click to toggle microphone'}
               <div className="space-y-1">
                 <p>Available voice commands:</p>
                 <ul className="list-disc pl-4">

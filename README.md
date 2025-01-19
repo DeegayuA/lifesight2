@@ -1,4 +1,3 @@
-
 # Lifesight
 ---
 [lifesight.vercel.app](https://lifesight.vercel.app/)

@@ -1,6 +1,8 @@
 
 # Lifesight
+---
 [lifesight.vercel.app](https://lifesight.vercel.app/)
+---
 An **AI-Enabled Web Tool** designed to enhance accessibility and empower differently-abled individuals, especially those with visual and hearing impairments. By leveraging AI, OCR, and voice recognition, Lifesight aims to create an inclusive digital environment for improved educational, social, and daily life experiences.
 
 ---

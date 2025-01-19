@@ -76,3 +76,4 @@ V0.2
 ## License
 
 This project is licensed under [MIT License](LICENSE).
+---

@@ -59,7 +59,7 @@
               </div>
               <div className="relative z-10 text-center text-white space-y-4">
                 <h1 className="text-5xl font-bold tracking-tight">
-                  Empowering Independence Through AI Vision
+                  *Empowering Independence Through AI Vision*
                 </h1>
                 <p className="text-xl text-white/80">
                   Experience a new level of accessibility with our AI-powered tools designed for the visually impaired.

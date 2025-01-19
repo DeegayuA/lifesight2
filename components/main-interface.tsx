@@ -457,7 +457,7 @@ export function MainInterface() {
             onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
             className="flex-1"
           />
-          <Button className="w-16 h-16" onClick={handleSubmit}>
+          <Button className="w-16 h-16" variant="accent" onClick={handleSubmit}>
             <Send className="w-8 h-8" />
           </Button>
         </div>

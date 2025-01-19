@@ -11,15 +11,18 @@
       {
         variants: {
           variant: {
-            default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-            accent: 'bg-accent text-primary-foreground hover:bg-accent/90',
+            default:
+              'bg-primary text-primary-foreground hover:bg-primary/90',
+            accent:
+              'bg-[var(--accent)] text-foreground hover:bg-[var(--accent)]/90',
             destructive:
               'bg-destructive text-destructive-foreground hover:bg-destructive/90',
             outline:
-              'border-2 border-input bg-background hover:bg-accent hover:text-accent-foreground',
+              'border-2 border-input bg-background text-foreground hover:bg-[var(--accent)] hover:text-accent-foreground',
             secondary:
               'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-            ghost: 'bg-accent text-accent-foreground hover:bg-accent/90 hover:text-accent-foreground',
+            ghost:
+              'bg-transparent text-foreground hover:bg-[var(--accent)]/10 hover:text-accent-foreground',
             link: 'text-primary underline-offset-4 hover:underline',
           },
           size: {

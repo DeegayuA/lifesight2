@@ -36,7 +36,7 @@
       if (isLoading) {
         return (
           <Card className="p-4 flex items-center justify-center">
-            <Loader2 className="h-6 w-6 animate-spin" />
+            <Loader2 className="h-6 w-6 animate-spin text-[var(--accent)]" />
             <span className="ml-2">Processing your request...</span>
           </Card>
         );

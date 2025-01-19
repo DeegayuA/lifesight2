@@ -65,7 +65,7 @@
                   Experience a new level of accessibility with our AI-powered tools designed for the visually impaired.
                 </p>
                 <div className="flex justify-center space-x-4">
-                  <Button asChild variant="default" size="lg">
+                  <Button asChild variant="accent" size="lg">
                     <Link href="/app">Get Started</Link>
                   </Button>
                   <Button asChild variant="outline" size="lg">
@@ -195,7 +195,7 @@
                 </p>
                 <div className="flex justify-center">
                   <Input type="email" placeholder="Enter your email" className="w-full max-w-sm mr-2" />
-                  <Button className="w-24 h-16">Subscribe</Button>
+                  <Button variant="accent" className="w-24 h-16">Subscribe</Button>
                 </div>
               </div>
             </section>

@@ -60,6 +60,10 @@
         setAccentColor('hsl(230, 85%, 60%)');
       };
 
+      const handleAccentColorChange = (color: string) => {
+        setAccentColor(color);
+      };
+
       return (
         <Dialog open={open} onOpenChange={onOpenChange}>
           <DialogContent className="sm:max-w-[425px]" style={{fontSize, lineHeight, letterSpacing: `${letterSpacing}px`}}>
@@ -159,7 +163,7 @@
                   {accentColors.map((color) => (
                     <button
                       key={color.value}
-                      onClick={() => setAccentColor(color.value)}
+                      onClick={() => handleAccentColorChange(color.value)}
                       className={cn(
                         'h-6 w-6 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
                         accentColor === color.value && 'ring-2 ring-primary',

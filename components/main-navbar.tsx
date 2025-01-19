@@ -37,12 +37,12 @@
       }, []);
 
       return (
-        <header className="sticky top-0 z-50 bg-background/70 backdrop-blur-md border-b w-full">
+        <header className={cn("sticky top-0 z-50 backdrop-blur-md border-b w-full")} style={{ backgroundColor: 'var(--accent)' }}>
           <div className="container flex h-16 items-center justify-between px-8 mx-auto max-w-[1280px]">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
                 <span className="text-2xl">👓</span>
-                <span className="font-bold text-xl">LifeSight_v0.2.9</span>
+                <span className="font-bold text-xl">LifeSight_v0.2.9.3</span>
               </Link>
             </div>
             <div className="flex items-center space-x-2">

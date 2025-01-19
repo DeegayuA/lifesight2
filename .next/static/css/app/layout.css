@@ -1278,6 +1278,9 @@ video {
     .border-\[--color-border\] {
   border-color: var(--color-border);
 }
+    .border-\[var\(--accent\)\] {
+  border-color: var(--accent);
+}
     .border-border\/50 {
   border-color: hsl(var(--border) / 0.5);
 }
@@ -1305,14 +1308,14 @@ video {
     .bg-\[--color-bg\] {
   background-color: var(--color-bg);
 }
+    .bg-\[var\(--accent\)\] {
+  background-color: var(--accent);
+}
     .bg-accent {
   background-color: hsl(var(--accent));
 }
     .bg-background {
   background-color: hsl(var(--background));
-}
-    .bg-background\/70 {
-  background-color: hsl(var(--background) / 0.7);
 }
     .bg-black\/40 {
   background-color: rgb(0 0 0 / 0.4);
@@ -1564,6 +1567,9 @@ video {
     .tracking-widest {
   letter-spacing: 0.1em;
 }
+    .text-\[var\(--accent\)\] {
+  color: var(--accent);
+}
     .text-accent-foreground {
   color: hsl(var(--accent-foreground));
 }
@@ -1785,6 +1791,7 @@ video {
       --background-start-rgb: 214, 219, 220;
       --background-end-rgb: 255, 255, 255;
       --accent: hsl(230, 85%, 60%);
+      --accent-rgb: 230, 85%, 60%;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -1900,12 +1907,8 @@ video {
   z-index: 20;
 }
 
-    .hover\:bg-accent:hover {
-  background-color: hsl(var(--accent));
-}
-
-    .hover\:bg-accent\/90:hover {
-  background-color: hsl(var(--accent) / 0.9);
+    .hover\:bg-\[var\(--accent\)\]:hover {
+  background-color: var(--accent);
 }
 
     .hover\:bg-destructive\/80:hover {
@@ -1970,6 +1973,10 @@ video {
 
     .hover\:opacity-100:hover {
   opacity: 1;
+}
+
+    .focus\:bg-\[var\(--accent\)\]:focus {
+  background-color: var(--accent);
 }
 
     .focus\:bg-accent:focus {
@@ -2256,36 +2263,32 @@ video {
   flex-direction: column;
 }
 
-    .data-\[active\]\:bg-accent\/50[data-active] {
-  background-color: hsl(var(--accent) / 0.5);
-}
-
     .data-\[selected\=\'true\'\]\:bg-accent[data-selected='true'] {
   background-color: hsl(var(--accent));
 }
 
-    .data-\[state\=active\]\:bg-background[data-state=active] {
-  background-color: hsl(var(--background));
+    .data-\[state\=active\]\:bg-\[var\(--accent\)\][data-state=active] {
+  background-color: var(--accent);
+}
+
+    .data-\[state\=checked\]\:bg-\[var\(--accent\)\][data-state=checked] {
+  background-color: var(--accent);
 }
 
     .data-\[state\=checked\]\:bg-primary[data-state=checked] {
   background-color: hsl(var(--primary));
 }
 
-    .data-\[state\=on\]\:bg-accent[data-state=on] {
-  background-color: hsl(var(--accent));
+    .data-\[state\=on\]\:bg-\[var\(--accent\)\][data-state=on] {
+  background-color: var(--accent);
+}
+
+    .data-\[state\=open\]\:bg-\[var\(--accent\)\][data-state=open] {
+  background-color: var(--accent);
 }
 
     .data-\[state\=open\]\:bg-accent[data-state=open] {
   background-color: hsl(var(--accent));
-}
-
-    .data-\[state\=open\]\:bg-accent\/50[data-state=open] {
-  background-color: hsl(var(--accent) / 0.5);
-}
-
-    .data-\[state\=open\]\:bg-secondary[data-state=open] {
-  background-color: hsl(var(--secondary));
 }
 
     .data-\[state\=selected\]\:bg-muted[data-state=selected] {
@@ -2300,16 +2303,16 @@ video {
   color: hsl(var(--accent-foreground));
 }
 
-    .data-\[state\=active\]\:text-foreground[data-state=active] {
-  color: hsl(var(--foreground));
+    .data-\[state\=active\]\:text-primary-foreground[data-state=active] {
+  color: hsl(var(--primary-foreground));
 }
 
     .data-\[state\=checked\]\:text-primary-foreground[data-state=checked] {
   color: hsl(var(--primary-foreground));
 }
 
-    .data-\[state\=on\]\:text-accent-foreground[data-state=on] {
-  color: hsl(var(--accent-foreground));
+    .data-\[state\=on\]\:text-primary-foreground[data-state=on] {
+  color: hsl(var(--primary-foreground));
 }
 
     .data-\[state\=open\]\:text-accent-foreground[data-state=open] {
@@ -2574,6 +2577,10 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+    :is(.dark .dark\:border-\[var\(--accent\)\]) {
+  border-color: var(--accent);
+}
+
     :is(.dark .dark\:border-destructive) {
   border-color: hsl(var(--destructive));
 }
@@ -2754,6 +2761,10 @@ video {
 
     .\[\&\>svg\]\:w-3>svg {
   width: 0.75rem;
+}
+
+    .\[\&\>svg\]\:text-\[var\(--accent\)\]>svg {
+  color: var(--accent);
 }
 
     .\[\&\>svg\]\:text-destructive>svg {

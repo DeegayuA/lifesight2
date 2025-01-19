@@ -27,7 +27,7 @@
       <DropdownMenuPrimitive.SubTrigger
         ref={ref}
         className={cn(
-          'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent',
+          'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[state=open]:bg-[var(--accent)] data-[state=open]:text-accent-foreground',
           inset && 'pl-8',
           className
         )}
@@ -84,7 +84,7 @@
       <DropdownMenuPrimitive.Item
         ref={ref}
         className={cn(
-          'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+          'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           inset && 'pl-8',
           className
         )}
@@ -100,7 +100,7 @@
       <DropdownMenuPrimitive.CheckboxItem
         ref={ref}
         className={cn(
-          'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+          'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           className
         )}
         checked={checked}
@@ -124,7 +124,7 @@
       <DropdownMenuPrimitive.RadioItem
         ref={ref}
         className={cn(
-          'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+          'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           className
         )}
         {...props}
@@ -156,48 +156,48 @@
         {...props}
       />
     ));
-DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
+    DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
-const DropdownMenuSeparator = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+    const DropdownMenuSeparator = React.forwardRef<
+      React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+      React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    className={cn('-mx-1 my-1 h-px bg-muted', className)}
-    {...props}
-  />
-));
-DropdownMenuSeparator.displayName =
-  DropdownMenuPrimitive.Separator.displayName;
+      <DropdownMenuPrimitive.Separator
+        ref={ref}
+        className={cn('-mx-1 my-1 h-px bg-muted', className)}
+        {...props}
+      />
+    ));
+    DropdownMenuSeparator.displayName =
+      DropdownMenuPrimitive.Separator.displayName;
 
-const DropdownMenuShortcut = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => {
-  return (
-    <span
-      className={cn('ml-auto text-xs tracking-widest opacity-60', className)}
-      {...props}
-    />
-  );
-};
-DropdownMenuShortcut.displayName = 'DropdownMenuShortcut';
+    const DropdownMenuShortcut = ({
+      className,
+      ...props
+    }: React.HTMLAttributes<HTMLSpanElement>) => {
+      return (
+        <span
+          className={cn('ml-auto text-xs tracking-widest opacity-60', className)}
+          {...props}
+        />
+      );
+    };
+    DropdownMenuShortcut.displayName = 'DropdownMenuShortcut';
 
-export {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuGroup,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuRadioGroup,
-};
+    export {
+      DropdownMenu,
+      DropdownMenuTrigger,
+      DropdownMenuContent,
+      DropdownMenuItem,
+      DropdownMenuCheckboxItem,
+      DropdownMenuRadioItem,
+      DropdownMenuLabel,
+      DropdownMenuSeparator,
+      DropdownMenuShortcut,
+      DropdownMenuGroup,
+      DropdownMenuPortal,
+      DropdownMenuSub,
+      DropdownMenuSubContent,
+      DropdownMenuSubTrigger,
+      DropdownMenuRadioGroup,
+    };

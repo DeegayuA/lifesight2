@@ -13,9 +13,9 @@
 
     export function MainFooter() {
       return (
-        <footer className="border-t bg-background py-8 text-center text-muted-foreground w-full">
+        <footer className="border-t py-8 text-center text-muted-foreground w-full" style={{ backgroundColor: 'var(--accent)' }}>
           <div className="container flex flex-col items-center justify-center space-y-4 mx-auto">
-            <p className="text-sm">
+            <p className="text-sm text-foreground">
               LifeSight is a non-profit organization dedicated to helping the visually impaired.
             </p>
             <Button asChild variant="outline">
@@ -37,12 +37,12 @@
 							</TooltipProvider>
             </div>
             <div className="flex space-x-4">
-              <Link href="/sitemap" className="text-xs hover:underline">Sitemap</Link>
-              <Link href="/terms" className="text-xs hover:underline">Terms of Service</Link>
-              <Link href="/privacy" className="text-xs hover:underline">Privacy Policy</Link>
-              <Link href="/help" className="text-xs hover:underline">Help Center</Link>
+              <Link href="/sitemap" className="text-xs text-foreground hover:underline">Sitemap</Link>
+              <Link href="/terms" className="text-xs text-foreground hover:underline">Terms of Service</Link>
+              <Link href="/privacy" className="text-xs text-foreground hover:underline">Privacy Policy</Link>
+              <Link href="/help" className="text-xs text-foreground hover:underline">Help Center</Link>
             </div>
-            <p className="text-xs">
+            <p className="text-xs text-foreground">
               © {new Date().getFullYear()} LifeSight. All rights reserved.
             </p>
           </div>

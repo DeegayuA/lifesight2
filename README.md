@@ -27,27 +27,14 @@ An **AI-Enabled Web Tool** designed to enhance accessibility and empower differe
 
 ## Tech Stack
 
-- **Frontend**: React.js or Vue.js
-- **Backend**: Node.js with Express.js
-- **AI**: OpenAI for natural language processing
+- **Frontend**: React.js with Radix UI, Shadcn/UI, TailWind CSS, Aceternity UI
+- **Backend**: Next.js with Node.js
+- **Font**: Google font manager and Lucide icons
+- **AI**: Google Gemini 1.5 (will upgrade with 2.0 once available) for AI processing.
 - **OCR**: Google Cloud Vision API
 - **Voice Input/Output**: Web Speech API and SpeechSynthesis API
-- **Hosting**: Netlify or Vercel for scalability
-
----
-
-## Methodology
-
-1. **Needs Assessment**: Surveys and interviews with target users.
-2. **Development Phases**:
-   - Build a responsive interface.
-   - Integrate AI, OCR, and voice capabilities.
-3. **Testing**:
-   - Accessibility validation with assistive tools.
-   - Pilot programs with user feedback.
-4. **Deployment**:
-   - Scalable hosting solutions.
-   - Training and support for users and caregivers.
+- **Hosting**: Vercel
+- **Version Control**: Github
 
 ---
 
@@ -72,8 +59,17 @@ An **AI-Enabled Web Tool** designed to enhance accessibility and empower differe
 ## Contributors
 
 - MIT Group 5  
-  Department of Physics and Electronics  
+  Department of Industrial Management, 
   University of Kelaniya, Sri Lanka
+
+---
+
+## Versions
+V0.1
+<img width="1679" alt="Screenshot 2025-01-19 at 6 58 00 PM" src="https://github.com/user-attachments/assets/993df6a1-c597-46ae-ac5d-410f29ad1c0e" />
+V0.2
+<img width="1026" alt="Screenshot 2025-01-19 at 6 59 09 PM" src="https://github.com/user-attachments/assets/20996fb4-1d6e-461b-8e8f-efcef1aa32a6" />
+<img width="1024" alt="Screenshot 2025-01-19 at 6 59 36 PM" src="https://github.com/user-attachments/assets/9a4c5515-a992-4536-8967-f72cf264c167" />
 
 ---
 

@@ -41,7 +41,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [screenReader, setScreenReader] = useLocalStorage('screenReader', false);
   const [antiFlicker, setAntiFlicker] = useLocalStorage('antiFlicker', false);
   const [hapticFeedback, setHapticFeedback] = useLocalStorage('hapticFeedback', false);
-  const [theme, setTheme] = useLocalStorage('theme', 'system');
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
   const [accentColor, setAccentColor] = useLocalStorage('accentColor', ACCENT_COLORS[5].lightMode);
   const [palette, setPalette] = useLocalStorage('palette', 'palette-1');
   const [accentRgb, setAccentRgb] = useLocalStorage('accentRgb', '230, 85%, 60%');

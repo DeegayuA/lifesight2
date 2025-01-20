@@ -63,3 +63,17 @@ export const SUPPORTED_LANGUAGES = [
           'palette-6-text-light': '#3E2723',
           'palette-6-text-dark': '#FFF5EE',
         };
+
+        export const ACCENT_COLORS = [
+          { name: 'Classic Black', lightMode: '#f2f2f2', darkMode: '#1a1a1a' },
+          { name: 'Classic Blue', lightMode: '#6a7df4', darkMode: '#394aad' },
+          { name: 'Soft Green', lightMode: '#98d7b5', darkMode: '#2b6f48' },
+          { name: 'Warm Orange', lightMode: '#ffb577', darkMode: '#994d19' },
+          { name: 'Vibrant Purple', lightMode: '#aa88d3', darkMode: '#622b6f' },
+          { name: 'Bright Yellow', lightMode: '#ffe399', darkMode: '#b38f1a' },
+          { name: 'Cool Cyan', lightMode: '#8ed5e9', darkMode: '#29667e' },
+          { name: 'Soft Brown', lightMode: '#d1ad86', darkMode: '#6c4d33' },
+          { name: 'Muted Red', lightMode: '#ff9797', darkMode: '#992b2b' },
+          { name: 'Teal Green', lightMode: '#88d3d3', darkMode: '#2b6f6f' },
+        ];
+        

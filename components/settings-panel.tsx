@@ -1,6 +1,6 @@
 "use client";
 
-    import { useState } from 'react';
+    import { useState, useEffect } from 'react';
     import {
       Dialog,
       DialogContent,
@@ -17,63 +17,91 @@
     import { Label } from '@/components/ui/label';
     import { Slider } from '@/components/ui/slider';
     import { useSettings } from '@/components/settings-provider';
-    import { Circle } from 'lucide-react';
-    import { THEME_COLORS } from '@/lib/constants';
+    import { Circle, Moon, Sun } from 'lucide-react';
+    import { THEME_COLORS, ACCENT_COLORS } from '@/lib/constants';
+    import {
+      Tooltip,
+      TooltipContent,
+      TooltipTrigger,
+      TooltipProvider
+    } from '@/components/ui/tooltip';
 
     interface SettingsPanelProps {
       open: boolean;
       onOpenChange: (open: boolean) => void;
     }
 
-    const accentColors = [
-      { name: 'Classic Black Light', value: 'hsl(0, 0%, 10%)', mode: 'light' },
-      { name: 'Classic Black Dark', value: 'hsl(0, 0%, 95%)', mode: 'dark' },
-    
-      { name: 'Classic Blue Light', value: 'hsl(230, 85%, 40%)', mode: 'light' },
-      { name: 'Classic Blue Dark', value: 'hsl(230, 85%, 60%)', mode: 'dark' },
-    
-      { name: 'Soft Green Light', value: 'hsl(150, 50%, 40%)', mode: 'light' },
-      { name: 'Soft Green Dark', value: 'hsl(150, 50%, 70%)', mode: 'dark' },
-    
-      { name: 'Warm Orange Light', value: 'hsl(30, 85%, 45%)', mode: 'light' },
-      { name: 'Warm Orange Dark', value: 'hsl(30, 85%, 65%)', mode: 'dark' },
-    
-      { name: 'Vibrant Purple Light', value: 'hsl(280, 65%, 40%)', mode: 'light' },
-      { name: 'Vibrant Purple Dark', value: 'hsl(280, 65%, 60%)', mode: 'dark' },
-    
-      { name: 'Bright Yellow Light', value: 'hsl(50, 85%, 50%)', mode: 'light' },
-      { name: 'Bright Yellow Dark', value: 'hsl(50, 85%, 70%)', mode: 'dark' },
-    
-      { name: 'Cool Cyan Light', value: 'hsl(200, 85%, 45%)', mode: 'light' },
-      { name: 'Cool Cyan Dark', value: 'hsl(200, 85%, 65%)', mode: 'dark' },
-    
-      { name: 'Soft Brown Light', value: 'hsl(25, 55%, 40%)', mode: 'light' },
-      { name: 'Soft Brown Dark', value: 'hsl(25, 55%, 65%)', mode: 'dark' },
-    
-      { name: 'Muted Red Light', value: 'hsl(0, 65%, 40%)', mode: 'light' },
-      { name: 'Muted Red Dark', value: 'hsl(0, 65%, 65%)', mode: 'dark' },
-    
-      { name: 'Teal Green Light', value: 'hsl(180, 55%, 40%)', mode: 'light' },
-      { name: 'Teal Green Dark', value: 'hsl(180, 55%, 65%)', mode: 'dark' },
-    ];
-    
-    
-    const themePalettes = Object.entries(THEME_COLORS)
-      .filter(([key]) => key.startsWith('palette-'))
-      .map(([key, value]) => ({
-        name: key.replace('palette-', '').replace(/-/g, ' '),
-        value: key,
-        primary: value.primary,
-        secondary: value.secondary,
-        backgroundLight: value.backgroundLight,
-        backgroundDark: value.backgroundDark,
-        textLight: value.textLight,
-        textDark: value.textDark,
-      }));
+    // const themePalettes = Object.entries(THEME_COLORS)
+    //   .filter(([key]) => key.startsWith('palette-'))
+    //   .map(([key, value]) => ({
+    //     name: key.replace('palette-', '').replace(/-/g, ' '),
+    //     value: key,
+    //     primary: value.primary,
+    //     secondary: value.secondary,
+    //     backgroundLight: value.backgroundLight,
+    //     backgroundDark: value.backgroundDark,
+    //     textLight: value.textLight,
+    //     textDark: value.textDark,
+    //   }));
 
     export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
       const { theme, setHapticFeedback, hapticFeedback, setFontSize, fontSize, setLineHeight, lineHeight, setLetterSpacing, letterSpacing, setReducedMotion, reducedMotion, setHighContrast, highContrast, setScreenReader, screenReader, setAntiFlicker, antiFlicker, setAccentColor, accentColor, setPalette, palette } = useSettings();
       const { setTheme: setNextTheme } = useTheme();
+      const [filteredAccentColors, setFilteredAccentColors] = useState(() => {
+        return ACCENT_COLORS.map(color => {
+          const mode = theme === 'light' ? 'lightMode' : 'darkMode';
+          return {
+            name: color.name,
+            value: color[mode],
+            mode: mode
+          }
+        });
+      });
+
+      useEffect(() => {
+        const html = document.querySelector('html');
+        if (!html) return;
+      
+        // Helper function to apply theme and accent color instantly
+        const applyThemeAndAccent = (currentTheme: string) => {
+          const mode = currentTheme === 'dark' ? 'lightMode' : 'darkMode';
+      
+          // Filter and update accent colors based on the theme
+          const updatedAccentColors = ACCENT_COLORS.map(color => ({
+            name: color.name,
+            value: color[mode],
+            mode: mode,
+          }));
+          setFilteredAccentColors(updatedAccentColors);
+      
+          // Update the accent color if it's part of ACCENT_COLORS
+          const currentAccent = ACCENT_COLORS.find(
+            color => color.lightMode === accentColor || color.darkMode === accentColor
+          );
+          if (currentAccent) {
+            const newAccentColor = mode === 'lightMode' ? currentAccent.lightMode : currentAccent.darkMode;
+            if (newAccentColor !== accentColor) {
+              setAccentColor(newAccentColor);
+            }
+          }
+        };
+      
+        // Apply theme and accent color on load
+        const initialTheme = html.classList.contains('dark') ? 'dark' : 'light';
+        applyThemeAndAccent(initialTheme);
+      
+        // Observe for theme changes
+        const observer = new MutationObserver(() => {
+          const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+          applyThemeAndAccent(currentTheme);
+        });
+      
+        observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+      
+        // Cleanup observer on component unmount
+        return () => observer.disconnect();
+      }, [accentColor]);
+      
 
       const handleThemeChange = () => {
         setNextTheme(theme === 'light' ? 'dark' : 'light');
@@ -87,7 +115,7 @@
       };
 
       const handleResetSettings = () => {
-        setFontSize(10);
+        setFontSize(14);
         setLineHeight(1.5);
         setLetterSpacing(0);
         setReducedMotion(false);
@@ -95,7 +123,7 @@
         setScreenReader(false);
         setAntiFlicker(false);
         setHapticFeedback(false);
-        setAccentColor('hsl(230, 85%, 60%)');
+        setAccentColor(ACCENT_COLORS[0].lightMode);
         setPalette('palette-1');
       };
 
@@ -107,8 +135,6 @@
         setPalette(palette);
       };
 
-      const filteredAccentColors = accentColors.filter(color => color.mode === theme || color.mode === 'system');
-
       return (
         <Dialog open={open} onOpenChange={onOpenChange}>
           <DialogContent className="sm:max-w-[425px]" style={{fontSize, lineHeight, letterSpacing: `${letterSpacing}px`}}>
@@ -118,17 +144,18 @@
                 Customize your experience.
               </DialogDescription>
             </DialogHeader>
-            <div className="py-4 space-y-4">
-              <div className="flex items-center justify-between">
-                {/* <Label htmlFor="theme-toggle">Theme</Label>
+            <div className="py-0 space-y-2">
+              {/* <div className="flex items-center justify-between">
+                <Label htmlFor="theme-toggle">Theme</Label>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleThemeChange}
                 >
-                  {theme === 'light' ? 'Dark' : 'Light'}
-                </Button> */}
-              </div>
+                  {theme === 'light' ? <Moon className="h-5 w-5 mr-2" /> : <Sun className="h-5 w-5 mr-2" />}
+                  {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                </Button>
+              </div> */}
               <div className="flex items-center justify-between">
                 <Label htmlFor="haptic-feedback">Haptic Feedback</Label>
                 <Switch
@@ -174,7 +201,7 @@
                 <Slider
                   id="font-size"
                   min={6}
-                  max={24}
+                  max={24}    
                   step={2}
                   value={[fontSize]}
                   onValueChange={(value) => setFontSize(value[0])}
@@ -205,21 +232,29 @@
               <div className="space-y-2">
                 <Label>Accent Color</Label>
                 <div className="flex items-center gap-2">
+                  <TooltipProvider>
                   {filteredAccentColors.map((color) => (
-                    <button
-                      key={color.value}
-                      onClick={() => handleAccentColorChange(color.value)}
-                      className={cn(
-                        'h-6 w-6 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
-                        accentColor === color.value && 'ring-2 ring-primary',
-                      )}
-                      style={{ backgroundColor: color.value }}
-                    >
-                      <span className="sr-only">
+                    <Tooltip key={color.value}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => handleAccentColorChange(color.value)}
+                          className={cn(
+                            'h-6 w-6 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+                            accentColor === color.value && 'ring-2 ring-primary',
+                          )}
+                          style={{ backgroundColor: color.value }}
+                        >
+                          <span className="sr-only">
+                            {color.name}
+                          </span>
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" align="center">
                         {color.name}
-                      </span>
-                    </button>
+                      </TooltipContent>
+                    </Tooltip>
                   ))}
+                  </TooltipProvider>
                 </div>
               </div>
               {/* <div className="space-y-2">

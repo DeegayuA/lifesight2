@@ -1,8 +1,15 @@
 "use client";
 
-import { ThemeProvider as NextThemeProvider } from "next-themes";
+import dynamic from 'next/dynamic';
 import { type ThemeProviderProps } from "next-themes/dist/types";
+import { useState, useEffect } from 'react';
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemeProvider {...props}>{children}</NextThemeProvider>;
-}
+const ThemeProvider = dynamic(
+  () => import('next-themes').then((mod) => mod.ThemeProvider),
+  {
+    ssr: false,
+    loading: () => <div style={{ visibility: 'hidden' }}></div>,
+  }
+);
+
+export { ThemeProvider };

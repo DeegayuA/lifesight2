@@ -2,12 +2,17 @@
 
     import Link from 'next/link';
     import { Button } from '@/components/ui/button';
-    import { Settings, Moon, Sun } from 'lucide-react';
+    import { Settings, Moon, Sun, SunMoon } from 'lucide-react';
     import { useTheme } from 'next-themes';
     import { cn } from '@/lib/utils';
     import { useEffect, useRef, useState } from 'react';
     import { SettingsPanel } from './settings-panel';
     import { useSettings } from '@/components/settings-provider';
+    import {
+      Tooltip,
+      TooltipContent,
+      TooltipTrigger,
+    } from '@/components/ui/tooltip';
 
     export function MainNavbar() {
       const { setTheme, theme } = useTheme();
@@ -49,17 +54,39 @@
             </div>
             <div className="flex items-center space-x-2">
               <div ref={googleTranslateRef} className="mr-2" style={{zIndex: 100, position: 'relative'}}></div>
-              <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)} style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}>
-                <Settings className="h-5 w-5" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}
-              >
-                {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-              </Button>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)} style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}>
+                    <Settings className="h-5 w-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top" align="center">
+                  { 'Settings' }
+                </TooltipContent>
+              </Tooltip>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                    <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setTheme(theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light')}
+                    style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}
+                  >
+                    {theme === 'light' ? <Moon className="h-5 w-5" /> : theme === 'dark' ? <Sun className="h-5 w-5" /> : <SunMoon className="h-5 w-5" /> }
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top" align="center">
+                  { theme === 'light'
+                    ? 'Switch to Dark Mode'
+                    : theme === 'dark'
+                    ? 'Switch to Light Mode'
+                    : 'Theme Auto (System Default)' }
+                </TooltipContent>
+              </Tooltip>
+              
+             
             </div>
           </div>
           <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />

@@ -6,13 +6,14 @@
     import { useTheme } from 'next-themes';
     import { cn } from '@/lib/utils';
     import { useEffect, useRef, useState } from 'react';
-    import { SettingsPanel, accentColors } from './settings-panel';
+    import { SettingsPanel } from './settings-panel';
     import { useSettings } from '@/components/settings-provider';
 
     export function MainNavbar() {
-      const { setTheme, theme, accentColor, fontSize } = useSettings();
+      const { setTheme, theme } = useTheme();
       const googleTranslateRef = useRef<HTMLDivElement>(null);
       const [settingsOpen, setSettingsOpen] = useState(false);
+      const { accentColor, fontSize } = useSettings();
 
       useEffect(() => {
         const googleTranslateElementInit = () => {
@@ -37,12 +38,8 @@
         (window as any).googleTranslateElementInit = googleTranslateElementInit;
       }, []);
 
-      const dynamicAccentColor = theme === 'light'
-        ? accentColors?.find(color => color.value === accentColor)?.value || 'hsl(230, 85%, 60%)'
-        : accentColors?.find(color => color.value === accentColor)?.darkValue || 'hsl(230, 85%, 70%)';
-
       return (
-        <header className={cn("sticky top-0 z-50 backdrop-blur-md border-b w-full")} style={{ backgroundColor: dynamicAccentColor }}>
+        <header className={cn("sticky top-0 z-50 backdrop-blur-md border-b w-full")} style={{ backgroundColor: accentColor }}>
           <div className="container flex h-16 items-center justify-between px-8 mx-auto max-w-[1280px]">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">

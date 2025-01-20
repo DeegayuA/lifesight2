@@ -3,7 +3,6 @@
     import { useSettings } from '@/components/settings-provider';
     import { cn } from '@/lib/utils';
     import { THEME_COLORS } from '@/lib/constants';
-    import { accentColors } from '@/components/settings-panel';
 
     export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       const {
@@ -16,19 +15,12 @@
         antiFlicker,
         accentColor,
         palette,
-        theme
       } = useSettings();
 
       // Determine aria-live value based on the screenReader setting
       const ariaLiveValue = screenReader ? 'polite' : 'off';
 
-      const selectedPalette = THEME_COLORS[palette as keyof typeof THEME_COLORS] || THEME_COLORS['palette-1'];
-
-      const dynamicAccentColor = accentColors
-        ? theme === 'light'
-          ? accentColors.find(color => color.value === accentColor)?.value || 'hsl(230, 85%, 60%)'
-          : accentColors.find(color => color.value === accentColor)?.darkValue || 'hsl(230, 85%, 70%)'
-        : 'hsl(230, 85%, 60%)';
+      // const selectedPalette = THEME_COLORS[palette as keyof typeof THEME_COLORS] || THEME_COLORS['palette-1'];
 
       return (
         <div
@@ -47,15 +39,14 @@
             reducedMotion ? 'transition-none' : '',
             highContrast ? 'high-contrast' : '',
             antiFlicker ? 'no-flicker' : '',
-            `accent-[${dynamicAccentColor}]`,
+            `accent-[${accentColor}]`,
             // `palette-[${palette}]`,
             // `text-[var(--palette-text-light)]`,
             // `bg-[var(--palette-background-light)]`,
             // `dark:text-[var(--palette-text-dark)]`,
             // `dark:bg-[var(--palette-background-dark)]`
-            theme === 'dark' ? 'dark' : ''
           )}
-          aria-live={ariaLiveValue}
+          aria-live={ariaLiveValue} // Valid ARIA value passed
         >
           {children}
         </div>

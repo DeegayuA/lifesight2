@@ -1,7 +1,7 @@
 "use client";
 
     import { useLocalStorage } from '@/hooks/use-local-storage';
-    import React, { createContext, useContext, useState, useEffect } from 'react';
+    import React, { createContext, useContext, useState, useEffect } from 'react'; // <-- Import useState
     import { THEME_COLORS } from '@/lib/constants';
 
     type SettingsContextType = {
@@ -16,7 +16,7 @@
       accentColor: string;
       theme: string;
       palette: string;
-      setTheme: (theme: string) => void;
+      setTheme?: (theme: string) => void;
       setFontSize: (size: number) => void;
       setLineHeight: (height: number) => void;
       setLetterSpacing: (spacing: number) => void;
@@ -32,7 +32,7 @@
     const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
     export function SettingsProvider({ children }: { children: React.ReactNode }) {
-      const [fontSize, setFontSize] = useLocalStorage('fontSize', 14);
+      const [fontSize, setFontSize] = useLocalStorage('fontSize', 24);
       const [lineHeight, setLineHeight] = useLocalStorage('lineHeight', 1.5);
       const [letterSpacing, setLetterSpacing] = useLocalStorage('letterSpacing', 0);
       const [reducedMotion, setReducedMotion] = useLocalStorage('reducedMotion', false);
@@ -42,12 +42,8 @@
       const [hapticFeedback, setHapticFeedback] = useLocalStorage('hapticFeedback', false);
       const [accentColor, setAccentColor] = useLocalStorage('accentColor', 'hsl(230, 85%, 60%)');
       const [palette, setPalette] = useLocalStorage('palette', 'palette-1');
-      const [theme, setNextTheme] = useLocalStorage('theme', 'light');
+      const [theme, setTheme] = useState('light'); // <-- Now useState is available
       const [accentRgb, setAccentRgb] = useState('230, 85%, 60%');
-
-      const setTheme = (theme: string) => {
-        setNextTheme(theme);
-      };
 
       useEffect(() => {
         const hslToRgb = (hsl: string) => {

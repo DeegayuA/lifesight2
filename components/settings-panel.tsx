@@ -1,6 +1,6 @@
 "use client";
 
-    import { useState, useEffect } from 'react';
+    import { useState } from 'react';
     import {
       Dialog,
       DialogContent,
@@ -25,17 +25,36 @@
       onOpenChange: (open: boolean) => void;
     }
 
-    export const accentColors = [
-      { name: 'Classic Black', value: 'hsl(0, 0%, 10%)', darkValue: 'hsl(0, 0%, 95%)' },
-      { name: 'Classic Blue', value: 'hsl(230, 85%, 40%)', darkValue: 'hsl(230, 85%, 60%)' },
-      { name: 'Soft Green', value: 'hsl(150, 50%, 40%)', darkValue: 'hsl(150, 50%, 70%)' },
-      { name: 'Warm Orange', value: 'hsl(30, 85%, 45%)', darkValue: 'hsl(30, 85%, 65%)' },
-      { name: 'Vibrant Purple', value: 'hsl(280, 65%, 40%)', darkValue: 'hsl(280, 65%, 60%)' },
-      { name: 'Bright Yellow', value: 'hsl(50, 85%, 50%)', darkValue: 'hsl(50, 85%, 70%)' },
-      { name: 'Cool Cyan', value: 'hsl(200, 85%, 45%)', darkValue: 'hsl(200, 85%, 65%)' },
-      { name: 'Soft Brown', value: 'hsl(25, 55%, 40%)', darkValue: 'hsl(25, 55%, 65%)' },
-      { name: 'Muted Red', value: 'hsl(0, 65%, 40%)', darkValue: 'hsl(0, 65%, 65%)' },
-      { name: 'Teal Green', value: 'hsl(180, 55%, 40%)', darkValue: 'hsl(180, 55%, 65%)' },
+    const accentColors = [
+      { name: 'Classic Black Light', value: 'hsl(0, 0%, 10%)', mode: 'light' },
+      { name: 'Classic Black Dark', value: 'hsl(0, 0%, 95%)', mode: 'dark' },
+    
+      { name: 'Classic Blue Light', value: 'hsl(230, 85%, 40%)', mode: 'light' },
+      { name: 'Classic Blue Dark', value: 'hsl(230, 85%, 60%)', mode: 'dark' },
+    
+      { name: 'Soft Green Light', value: 'hsl(150, 50%, 40%)', mode: 'light' },
+      { name: 'Soft Green Dark', value: 'hsl(150, 50%, 70%)', mode: 'dark' },
+    
+      { name: 'Warm Orange Light', value: 'hsl(30, 85%, 45%)', mode: 'light' },
+      { name: 'Warm Orange Dark', value: 'hsl(30, 85%, 65%)', mode: 'dark' },
+    
+      { name: 'Vibrant Purple Light', value: 'hsl(280, 65%, 40%)', mode: 'light' },
+      { name: 'Vibrant Purple Dark', value: 'hsl(280, 65%, 60%)', mode: 'dark' },
+    
+      { name: 'Bright Yellow Light', value: 'hsl(50, 85%, 50%)', mode: 'light' },
+      { name: 'Bright Yellow Dark', value: 'hsl(50, 85%, 70%)', mode: 'dark' },
+    
+      { name: 'Cool Cyan Light', value: 'hsl(200, 85%, 45%)', mode: 'light' },
+      { name: 'Cool Cyan Dark', value: 'hsl(200, 85%, 65%)', mode: 'dark' },
+    
+      { name: 'Soft Brown Light', value: 'hsl(25, 55%, 40%)', mode: 'light' },
+      { name: 'Soft Brown Dark', value: 'hsl(25, 55%, 65%)', mode: 'dark' },
+    
+      { name: 'Muted Red Light', value: 'hsl(0, 65%, 40%)', mode: 'light' },
+      { name: 'Muted Red Dark', value: 'hsl(0, 65%, 65%)', mode: 'dark' },
+    
+      { name: 'Teal Green Light', value: 'hsl(180, 55%, 40%)', mode: 'light' },
+      { name: 'Teal Green Dark', value: 'hsl(180, 55%, 65%)', mode: 'dark' },
     ];
     
     
@@ -55,16 +74,6 @@
     export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
       const { theme, setHapticFeedback, hapticFeedback, setFontSize, fontSize, setLineHeight, lineHeight, setLetterSpacing, letterSpacing, setReducedMotion, reducedMotion, setHighContrast, highContrast, setScreenReader, screenReader, setAntiFlicker, antiFlicker, setAccentColor, accentColor, setPalette, palette } = useSettings();
       const { setTheme: setNextTheme } = useTheme();
-      const [displayedAccentColors, setDisplayedAccentColors] = useState(accentColors);
-
-      useEffect(() => {
-        setDisplayedAccentColors(
-          accentColors.map(color => ({
-            ...color,
-            value: theme === 'light' ? color.value : color.darkValue,
-          }))
-        );
-      }, [theme]);
 
       const handleThemeChange = () => {
         setNextTheme(theme === 'light' ? 'dark' : 'light');
@@ -97,6 +106,8 @@
       const handlePaletteChange = (palette: string) => {
         setPalette(palette);
       };
+
+      const filteredAccentColors = accentColors.filter(color => color.mode === theme || color.mode === 'system');
 
       return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -194,7 +205,7 @@
               <div className="space-y-2">
                 <Label>Accent Color</Label>
                 <div className="flex items-center gap-2">
-                  {displayedAccentColors.map((color) => (
+                  {filteredAccentColors.map((color) => (
                     <button
                       key={color.value}
                       onClick={() => handleAccentColorChange(color.value)}

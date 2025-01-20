@@ -6,10 +6,11 @@
     import { useTheme } from 'next-themes';
     import { cn } from '@/lib/utils';
     import { useEffect, useRef, useState } from 'react';
-    import { SettingsPanel } from './settings-panel';
+    import { SettingsPanel, accentColors } from './settings-panel';
+    import { useSettings } from '@/components/settings-provider';
 
     export function MainNavbar() {
-      const { setTheme, theme } = useTheme();
+      const { setTheme, theme, accentColor, fontSize } = useSettings();
       const googleTranslateRef = useRef<HTMLDivElement>(null);
       const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -36,24 +37,29 @@
         (window as any).googleTranslateElementInit = googleTranslateElementInit;
       }, []);
 
+      const dynamicAccentColor = theme === 'light'
+        ? accentColors?.find(color => color.value === accentColor)?.value || 'hsl(230, 85%, 60%)'
+        : accentColors?.find(color => color.value === accentColor)?.darkValue || 'hsl(230, 85%, 70%)';
+
       return (
-        <header className={cn("sticky top-0 z-50 backdrop-blur-md border-b w-full")} style={{ backgroundColor: 'var(--accent)' }}>
+        <header className={cn("sticky top-0 z-50 backdrop-blur-md border-b w-full")} style={{ backgroundColor: dynamicAccentColor }}>
           <div className="container flex h-16 items-center justify-between px-8 mx-auto max-w-[1280px]">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
                 <span className="text-2xl">👓</span>
-                <span className="font-bold text-xl">LifeSight_v0.2.9.3</span>
+                <span className="font-bold text-xl" style={{ fontSize: `${fontSize / 16 * 1.25}rem` }}>LifeSight_v0.2.10</span>
               </Link>
             </div>
             <div className="flex items-center space-x-2">
               <div ref={googleTranslateRef} className="mr-2" style={{zIndex: 100, position: 'relative'}}></div>
-              <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
+              <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)} style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}>
                 <Settings className="h-5 w-5" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}
               >
                 {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
               </Button>

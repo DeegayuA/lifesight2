@@ -5,10 +5,12 @@
     import { Phone, ArrowLeft } from 'lucide-react';
     import Link from 'next/link';
     import { TooltipProvider } from '@/components/ui/tooltip';
+    import { useSettings } from '@/components/settings-provider';
 
     export default function CallAssistantPage() {
+      const { fontSize, accentColor } = useSettings();
       return (
-        <main className="min-h-screen bg-background p-6">
+        <main className="min-h-screen bg-background p-6" style={{ fontSize: `${fontSize / 16}rem` }}>
             <div className="max-w-2xl mx-auto space-y-8">
               <Button asChild variant="ghost" className="mb-8">
                 <Link href="/">
@@ -23,7 +25,7 @@
                 <p className="text-lg text-muted-foreground">
                   Our trained assistants are available 24/7 to provide personalized help when you need it.
                 </p>
-                <Button size="lg" className="w-full">
+                <Button size="lg" className="w-full" style={{ backgroundColor: accentColor }}>
                   Call Now
                 </Button>
               </Card>

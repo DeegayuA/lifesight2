@@ -10,9 +10,11 @@ import './globals.css';
     import { SettingsProvider } from '@/components/settings-provider';
     import { LayoutWrapper } from '@/components/layout-wrapper';
     import { Theme } from "@radix-ui/themes";
+    import { Josefin_Sans } from 'next/font/google';
 
 
     const inter = Inter({ subsets: ['latin'] });
+    const josefinSans = Josefin_Sans({ subsets: ['latin'] });
 
     export const metadata: Metadata = {
       title: 'Lifesight - AI Assisted Vision',
@@ -35,7 +37,7 @@ import './globals.css';
             <link rel="preload" href="/_next/static/media/a34f9d1faa5f3315-s.p.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
             <link rel="preload" href="/_next/static/css/app/layout.css?v=1737186472472" as="style" />
           </head>
-          <body className={cn(inter.className, 'h-full min-h-screen')}>
+          <body className={cn(josefinSans.className, 'h-full min-h-screen')}>
           <Theme>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <LanguageProvider>

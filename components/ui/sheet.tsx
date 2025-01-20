@@ -1,4 +1,3 @@
-
 'use client';
 
     import * as React from 'react';
@@ -7,6 +6,7 @@
     import { X } from 'lucide-react';
 
     import { cn } from '@/lib/utils';
+    import { useSettings } from '@/components/settings-provider';
 
     const Sheet = SheetPrimitive.Root;
 
@@ -78,15 +78,19 @@
     const SheetHeader = ({
       className,
       ...props
-    }: React.HTMLAttributes<HTMLDivElement>) => (
-      <div
-        className={cn(
-          'flex flex-col space-y-2 text-center sm:text-left',
-          className
-        )}
-        {...props}
-      />
-    );
+    }: React.HTMLAttributes<HTMLDivElement>) => {
+      const { fontSize } = useSettings();
+      return (
+        <div
+          className={cn(
+            'flex flex-col space-y-2 text-center sm:text-left',
+            className
+          )}
+          style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}
+          {...props}
+        />
+      );
+    };
     SheetHeader.displayName = 'SheetHeader';
 
     const SheetFooter = ({
@@ -106,25 +110,33 @@
     const SheetTitle = React.forwardRef<
       React.ElementRef<typeof SheetPrimitive.Title>,
       React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
-    >(({ className, ...props }, ref) => (
-      <SheetPrimitive.Title
-        ref={ref}
-        className={cn('text-lg font-semibold text-foreground', className)}
-        {...props}
-      />
-    ));
+    >(({ className, ...props }, ref) => {
+      const { fontSize } = useSettings();
+      return (
+        <SheetPrimitive.Title
+          ref={ref}
+          className={cn('font-semibold text-foreground', className)}
+          style={{ fontSize: `${fontSize / 16 * 1.5}rem` }}
+          {...props}
+        />
+      );
+    });
     SheetTitle.displayName = SheetPrimitive.Title.displayName;
 
     const SheetDescription = React.forwardRef<
       React.ElementRef<typeof SheetPrimitive.Description>,
       React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
-    >(({ className, ...props }, ref) => (
-      <SheetPrimitive.Description
-        ref={ref}
-        className={cn('text-sm text-muted-foreground', className)}
-        {...props}
-      />
-    ));
+    >(({ className, ...props }, ref) => {
+      const { fontSize } = useSettings();
+      return (
+        <SheetPrimitive.Description
+          ref={ref}
+          className={cn('text-muted-foreground', className)}
+          style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}
+          {...props}
+        />
+      );
+    });
     SheetDescription.displayName = SheetPrimitive.Description.displayName;
 
     export {

@@ -10,6 +10,7 @@
       --background-end-rgb: 255, 255, 255;
       --accent: hsl(230, 85%, 60%);
       --accent-rgb: 230, 85%, 60%;
+      font-size: 1.5rem;
     }
 
     @media (prefers-color-scheme: dark) {

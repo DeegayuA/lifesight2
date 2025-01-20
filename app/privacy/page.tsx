@@ -4,10 +4,12 @@
     import { Card } from '@/components/ui/card';
     import { ArrowLeft } from 'lucide-react';
     import Link from 'next/link';
+    import { useSettings } from '@/components/settings-provider';
 
     export default function PrivacyPage() {
+      const { fontSize, accentColor } = useSettings();
       return (
-        <main className="min-h-screen bg-background p-6">
+        <main className="min-h-screen bg-background p-6" style={{ fontSize: `${fontSize / 16}rem` }}>
           <div className="max-w-2xl mx-auto space-y-8">
             <Button asChild variant="ghost" className="mb-8">
               <Link href="/">
@@ -21,6 +23,9 @@
               <p className="text-lg text-muted-foreground">
                 This is the privacy policy page.
               </p>
+              <Button size="lg" className="w-full" style={{ backgroundColor: accentColor }}>
+                Call Now
+              </Button>
             </Card>
           </div>
         </main>

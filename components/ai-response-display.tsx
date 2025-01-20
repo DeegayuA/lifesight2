@@ -3,6 +3,8 @@
     import { useEffect, useRef } from 'react';
     import { Card } from '@/components/ui/card';
     import { Loader2 } from 'lucide-react';
+    import { useSettings } from '@/components/settings-provider';
+    import { cn } from '@/lib/utils';
 
     interface AIResponseDisplayProps {
       response: string;
@@ -16,6 +18,7 @@
       onResponseEnd
     }: AIResponseDisplayProps) {
       const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+      const { fontSize, accentColor } = useSettings();
 
       useEffect(() => {
         if (response && !isLoading) {
@@ -36,8 +39,8 @@
       if (isLoading) {
         return (
           <Card className="p-4 flex items-center justify-center">
-            <Loader2 className="h-6 w-6 animate-spin text-[var(--accent)]" />
-            <span className="ml-2">Processing your request...</span>
+            <Loader2 className="h-6 w-6 animate-spin" style={{ color: accentColor }} />
+            <span className="ml-2" style={{ fontSize: `${fontSize / 16}rem` }}>Processing your request...</span>
           </Card>
         );
       }
@@ -48,7 +51,7 @@
 
       return (
         <Card className="p-4 space-y-2">
-          <p className="text-lg">{response}</p>
+          <p className="text-lg" style={{ fontSize: `${fontSize / 16}rem` }}>{response}</p>
         </Card>
       );
     }

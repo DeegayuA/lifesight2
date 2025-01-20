@@ -1,6 +1,6 @@
 "use client";
 
-    import { useState } from 'react';
+    import { useState, useEffect } from 'react';
     import {
       Dialog,
       DialogContent,
@@ -18,24 +18,53 @@
     import { Slider } from '@/components/ui/slider';
     import { useSettings } from '@/components/settings-provider';
     import { Circle } from 'lucide-react';
+    import { THEME_COLORS } from '@/lib/constants';
 
     interface SettingsPanelProps {
       open: boolean;
       onOpenChange: (open: boolean) => void;
     }
 
-    const accentColors = [
-      { name: 'Classic Blue', value: 'hsl(230, 85%, 60%)' },
-      { name: 'Soft Green', value: 'hsl(150, 85%, 60%)' },
-      { name: 'Warm Red', value: 'hsl(280, 75%, 60%)' },
-      { name: 'Vibrant Purple', value: 'hsl(330, 65%, 60%)' },
-      { name: 'Bright Yellow', value: 'hsl(50, 85%, 60%)' },
-      { name: 'Cool Cyan', value: 'hsl(200, 85%, 60%)' },
+    export const accentColors = [
+      { name: 'Classic Black', value: 'hsl(0, 0%, 10%)', darkValue: 'hsl(0, 0%, 95%)' },
+      { name: 'Classic Blue', value: 'hsl(230, 85%, 40%)', darkValue: 'hsl(230, 85%, 60%)' },
+      { name: 'Soft Green', value: 'hsl(150, 50%, 40%)', darkValue: 'hsl(150, 50%, 70%)' },
+      { name: 'Warm Orange', value: 'hsl(30, 85%, 45%)', darkValue: 'hsl(30, 85%, 65%)' },
+      { name: 'Vibrant Purple', value: 'hsl(280, 65%, 40%)', darkValue: 'hsl(280, 65%, 60%)' },
+      { name: 'Bright Yellow', value: 'hsl(50, 85%, 50%)', darkValue: 'hsl(50, 85%, 70%)' },
+      { name: 'Cool Cyan', value: 'hsl(200, 85%, 45%)', darkValue: 'hsl(200, 85%, 65%)' },
+      { name: 'Soft Brown', value: 'hsl(25, 55%, 40%)', darkValue: 'hsl(25, 55%, 65%)' },
+      { name: 'Muted Red', value: 'hsl(0, 65%, 40%)', darkValue: 'hsl(0, 65%, 65%)' },
+      { name: 'Teal Green', value: 'hsl(180, 55%, 40%)', darkValue: 'hsl(180, 55%, 65%)' },
     ];
+    
+    
+    const themePalettes = Object.entries(THEME_COLORS)
+      .filter(([key]) => key.startsWith('palette-'))
+      .map(([key, value]) => ({
+        name: key.replace('palette-', '').replace(/-/g, ' '),
+        value: key,
+        primary: value.primary,
+        secondary: value.secondary,
+        backgroundLight: value.backgroundLight,
+        backgroundDark: value.backgroundDark,
+        textLight: value.textLight,
+        textDark: value.textDark,
+      }));
 
     export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
-      const { theme, setHapticFeedback, hapticFeedback, setFontSize, fontSize, setLineHeight, lineHeight, setLetterSpacing, letterSpacing, setReducedMotion, reducedMotion, setHighContrast, highContrast, setScreenReader, screenReader, setAntiFlicker, antiFlicker, setAccentColor, accentColor } = useSettings();
+      const { theme, setHapticFeedback, hapticFeedback, setFontSize, fontSize, setLineHeight, lineHeight, setLetterSpacing, letterSpacing, setReducedMotion, reducedMotion, setHighContrast, highContrast, setScreenReader, screenReader, setAntiFlicker, antiFlicker, setAccentColor, accentColor, setPalette, palette } = useSettings();
       const { setTheme: setNextTheme } = useTheme();
+      const [displayedAccentColors, setDisplayedAccentColors] = useState(accentColors);
+
+      useEffect(() => {
+        setDisplayedAccentColors(
+          accentColors.map(color => ({
+            ...color,
+            value: theme === 'light' ? color.value : color.darkValue,
+          }))
+        );
+      }, [theme]);
 
       const handleThemeChange = () => {
         setNextTheme(theme === 'light' ? 'dark' : 'light');
@@ -49,7 +78,7 @@
       };
 
       const handleResetSettings = () => {
-        setFontSize(16);
+        setFontSize(10);
         setLineHeight(1.5);
         setLetterSpacing(0);
         setReducedMotion(false);
@@ -58,10 +87,15 @@
         setAntiFlicker(false);
         setHapticFeedback(false);
         setAccentColor('hsl(230, 85%, 60%)');
+        setPalette('palette-1');
       };
 
       const handleAccentColorChange = (color: string) => {
         setAccentColor(color);
+      };
+
+      const handlePaletteChange = (palette: string) => {
+        setPalette(palette);
       };
 
       return (
@@ -128,9 +162,9 @@
                 <Label htmlFor="font-size">Font Size</Label>
                 <Slider
                   id="font-size"
-                  min={12}
+                  min={6}
                   max={24}
-                  step={1}
+                  step={2}
                   value={[fontSize]}
                   onValueChange={(value) => setFontSize(value[0])}
                 />
@@ -160,7 +194,7 @@
               <div className="space-y-2">
                 <Label>Accent Color</Label>
                 <div className="flex items-center gap-2">
-                  {accentColors.map((color) => (
+                  {displayedAccentColors.map((color) => (
                     <button
                       key={color.value}
                       onClick={() => handleAccentColorChange(color.value)}
@@ -177,6 +211,33 @@
                   ))}
                 </div>
               </div>
+              {/* <div className="space-y-2">
+                <Label>Theme Palette</Label>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {themePalettes.map((paletteItem) => (
+                    <button
+                      key={paletteItem.value}
+                      onClick={() => handlePaletteChange(paletteItem.value)}
+                      className={cn(
+                        'h-12 w-12 rounded-md border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+                        palette === paletteItem.value && 'ring-2 ring-primary',
+                      )}
+                    >
+                      <div className="flex flex-col h-full w-full">
+                        <div className="h-1/6 w-full" style={{ backgroundColor: THEME_COLORS[paletteItem.value as keyof typeof THEME_COLORS]?.primary }} />
+                        <div className="h-1/6 w-full" style={{ backgroundColor: THEME_COLORS[paletteItem.value as keyof typeof THEME_COLORS]?.secondary }} />
+                        <div className="h-1/6 w-full" style={{ backgroundColor: THEME_COLORS[paletteItem.value as keyof typeof THEME_COLORS]?.backgroundLight }} />
+                        <div className="h-1/6 w-full" style={{ backgroundColor: THEME_COLORS[paletteItem.value as keyof typeof THEME_COLORS]?.backgroundDark }} />
+                        <div className="h-1/6 w-full" style={{ backgroundColor: THEME_COLORS[paletteItem.value as keyof typeof THEME_COLORS]?.textLight }} />
+                        <div className="h-1/6 w-full" style={{ backgroundColor: THEME_COLORS[paletteItem.value as keyof typeof THEME_COLORS]?.textDark }} />
+                      </div>
+                      <span className="sr-only">
+                        {paletteItem.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div> */}
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={handleResetSettings}>

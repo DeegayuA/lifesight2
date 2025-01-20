@@ -1,7 +1,8 @@
 "use client";
 
     import { useLocalStorage } from '@/hooks/use-local-storage';
-    import React, { createContext, useContext, useState, useEffect } from 'react'; // <-- Import useState
+    import React, { createContext, useContext, useState, useEffect } from 'react';
+    import { THEME_COLORS } from '@/lib/constants';
 
     type SettingsContextType = {
       fontSize: number;
@@ -14,7 +15,8 @@
       hapticFeedback: boolean;
       accentColor: string;
       theme: string;
-      setTheme?: (theme: string) => void;
+      palette: string;
+      setTheme: (theme: string) => void;
       setFontSize: (size: number) => void;
       setLineHeight: (height: number) => void;
       setLetterSpacing: (spacing: number) => void;
@@ -24,12 +26,13 @@
       setAntiFlicker: (flicker: boolean) => void;
       setHapticFeedback: (haptic: boolean) => void;
       setAccentColor: (color: string) => void;
+      setPalette: (palette: string) => void;
     };
 
     const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
     export function SettingsProvider({ children }: { children: React.ReactNode }) {
-      const [fontSize, setFontSize] = useLocalStorage('fontSize', 16);
+      const [fontSize, setFontSize] = useLocalStorage('fontSize', 14);
       const [lineHeight, setLineHeight] = useLocalStorage('lineHeight', 1.5);
       const [letterSpacing, setLetterSpacing] = useLocalStorage('letterSpacing', 0);
       const [reducedMotion, setReducedMotion] = useLocalStorage('reducedMotion', false);
@@ -38,8 +41,13 @@
       const [antiFlicker, setAntiFlicker] = useLocalStorage('antiFlicker', false);
       const [hapticFeedback, setHapticFeedback] = useLocalStorage('hapticFeedback', false);
       const [accentColor, setAccentColor] = useLocalStorage('accentColor', 'hsl(230, 85%, 60%)');
-      const [theme, setTheme] = useState('light'); // <-- Now useState is available
+      const [palette, setPalette] = useLocalStorage('palette', 'palette-1');
+      const [theme, setNextTheme] = useLocalStorage('theme', 'light');
       const [accentRgb, setAccentRgb] = useState('230, 85%, 60%');
+
+      const setTheme = (theme: string) => {
+        setNextTheme(theme);
+      };
 
       useEffect(() => {
         const hslToRgb = (hsl: string) => {
@@ -88,6 +96,7 @@
             antiFlicker,
             hapticFeedback,
             accentColor,
+            palette,
             setTheme,
             setFontSize,
             setLineHeight,
@@ -100,6 +109,9 @@
             setAccentColor: (color: string) => {
               setAccentColor(color);
             },
+            setPalette: (palette: string) => {
+              setPalette(palette);
+            }
           }}
         >
           {children}

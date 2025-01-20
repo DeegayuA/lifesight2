@@ -5,6 +5,7 @@
     import { Check, ChevronRight, Circle } from 'lucide-react';
 
     import { cn } from '@/lib/utils';
+    import { useSettings } from '@/components/settings-provider';
 
     const DropdownMenu = DropdownMenuPrimitive.Root;
 
@@ -23,20 +24,24 @@
       React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
         inset?: boolean;
       }
-    >(({ className, inset, children, ...props }, ref) => (
-      <DropdownMenuPrimitive.SubTrigger
-        ref={ref}
-        className={cn(
-          'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[state=open]:bg-[var(--accent)] data-[state=open]:text-accent-foreground',
-          inset && 'pl-8',
-          className
-        )}
-        {...props}
-      >
-        {children}
-        <ChevronRight className="ml-auto h-4 w-4" />
-      </DropdownMenuPrimitive.SubTrigger>
-    ));
+    >(({ className, inset, children, ...props }, ref) => {
+      const { fontSize, accentColor } = useSettings();
+      return (
+        <DropdownMenuPrimitive.SubTrigger
+          ref={ref}
+          className={cn(
+            'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[state=open]:bg-[var(--accent)] data-[state=open]:text-accent-foreground',
+            inset && 'pl-8',
+            className
+          )}
+          style={{ fontSize: `${fontSize / 16 * 0.875}rem`, backgroundColor: props.style?.backgroundColor || undefined }}
+          {...props}
+        >
+          {children}
+          <ChevronRight className="ml-auto h-4 w-4" />
+        </DropdownMenuPrimitive.SubTrigger>
+      );
+    });
     DropdownMenuSubTrigger.displayName =
       DropdownMenuPrimitive.SubTrigger.displayName;
 
@@ -80,63 +85,75 @@
       React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
         inset?: boolean;
       }
-    >(({ className, inset, ...props }, ref) => (
-      <DropdownMenuPrimitive.Item
-        ref={ref}
-        className={cn(
-          'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-          inset && 'pl-8',
-          className
-        )}
-        {...props}
-      />
-    ));
+    >(({ className, inset, ...props }, ref) => {
+      const { fontSize, accentColor } = useSettings();
+      return (
+        <DropdownMenuPrimitive.Item
+          ref={ref}
+          className={cn(
+            'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+            inset && 'pl-8',
+            className
+          )}
+          style={{ fontSize: `${fontSize / 16 * 0.875}rem`, backgroundColor: props.style?.backgroundColor || undefined }}
+          {...props}
+        />
+      );
+    });
     DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
     const DropdownMenuCheckboxItem = React.forwardRef<
       React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
       React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
-    >(({ className, children, checked, ...props }, ref) => (
-      <DropdownMenuPrimitive.CheckboxItem
-        ref={ref}
-        className={cn(
-          'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-          className
-        )}
-        checked={checked}
-        {...props}
-      >
-        <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-          <DropdownMenuPrimitive.ItemIndicator>
-            <Check className="h-4 w-4" />
-          </DropdownMenuPrimitive.ItemIndicator>
-        </span>
-        {children}
-      </DropdownMenuPrimitive.CheckboxItem>
-    ));
+    >(({ className, children, checked, ...props }, ref) => {
+      const { fontSize, accentColor } = useSettings();
+      return (
+        <DropdownMenuPrimitive.CheckboxItem
+          ref={ref}
+          className={cn(
+            'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+            className
+          )}
+          checked={checked}
+          style={{ backgroundColor: props.style?.backgroundColor || undefined }}
+          {...props}
+        >
+          <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+            <DropdownMenuPrimitive.ItemIndicator>
+              <Check className="h-4 w-4" />
+            </DropdownMenuPrimitive.ItemIndicator>
+          </span>
+          {children}
+        </DropdownMenuPrimitive.CheckboxItem>
+      );
+    });
     DropdownMenuCheckboxItem.displayName =
       DropdownMenuPrimitive.CheckboxItem.displayName;
 
     const DropdownMenuRadioItem = React.forwardRef<
       React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
       React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
-    >(({ className, children, ...props }, ref) => (
-      <DropdownMenuPrimitive.RadioItem
-        ref={ref}
-        className={cn(
-          'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-          className
-        )}
-        {...props}
-      >
-        <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-          <DropdownMenuPrimitive.ItemIndicator>
-            <Circle className="h-2 w-2 fill-current" />
-          </DropdownMenuPrimitive.ItemIndicator>
-        </span>
-        {children}
-      </DropdownMenuPrimitive.RadioItem>
-    ));
+    >(({ className, children, ...props }, ref) => {
+      const { fontSize, accentColor } = useSettings();
+      return (
+        <DropdownMenuPrimitive.RadioItem
+          ref={ref}
+          className={cn(
+            'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-[var(--accent)] focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+            className
+          )}
+          style={{ backgroundColor: props.style?.backgroundColor || undefined }}
+          {...props}
+        >
+          <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+            <DropdownMenuPrimitive.ItemIndicator>
+              <Circle className="h-2 w-2 fill-current" />
+            </DropdownMenuPrimitive.ItemIndicator>
+          </span>
+          {children}
+        </DropdownMenuPrimitive.RadioItem>
+      );
+    });
     DropdownMenuRadioItem.displayName =
       DropdownMenuPrimitive.RadioItem.displayName;
 
@@ -145,17 +162,21 @@
       React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
         inset?: boolean;
       }
->(({ className, inset, ...props }, ref) => (
-      <DropdownMenuPrimitive.Label
-        ref={ref}
-        className={cn(
-          'px-2 py-1.5 text-sm font-semibold',
-          inset && 'pl-8',
-          className
-        )}
-        {...props}
-      />
-    ));
+>(({ className, inset, ...props }, ref) => {
+      const { fontSize } = useSettings();
+      return (
+        <DropdownMenuPrimitive.Label
+          ref={ref}
+          className={cn(
+            'px-2 py-1.5 text-sm font-semibold',
+            inset && 'pl-8',
+            className
+          )}
+          style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}
+          {...props}
+        />
+      );
+    });
     DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
     const DropdownMenuSeparator = React.forwardRef<

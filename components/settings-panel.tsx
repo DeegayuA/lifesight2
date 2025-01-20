@@ -87,7 +87,7 @@
         };
       
         // Apply theme and accent color on load
-        const initialTheme = html.classList.contains('dark') ? 'dark' : 'light';
+        const initialTheme = html.classList.contains('light') ? 'dark' : 'light';
         applyThemeAndAccent(initialTheme);
       
         // Observe for theme changes

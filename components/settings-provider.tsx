@@ -46,6 +46,32 @@
       const [palette, setPalette] = useLocalStorage('palette', 'palette-1');
       const [accentRgb, setAccentRgb] = useLocalStorage('accentRgb', '230, 85%, 60%');
 
+      useEffect(() => {
+        const updateSettingsForDevice = () => {
+          if (window.innerWidth <= 768) {
+            // Mobile settings
+            setFontSize(10);
+            setLineHeight(1.4);
+            setLetterSpacing(0.1);
+          } else {
+            // Desktop settings
+            setFontSize(14);
+            setLineHeight(1.5);
+            setLetterSpacing(0);
+          }
+        };
+    
+        // Initial check
+        updateSettingsForDevice();
+    
+        // Update on window resize
+        window.addEventListener('resize', updateSettingsForDevice);
+    
+        return () => {
+          window.removeEventListener('resize', updateSettingsForDevice);
+        };
+      }, [setFontSize, setLineHeight, setLetterSpacing]);
+
       const hslToRgb = (hsl: string) => {
         const hslValues = hsl.match(/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/);
         if (!hslValues) return '0, 0, 0';

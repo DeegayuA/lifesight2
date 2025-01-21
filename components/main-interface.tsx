@@ -372,17 +372,22 @@
             </Card>
           </div>
 
-          {/* AI Response Area - 15vh max */}
+         {/* AI Response Area - 15vh max */}
           <div className="h-[15vh] overflow-y-auto">
             <Card className="h-full p-4">
-              <AIResponseDisplay
-                response={response}
-                isLoading={isLoading}
-                onResponseEnd={handleResponseEnd}
-              />
+              {response ? (
+                <AIResponseDisplay
+                  response={response}
+                  isLoading={isLoading}
+                  onResponseEnd={handleResponseEnd}
+                />
+              ) : (
+                <div className="text-gray-500">Known Bugs <br /> &#x2022; Speech output not working <br /> &#x2022; Some UI elements aren't mobile friendly and out of place</div>
+              )}
             </Card>
           </div>
           <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
+
 
           {/* Controls Section */}
           <div className="flex flex-col gap-2 w-100 xl:flex-row">

@@ -115,9 +115,11 @@
       };
 
       const handleResetSettings = () => {
-        setFontSize(14);
-        setLineHeight(1.5);
-        setLetterSpacing(0);
+        const isMobile = window.innerWidth <= 768;
+      
+        setFontSize(isMobile ? 10 : 14);
+        setLineHeight(isMobile ? 1.4 : 1.5);
+        setLetterSpacing(isMobile ? 0.1 : 0);
         setReducedMotion(false);
         setHighContrast(false);
         setScreenReader(false);

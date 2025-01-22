@@ -53,7 +53,7 @@
           const mode = theme === 'light' ? 'lightMode' : 'darkMode';
           return {
             name: color.name,
-            value: color[mode],
+            value: color[mode as 'lightMode' | 'darkMode'],
             mode: mode
           }
         });
@@ -75,7 +75,7 @@
         // Update accent colors based on the theme
         const updatedAccentColors = ACCENT_COLORS.map((color) => ({
           name: color.name,
-          value: color[mode],
+          value: color[mode as 'lightMode' | 'darkMode'],
           mode,
         }));
         setFilteredAccentColors(updatedAccentColors);
@@ -85,12 +85,12 @@
           (color) => color.lightMode === accentColor || color.darkMode === accentColor
         );
         if (currentAccent) {
-          const newAccentColor = currentAccent[mode];
+          const newAccentColor = currentAccent[mode as 'lightMode' | 'darkMode'];
           if (newAccentColor !== accentColor) {
             setAccentColor(newAccentColor);
           }
         } else {
-          setAccentColor(ACCENT_COLORS[0][mode]);
+          setAccentColor(ACCENT_COLORS[0][mode as 'lightMode' | 'darkMode']);
         }
       }, [theme, accentColor, setAccentColor]);
       

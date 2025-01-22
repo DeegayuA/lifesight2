@@ -1,5 +1,5 @@
 "use client";
-
+import * as React from 'react';
     import Link from 'next/link';
     import { Button } from '@/components/ui/button';
     import { Settings, Moon, Sun, SunMoon } from 'lucide-react';
@@ -17,7 +17,7 @@
 
     export function MainNavbar() {
       const { setTheme, theme } = useTheme();
-      const googleTranslateRef = useRef<HTMLDivElement>(null);
+      const googleTranslateRef = useRef<HTMLDivElement | null>(null);
       const [settingsOpen, setSettingsOpen] = useState(false);
       const { accentColor, fontSize, setAccentColor } = useSettings();
 
@@ -70,9 +70,9 @@
             (color) => color.lightMode === accentColor || color.darkMode === accentColor
           );
           if (currentAccent) {
-            setAccentColor(currentAccent[mode]);
+            setAccentColor(currentAccent[mode as 'lightMode' | 'darkMode']);
           } else {
-            setAccentColor(ACCENT_COLORS[5][mode]);
+            setAccentColor(ACCENT_COLORS[5][mode as 'lightMode' | 'darkMode']);
           }
         }
       };

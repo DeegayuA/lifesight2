@@ -14,8 +14,8 @@
         const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === 'Enter') {
             e.preventDefault();
-            if (props.onKeyPress) {
-              props.onKeyPress(e);
+            if (props.onKeyDown) {
+                props.onKeyDown(e);
             }
           }
         };

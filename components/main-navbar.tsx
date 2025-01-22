@@ -1,5 +1,6 @@
 "use client";
-import * as React from 'react';
+
+    import * as React from 'react';
     import Link from 'next/link';
     import { Button } from '@/components/ui/button';
     import { Settings, Moon, Sun, SunMoon } from 'lucide-react';
@@ -83,7 +84,7 @@ import * as React from 'react';
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
                 <span className="text-2xl">👓</span>
-                <span className="font-bold text-xl" style={{ fontSize: `${fontSize / 16 * 1.25}rem` }}>LifeSight_v0.2.10.4</span>
+                <span className="font-bold text-xl" style={{ fontSize: `${fontSize / 16 * 1.25}rem` }}>LifeSight_v0.2.10.6</span>
               </Link>
             </div>
             <div className="flex items-center space-x-2">

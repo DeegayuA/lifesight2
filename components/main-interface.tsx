@@ -17,11 +17,11 @@
     import { useSettings } from '@/components/settings-provider';
     import { SettingsPanel } from '@/components/settings-panel';
     import Link from 'next/link';
+    import { useSpeech } from '@/hooks/use-speech';
 
     export function MainInterface() {
       const [isCameraOn, setIsCameraOn] = useState(false);
       const [isMicOn, setIsMicOn] = useState(false);
-      const [isPlaying, setIsPlaying] = useState(false);
       const [textInput, setTextInput] = useState('');
       const [selectedCamera, setSelectedCamera] = useState<string>('');
       const [selectedMic, setSelectedMic] = useState<string>('');
@@ -39,6 +39,27 @@
       const recognitionRef = useRef<any | null>(null);
       const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
       const { fontSize, lineHeight, letterSpacing, accentColor } = useSettings();
+      const { speak, stop: stopSpeaking, isPlaying: isSpeechPlaying } = useSpeech({
+        onStart: () => {
+          if (isMicOn) {
+            toggleMic(false);
+            setMicPausedForPlayback(true);
+          }
+        },
+        onEnd: () => {
+          if (micPausedForPlayback) {
+            toggleMic(true);
+            setMicPausedForPlayback(false);
+          }
+        },
+        onError: (error) => {
+          console.error('Speech synthesis error:', error);
+          if (micPausedForPlayback) {
+            toggleMic(true);
+            setMicPausedForPlayback(false);
+          }
+        }
+      });
 
       useEffect(() => {
         async function getDevices() {
@@ -92,21 +113,9 @@
         }
       };
 
-      const stopSpeaking = useCallback(() => {
-        window.speechSynthesis.cancel();
-        setIsPlaying(false);
-        if (micPausedForPlayback) {
-          toggleMic(true);
-          setMicPausedForPlayback(false);
-        }
-      }, [micPausedForPlayback]);
-
       const toggleMic = async (forceOn: boolean = false) => {
         try {
-          // Stop any ongoing speech synthesis when toggling mic
-          stopSpeaking();
-
-          if (isMicOn || forceOn) {
+          if (isMicOn && !forceOn) {
             if (mediaStreamRef.current) {
               mediaStreamRef.current.getTracks().forEach(track => {
                 if (track.kind === 'audio') track.stop();
@@ -208,57 +217,35 @@
         recognitionRef.current.start();
       };
       
+      const speakResponse = useCallback(async () => {
+        if (!response) return;
+        speak(response);
+      }, [response, speak]);
+      
       const handleVoiceCommand = useCallback(async (command: string): Promise<boolean> => {
         if (command.includes('start camera')) {
           await toggleCamera(true);
+          speak('Camera started');
           return true;
         } else if (command.includes('stop camera')) {
           await toggleCamera(false);
+          speak('Camera stopped');
           return true;
         } else if (command.includes('start mic')) {
           await toggleMic(true);
+          speak('Microphone started');
           return true;
         } else if (command.includes('stop mic')) {
+          await stopSpeaking();
           await toggleMic(false);
+          speak('Microphone stopped');
           return true;
         } else if (command.includes('repeat') || command.includes('respeak')) {
           await speakResponse();
           return true;
         }
         return false;
-      }, [response]);
-      
-      const speakResponse = async () => {
-        if (!response) return;
-      
-        // Pause mic during response playback
-        if (isMicOn) {
-          await toggleMic(false);
-          setMicPausedForPlayback(true);
-        }
-      
-        const utterance = new SpeechSynthesisUtterance(response);
-        synthRef.current = utterance;
-        setIsPlaying(true);
-      
-        utterance.onend = () => {
-          setIsPlaying(false);
-          if (micPausedForPlayback) {
-            toggleMic(true);
-            setMicPausedForPlayback(false);
-          }
-        };
-      
-        utterance.onerror = () => {
-          setIsPlaying(false);
-          if (micPausedForPlayback) {
-            toggleMic(true);
-            setMicPausedForPlayback(false);
-          }
-        };
-      
-        window.speechSynthesis.speak(utterance);
-      };
+      }, [speak, toggleCamera, toggleMic, stopSpeaking, speakResponse]);
       
 
       const getMicStatusIndicator = () => {
@@ -269,7 +256,7 @@
         } else if (devices.mics.length === 1) {
           micText = isMicOn ? 'Listening (only 1 device)' : 'Off (only 1 device)';
         }
-        if (isPlaying) {
+        if (isSpeechPlaying) {
           return (
             <div className="absolute left-3 top-2 flex items-center gap-1">
               <div className="h-2 w-2 rounded-full bg-yellow-500 animate-pulse" />
@@ -396,7 +383,10 @@
                 <TooltipTrigger asChild>
                   <Button
                     variant={isCameraOn ? "default" : "outline"}
-                    onClick={handleCameraToggle}
+                    onClick={async () => {
+                      await handleCameraToggle();
+                      speak(isCameraOn ? 'Camera stopped' : 'Camera started');
+                    }}
                     className="flex-1 relative min-h-[48px]"
                   >
                     <div className="flex items-center justify-center">
@@ -415,7 +405,10 @@
                 <TooltipTrigger asChild>
                   <Button
                     variant={isMicOn ? "default" : "outline"}
-                    onClick={handleMicToggle}
+                    onClick={async () => {
+                      await handleMicToggle();
+                      speak(isMicOn ? 'Microphone stopped' : 'Microphone started');
+                    }}
                     className="flex-1 relative min-h-[48px]"
                   >
                     <div className="flex items-center justify-center">
@@ -459,7 +452,11 @@
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
                 placeholder="Type your question or command..."
-                onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSubmit();
+                  }
+                }}
                 className="flex-1"
               />
               <Button className="w-10 h-10" variant="accent" onClick={handleSubmit} style={{ backgroundColor: accentColor }}>

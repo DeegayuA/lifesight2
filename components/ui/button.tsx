@@ -48,13 +48,14 @@
 
     const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ({ className, variant, size, asChild = false, ...props }, ref) => {
-        const { accentColor } = useSettings();
+        const { accentColor, fontSize } = useSettings();
+        
         const Comp = asChild ? Slot : 'button';
         return (
           <Comp
             className={cn(buttonVariants({ variant, size, className }), variant === 'accent' && 'bg-[var(--accent)]')}
             ref={ref}
-            style={{ backgroundColor: variant === 'default' ? accentColor : undefined }}
+            style={{ fontSize: `${fontSize / 16 * 0.875}rem`, backgroundColor: variant === 'default' ? accentColor : undefined }}
             {...props}
           />
         );

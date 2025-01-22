@@ -419,7 +419,7 @@
                     className="flex-1 relative min-h-[48px]"
                   >
                     <div className="flex items-center justify-center">
-                      {isMicOn ? <Mic className="mr-2" /> : <MicOff className="mr-2" />}
+                      {isMicOn ? <Mic className="mr-2"  /> : <MicOff className="mr-2" />}
                       <span>{isMicOn ? 'Stop Mic' : 'Start Mic'}</span>
                     </div>
                     {getMicStatusIndicator()}
@@ -462,7 +462,7 @@
                 onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
                 className="flex-1"
               />
-              <Button className="w-16 h-16" variant="accent" onClick={handleSubmit} style={{ backgroundColor: accentColor }}>
+              <Button className="w-10 h-10" variant="accent" onClick={handleSubmit} style={{ backgroundColor: accentColor }}>
                 <Send className="w-8 h-8" />
               </Button>
             </div>

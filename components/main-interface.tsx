@@ -68,21 +68,42 @@ export function MainInterface() {
         const cameras = devices.filter(device => device.kind === 'videoinput');
         const mics = devices.filter(device => device.kind === 'audioinput');
         setDevices({ cameras, mics });
-
-        // Attempt to select back camera first
-        let backCamera = cameras.find(camera => camera.label.toLowerCase().includes('back'));
-        if (!backCamera && cameras.length > 0) {
-          backCamera = cameras.find(camera => camera.facingMode === 'environment') || cameras[0];
+  
+        // Attempt to select the back camera first using facingMode constraint
+        const constraints = {
+          video: { facingMode: { exact: 'environment' } }
+        };
+  
+        let stream = null;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia(constraints);
+          const videoTrack = stream.getVideoTracks()[0];
+          const backCamera = cameras.find(camera => camera.deviceId === videoTrack.getSettings().deviceId);
+          if (backCamera) {
+            setSelectedCamera(backCamera.deviceId);
+          }
+        } catch (error) {
+          console.warn('Back camera not found, selecting default camera.');
+          if (cameras.length > 0) {
+            setSelectedCamera(cameras[0].deviceId);
+          }
+        } finally {
+          if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+          }
         }
-        if (backCamera) setSelectedCamera(backCamera.deviceId);
-        if (mics.length) setSelectedMic(mics[0].deviceId);
+  
+        if (mics.length) {
+          setSelectedMic(mics[0].deviceId);
+        }
       } catch (error) {
         console.error('Error getting devices:', error);
       }
     }
-
+  
     getDevices();
   }, []);
+  
 
   useEffect(() => {
     const startMedia = async () => {

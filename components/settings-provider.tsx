@@ -42,35 +42,9 @@
       const [antiFlicker, setAntiFlicker] = useLocalStorage('antiFlicker', false);
       const [hapticFeedback, setHapticFeedback] = useLocalStorage('hapticFeedback', false);
       const [theme, setTheme] = useLocalStorage<'system' | 'dark' | 'light'>('theme', 'system');
-      const [accentColor, setAccentColor] = useLocalStorage('accentColor', ACCENT_COLORS[5].lightMode);
+      const [accentColor, setAccentColor] = useLocalStorage('accentColor', ACCENT_COLORS[4].lightMode);
       const [palette, setPalette] = useLocalStorage('palette', 'palette-1');
       const [accentRgb, setAccentRgb] = useLocalStorage('accentRgb', '230, 85%, 60%');
-
-      useEffect(() => {
-        const updateSettingsForDevice = () => {
-          if (window.innerWidth <= 768) {
-            // Mobile settings
-            setFontSize(10);
-            setLineHeight(1.4);
-            setLetterSpacing(0.1);
-          } else {
-            // Desktop settings
-            setFontSize(14);
-            setLineHeight(1.5);
-            setLetterSpacing(0);
-          }
-        };
-    
-        // Initial check
-        updateSettingsForDevice();
-    
-        // Update on window resize
-        window.addEventListener('resize', updateSettingsForDevice);
-    
-        return () => {
-          window.removeEventListener('resize', updateSettingsForDevice);
-        };
-      }, [setFontSize, setLineHeight, setLetterSpacing]);
 
       const hslToRgb = (hsl: string) => {
         const hslValues = hsl.match(/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/);
@@ -112,9 +86,9 @@
         if (currentAccent) {
           setAccentColor(currentAccent[mode]);
         } else {
-          setAccentColor(ACCENT_COLORS[5][mode]);
+          setAccentColor(ACCENT_COLORS[2][mode]);
         }
-      }, [theme]);
+      }, [theme, setAccentColor]);
 
       return (
         <SettingsContext.Provider

@@ -25,7 +25,6 @@
       TooltipTrigger,
       TooltipProvider
     } from '@/components/ui/tooltip';
-    import { useRouter } from 'next/navigation';
 
     interface SettingsPanelProps {
       open: boolean;
@@ -53,52 +52,59 @@
           const mode = theme === 'light' ? 'lightMode' : 'darkMode';
           return {
             name: color.name,
-            value: color[mode as 'lightMode' | 'darkMode'],
+            value: color[mode],
             mode: mode
           }
         });
       });
-      const router = useRouter();
 
       useEffect(() => {
         const html = document.querySelector('html');
         if (!html) return;
       
-        let mode = theme === 'light' ? 'lightMode' : 'darkMode';
-        
-        if (html.style.colorScheme === 'light' || html.classList.contains('light')) {
-          mode = 'lightMode';
-        } else if (html.style.colorScheme === 'dark' || html.classList.contains('dark')) {
-          mode = 'darkMode';
-        }
+        // Helper function to apply theme and accent color instantly
+        const applyThemeAndAccent = (currentTheme: string) => {
+          const mode = currentTheme === 'dark' ? 'lightMode' : 'darkMode';
       
-        // Update accent colors based on the theme
-        const updatedAccentColors = ACCENT_COLORS.map((color) => ({
-          name: color.name,
-          value: color[mode as 'lightMode' | 'darkMode'],
-          mode,
-        }));
-        setFilteredAccentColors(updatedAccentColors);
+          // Filter and update accent colors based on the theme
+          const updatedAccentColors = ACCENT_COLORS.map(color => ({
+            name: color.name,
+            value: color[mode],
+            mode: mode,
+          }));
+          setFilteredAccentColors(updatedAccentColors);
       
-        // Automatically switch the accent color if it exists in the theme
-        const currentAccent = ACCENT_COLORS.find(
-          (color) => color.lightMode === accentColor || color.darkMode === accentColor
-        );
-        if (currentAccent) {
-          const newAccentColor = currentAccent[mode as 'lightMode' | 'darkMode'];
-          if (newAccentColor !== accentColor) {
-            setAccentColor(newAccentColor);
+          // Update the accent color if it's part of ACCENT_COLORS
+          const currentAccent = ACCENT_COLORS.find(
+            color => color.lightMode === accentColor || color.darkMode === accentColor
+          );
+          if (currentAccent) {
+            const newAccentColor = mode === 'lightMode' ? currentAccent.lightMode : currentAccent.darkMode;
+            if (newAccentColor !== accentColor) {
+              setAccentColor(newAccentColor);
+            }
           }
-        } else {
-          setAccentColor(ACCENT_COLORS[0][mode as 'lightMode' | 'darkMode']);
-        }
-      }, [theme, accentColor, setAccentColor]);
+        };
       
+        // Apply theme and accent color on load
+        const initialTheme = html.classList.contains('light') ? 'dark' : 'light';
+        applyThemeAndAccent(initialTheme);
+      
+        // Observe for theme changes
+        const observer = new MutationObserver(() => {
+          const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+          applyThemeAndAccent(currentTheme);
+        });
+      
+        observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+      
+        // Cleanup observer on component unmount
+        return () => observer.disconnect();
+      }, [accentColor]);
       
 
       const handleThemeChange = () => {
         setNextTheme(theme === 'light' ? 'dark' : 'light');
-        router.refresh();
       };
 
       const handleHapticFeedbackChange = (haptic: boolean) => {
@@ -119,7 +125,7 @@
         setScreenReader(false);
         setAntiFlicker(false);
         setHapticFeedback(false);
-        setAccentColor(ACCENT_COLORS[5].lightMode);
+        setAccentColor(ACCENT_COLORS[0].lightMode);
         setPalette('palette-1');
       };
 
@@ -227,7 +233,7 @@
               </div>
               <div className="space-y-2">
                 <Label>Accent Color</Label>
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2">
                   <TooltipProvider>
                   {filteredAccentColors.map((color) => (
                     <Tooltip key={color.value}>

@@ -243,7 +243,7 @@ export const SkeletonFour = () => {
     const { reducedMotion, fontSize, accentColor, highContrast, lineHeight, letterSpacing } = useSettings();
     return (
         <div className="h-80 md:h-100 flex flex-col items-center relative bg-transparent dark:bg-transparent mt-10 w-full h-full">
-            <Globe className="absolute -right-[8rem] md:-right-[15rem]  -bottom-[10em] md:-bottom-[18rem]" reducedMotion={reducedMotion} />
+            <Globe className="absolute -right-[8rem] md:-right-[15rem]  -bottom-[10em] md:-bottom-[8rem]" reducedMotion={reducedMotion} />
         </div>
     );
 };

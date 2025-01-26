@@ -84,7 +84,7 @@
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
                 <span className="text-2xl">👓</span>
-                <span className="font-bold text-xl" style={{ fontSize: `${fontSize / 16 * 1.25}rem` }}>LifeSight_v0.3.0</span>
+                <span className="font-bold text-xl" style={{ fontSize: `${fontSize / 16 * 1.25}rem` }}>LifeSight_v0.3.1</span>
               </Link>
             </div>
             <div className="flex items-center space-x-2">

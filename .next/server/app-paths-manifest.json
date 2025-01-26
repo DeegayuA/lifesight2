@@ -1,11 +1,11 @@
 {
-  "/call-assistant/page": "app/call-assistant/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/help/page": "app/help/page.js",
-  "/privacy/page": "app/privacy/page.js",
-  "/page": "app/page.js",
   "/app/page": "app/app/page.js",
+  "/donate/page": "app/donate/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/help/page": "app/help/page.js",
+  "/call-assistant/page": "app/call-assistant/page.js",
   "/sitemap/page": "app/sitemap/page.js",
-  "/terms/page": "app/terms/page.js",
-  "/donate/page": "app/donate/page.js"
+  "/privacy/page": "app/privacy/page.js",
+  "/terms/page": "app/terms/page.js"
 }

@@ -22,6 +22,7 @@ const playfairDisplay = Playfair_Display({ subsets: ['latin'] });
 export default function Home() {
   const { reducedMotion, fontSize, accentColor, highContrast } = useSettings();
 
+
   return (
     <main
       className="min-h-screen p-4 sm:p-6"
@@ -30,7 +31,7 @@ export default function Home() {
       }}
     >      {/* Hero Section */}
       <section
-        className="rounded-lg relative h-[70vh] flex items-center justify-center overflow-hidden mx-auto z-20 max-w-[1280px]"
+        className="rounded-lg relative h-[70vh] flex items-center justify-center overflow-hidden mx-auto z-20 max-w-[1280px] mt-[5rem]"
         aria-labelledby="hero-heading"
       >
         <BackgroundLines
@@ -71,55 +72,62 @@ export default function Home() {
       <section className='flex items-center justify-center overflow-hidden max-w-[1280px] mx-auto z-20'>
         <FeaturesSectionDemo />
       </section>
-      
-        {/* Waitlist Section */}
-        <section
-          className="flex items-center justify-center overflow-hidden max-w-[1280px] mx-auto z-20"
-          aria-labelledby="waitlist-heading"
+
+      {/* Waitlist Section */}
+      <section
+        className="flex items-center justify-center overflow-hidden max-w-[1280px] mx-auto z-20"
+        aria-labelledby="waitlist-heading"
+      >
+        <div
+          className="h-[40rem] w-full rounded-md relative border flex flex-col items-center justify-center antialiased"
+          style={{
+            backgroundColor: "var(--background)", // Using dynamic background color from CSS variables
+            color: "var(--foreground)", // Using dynamic text color from CSS variables
+          }}
         >
-          <div
-            className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased"
-            style={{
-              backgroundColor: highContrast ? '#222' : '#1a1a1a',
-              color: highContrast ? '#fff' : '#bbb',
-            }}
-          >
-            <div className="max-w-2xl mx-auto p-4">
-              <h1
-                id="waitlist-heading"
-                className={cn(
-                  "relative z-10 text-lg md:text-7xl bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600 text-center font-bold",
-                  playfairDisplay.className
-                )}
-                style={{ fontSize: `${fontSize / 16 * 3.125}rem` }}
-              >
-                Join the waitlist
-              </h1>
-              <p
-                className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10"
-                style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}
-              >
-                Welcome to MailJet, the best transactional email service on the web.
-                We provide reliable, scalable, and customizable email solutions for
-                your business. Whether you&apos;re sending order confirmations,
-                password reset emails, or promotional campaigns, MailJet has got you
-                covered.
-              </p>
-              <Input
-                type="text"
-                placeholder="hi@manuarora.in"
-                aria-label="Enter your email address"
-                className="rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4"
-                style={{
-                  fontSize: `${fontSize / 16 * 0.875}rem`,
-                  backgroundColor: highContrast ? '#333' : '#1a1a1a',
-                  color: highContrast ? '#fff' : '#bbb',
-                }}
-              />
-            </div>
-            <BackgroundBeams />
+          <div className="max-w-2xl mx-auto p-4">
+            <h1
+              id="join-heading"
+              className={cn(
+                "relative z-10 text-lg md:text-7xl bg-clip-text text-foreground text-center font-bold",
+                playfairDisplay.className
+              )}
+              style={{ fontSize: `${fontSize / 16 * 3.125}rem` }}
+            >
+              Join LifeSight: as a volunteer
+            </h1>
+            <p
+              className="text-foreground max-w-lg mx-auto my-2 text-sm text-center relative z-10"
+              style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}
+            >
+              LifeSight is a powerful tool designed for visually impaired users. We are
+              committed to providing inclusive and accessible solutions for education,
+              social inclusion, and everyday tasks. Our app leverages AI-powered OCR,
+              voice input/output, and offline functionality to make the world more
+              accessible to all.
+            </p>
+            <p
+              className="text-foreground max-w-lg mx-auto my-2 text-sm text-center relative z-10"
+              style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}
+            >
+              Sign up now to receive updates and be part of the LifeSight community!
+            </p>
+            <Input
+              type="email"
+              placeholder="your-email@example.com"
+              aria-label="Enter your email address"
+              className="rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4"
+              style={{
+                fontSize: `${fontSize / 16 * 0.875}rem`,
+                backgroundColor: "var(--input)", // Using dynamic input color from CSS variables
+                color: "var(--foreground)", // Using dynamic text color from CSS variables
+              }}
+            />
           </div>
-        </section>
+
+          <BackgroundBeams />
+        </div>
+      </section>
     </main>
   );
 }

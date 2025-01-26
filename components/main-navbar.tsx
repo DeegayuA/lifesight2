@@ -15,6 +15,8 @@
       TooltipTrigger,
     } from '@/components/ui/tooltip';
     import { ACCENT_COLORS } from '@/lib/constants';
+import { FloatingNav } from './ui/floating-navbar';
+import { IconHome, IconMessage, IconUser } from '@tabler/icons-react';
 
     export function MainNavbar() {
       const { setTheme, theme } = useTheme();
@@ -78,53 +80,36 @@
         }
       };
 
+      const navItems = [
+        {
+          name: "Home",
+          link: "/",
+          icon: <IconHome className="h-4 w-4 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+        },
+        {
+          name: "App",
+          link: "/app",
+          icon: <IconUser className="h-4 w-4 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+        },
+        {
+          name: "Contact",
+          link: "/contact",
+          icon: (
+            <IconMessage className="h-4 w-4 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+          ),
+        },
+      ];
+
       return (
+        
         <header className={cn("sticky top-0 z-50 backdrop-blur-md border-b w-full")} style={{ backgroundColor: accentColor }}>
-          <div className="container flex h-16 items-center justify-between px-8 mx-auto max-w-[1280px]">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <span className="text-2xl">👓</span>
-                <span className="font-bold text-xl" style={{ fontSize: `${fontSize / 16 * 1.25}rem` }}>LifeSight_v0.3.1</span>
-              </Link>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div ref={googleTranslateRef} className="mr-2" style={{zIndex: 100, position: 'relative'}}></div>
-              
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)} style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}>
-                    <Settings className="h-5 w-5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="top" align="center">
-                  { 'Settings' }
-                </TooltipContent>
-              </Tooltip>
-              
-              <Tooltip>
-                <TooltipTrigger asChild>
-                    <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleThemeChange}
-                    style={{ height: `${fontSize / 16 * 2.5}rem`, width: `${fontSize / 16 * 2.5}rem` }}
-                  >
-                    {theme === 'light' ? <Moon className="h-5 w-5" /> : theme === 'dark' ? <Sun className="h-5 w-5" /> : <SunMoon className="h-5 w-5" /> }
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="top" align="center">
-                  { theme === 'light'
-                    ? 'Switch to Dark Mode'
-                    : theme === 'dark'
-                    ? 'Switch to Light Mode'
-                    : 'Theme Auto (System Default)' }
-                </TooltipContent>
-              </Tooltip>
-              
-             
-            </div>
+          <div className="fixed  w-full">
+          <FloatingNav navItems={navItems} />
           </div>
           <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
         </header>
       );
     }
+
+    
+    

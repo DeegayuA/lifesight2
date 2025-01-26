@@ -6,7 +6,8 @@ import { useSettings } from "@/components/settings-provider";
 
 export const BackgroundBeams = React.memo(
   ({ className }: { className?: string }) => {
-    const { reducedMotion, highContrast } = useSettings();
+    const { reducedMotion, fontSize, accentColor, highContrast } = useSettings();
+    const lineColor = accentColor || 'var(--accent-color)';  // Use system accent color or fallback
     const paths = [
       "M-380 -189C-380 -189 -312 216 152 343C616 470 684 875 684 875",
       "M-373 -197C-373 -197 -305 208 159 335C623 462 691 867 691 867",
@@ -59,15 +60,33 @@ export const BackgroundBeams = React.memo(
       "M-44 -573C-44 -573 24 -168 488 -41C952 86 1020 491 1020 491",
       "M-37 -581C-37 -581 31 -176 495 -49C959 78 1027 483 1027 483",
     ];
+
+    const motionProps = reducedMotion
+      ? {} // No animation if reduced motion is enabled
+      : {
+        animate: {
+          pathLength: [0, 1], // Example animation, adjust as needed
+          transition: {
+            duration: 5, // Customize the animation duration
+            ease: "easeInOut",
+            repeat: Infinity, // Repeat animation (optional)
+          },
+        },
+      };
+
     return (
       <div
         className={cn(
-          "absolute  h-full w-full inset-0  [mask-size:40px] [mask-repeat:no-repeat] flex items-center justify-center",
-          className
+          "absolute h-full w-full inset-0 flex items-center justify-center",
+          highContrast ? "text-black" : "text-initial"
         )}
+        style={{
+          fontSize: fontSize || '16px', // Dynamically adjust font size
+          color: highContrast ? 'white' : accentColor || 'initial', // High contrast or accent color
+        }}
       >
         <svg
-          className=" z-0 h-full w-full pointer-events-none absolute "
+          className="z-0 h-full w-full pointer-events-none absolute"
           width="100%"
           height="100%"
           viewBox="0 0 696 316"
@@ -81,38 +100,31 @@ export const BackgroundBeams = React.memo(
             strokeWidth="0.5s"
           ></path>
 
+          {/* Animated paths */}
           {paths.map((path, index) => (
             <motion.path
               key={`path-` + index}
               d={path}
-              stroke={`url(#linearGradient-${index})`}
-              strokeOpacity="0.4"
+              stroke={lineColor}
+              strokeOpacity={highContrast ? "1" : "0.6"}
               strokeWidth="0.5"
-            ></motion.path>
-          ))}
-          {/* Dynamic Paths */}
-          {paths.map((path, index) => (
-            <motion.path
-              key={`path-` + index}
-              d={path}
-              stroke={`url(#linearGradient-${index})`}
-              strokeOpacity={highContrast ? "1" : "0.4"}
-              strokeWidth="0.5"
-              initial={{ opacity: reducedMotion ? 1 : 0 }}
+              initial={{
+                opacity: reducedMotion ? 1 : 0,
+                pathLength: reducedMotion ? 1 : 0
+              }}
               animate={{
-                opacity: 1,
+                opacity: reducedMotion ? 1 : 1,
                 pathLength: reducedMotion ? 1 : [0, 1],
               }}
               transition={{
                 duration: reducedMotion ? 0 : Math.random() * 10 + 10,
                 ease: "easeInOut",
                 repeat: reducedMotion ? 0 : Infinity,
-                delay: Math.random() * 10,
+                delay: reducedMotion ? 0 : Math.random() * 10,
               }}
-            ></motion.path>
+            />
           ))}
 
-          {/* Gradient Definitions */}
           <defs>
             {paths.map((path, index) => (
               <motion.linearGradient
@@ -125,42 +137,30 @@ export const BackgroundBeams = React.memo(
                   y2: "0%",
                 }}
                 animate={{
-                  x1: ["0%", "100%"],
-                  x2: ["0%", "95%"],
-                  y1: ["0%", "100%"],
-                  y2: ["0%", `${93 + Math.random() * 8}%`],
+                  x1: reducedMotion ? "0%" : ["0%", "100%"],
+                  x2: reducedMotion ? "0%" : ["0%", "95%"],
+                  y1: reducedMotion ? "0%" : ["0%", "100%"],
+                  y2: reducedMotion ? "0%" : ["0%", `${93 + Math.random() * 8}%`],
                 }}
                 transition={{
-                  duration: Math.random() * 10 + 10,
+                  duration: reducedMotion ? 0 : Math.random() * 10 + 10,
                   ease: "easeInOut",
-                  repeat: Infinity,
-                  delay: Math.random() * 10,
+                  repeat: reducedMotion ? 0 : Infinity,
+                  delay: reducedMotion ? 0 : Math.random() * 10,
                 }}
               >
-                <stop stopColor="#18CCFC" stopOpacity="0"></stop>
-                <stop stopColor="#18CCFC"></stop>
-                <stop offset="32.5%" stopColor="#6344F5"></stop>
-                <stop offset="100%" stopColor="#AE48FF" stopOpacity="0"></stop>
+                <stop stopColor="#18CCFC" stopOpacity="0" />
+                <stop stopColor="#18CCFC" />
+                <stop offset="32.5%" stopColor="#6344F5" />
+                <stop offset="100%" stopColor="#AE48FF" stopOpacity="0" />
               </motion.linearGradient>
             ))}
-
-            <radialGradient
-              id="paint0_radial_242_278"
-              cx="0"
-              cy="0"
-              r="1"
-              gradientUnits="userSpaceOnUse"
-              gradientTransform="translate(352 34) rotate(90) scale(555 1560.62)"
-            >
-              <stop offset="0.0666667" stopColor="var(--neutral-300)"></stop>
-              <stop offset="0.243243" stopColor="var(--neutral-300)"></stop>
-              <stop offset="0.43594" stopColor="white" stopOpacity="0"></stop>
-            </radialGradient>
           </defs>
         </svg>
       </div>
     );
   }
 );
+
 
 BackgroundBeams.displayName = "BackgroundBeams";

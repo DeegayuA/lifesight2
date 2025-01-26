@@ -38,18 +38,18 @@ export function FeaturesSectionDemo() {
                 "Explore in-depth video tutorials and resources about LifeSight on platforms like YouTube to maximize your experience.",
             skeleton: <SkeletonThree />,
             className:
-                "col-span-1 lg:col-span-5 lg:border-r border-b dark:border-neutral-600",
+                "col-span-1 lg:col-span-5 lg:border-r sm:border-b dark:border-neutral-600 md:border-b-0"
         },
         {
             title: "Rapid and Scalable Deployment",
             description:
                 "Our solution is designed for quick and scalable deployment, ensuring accessibility for users across the globe.",
             skeleton: <SkeletonFour />,
-            className: "col-span-1 lg:col-span-3 border-b lg:border-none",
+            className: "col-span-1 lg:col-span-3 lg:border-none dark:border-neutral-600",
         },
     ];
     return (
-        <div className="relative z-20 py-10 lg:py-20 max-w-7xl mx-auto">
+        <div className="relative z-20 py-8 lg:py-5 max-w-7xl mx-auto">
             <div className="px-8">
                 <h4 className={cn("text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white", playfairDisplay.className)} style={{ fontSize: `${fontSize / 16 * 1.875}rem`, lineHeight, letterSpacing: `${letterSpacing}px` }}>
                     Packed with Accessibility-Driven Features
@@ -61,7 +61,7 @@ export function FeaturesSectionDemo() {
             </div>
 
             <div className="relative ">
-                <div className="grid grid-cols-1 lg:grid-cols-8 mt-12 xl:border rounded-md dark:border-neutral-800">
+                <div className="grid grid-cols-1 lg:grid-cols-8 mt-12 xl:border rounded-md dark:border-neutral-600">
                     {features.map((feature) => (
                         <FeatureCard key={feature.title} className={feature.className}>
                             <FeatureTitle style={{ fontSize: `${fontSize / 16 * 1.25}rem`, lineHeight, letterSpacing: `${letterSpacing}px` }}>{feature.title}</FeatureTitle>
@@ -155,8 +155,8 @@ export const SkeletonThree = () => {
                         className={cn(
                             "h-full w-full aspect-video object-cover object-center rounded-sm transition-all duration-500",
                             reducedMotion ? "transition-none blur-none group-hover/image:blur-none" : "group-hover/image:blur-md"
-                          )}
-                                              />
+                        )}
+                    />
                 </div>
             </div>
         </Link>
@@ -253,113 +253,113 @@ const hexToRgbArray = (hex: string): [number, number, number] => {
     const r = parseInt(hex.substring(0, 2), 16) / 255;
     const g = parseInt(hex.substring(2, 4), 16) / 255;
     const b = parseInt(hex.substring(4, 6), 16) / 255;
-    return [r, g, b];  
-  };
-  
+    return [r, g, b];
+};
+
 
 export const Globe = ({ className }: { className?: string, reducedMotion?: boolean }) => {
     const { reducedMotion, accentColor } = useSettings();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const pointerInteracting = useRef<number | null>(null);
     const pointerInteractionMovement = useRef<number>(0);
-  
+
     const [{ r }, api] = useSpring(() => ({
-      r: 0,
-      config: {
-        mass: 1,
-        tension: 280,
-        friction: 60,
-        precision: 0.001,
-      },
+        r: 0,
+        config: {
+            mass: 1,
+            tension: 280,
+            friction: 60,
+            precision: 0.001,
+        },
     }));
-  
+
     useEffect(() => {
-      let phi = 15.5;
-      let width = 0;
-      const isSmallDevice = window.innerWidth <= 768;
-      let globe: any = null; // To store the globe instance
-  
-      const onResize = () => {
-        if (canvasRef.current) {
-          width = canvasRef.current.offsetWidth;
-          // Recreate the globe with the updated size
-          if (globe) globe.destroy();
-          globe = createGlobe(canvasRef.current!, {
-            devicePixelRatio: 2,
-            width: width * 2,
-            height: width * 2,
-            phi: 15.5,
-            theta: 0.2,
-            dark: document.documentElement?.style.colorScheme === 'dark' ? 1 : 0,
-            diffuse: 4,
-            mapSamples: isSmallDevice ? 16000 : 64000,
-            mapBrightness: document.documentElement?.style.colorScheme === 'dark' ? 10 : 1,
-            baseColor: document.documentElement?.style.colorScheme === 'dark' ? hexToRgbArray(accentColor) : [0.5, 0.5, 0.5],
-            markerColor: accentColor ? hexToRgbArray(accentColor) : [1, 0.4, 0],
-            glowColor: document.documentElement?.style.colorScheme === 'dark' ? [0.2, 0.2, 0.2] : [0.5, 0.5, 0.5],
-            markers: [
-              { location: [40.7128, -74.006], size: 0.05 }, // New York
-              { location: [51.5074, -0.1278], size: 0.05 }, // London
-              { location: [-33.8688, 151.2093], size: 0.05 }, // Sydney
-              { location: [19.076, 72.8777], size: 0.05 }, // Mumbai
-              { location: [39.9042, 116.4074], size: 0.05 }, // Beijing
-              { location: [6.9271, 79.8612], size: 0.1 }, // Colombo
-            ],
-            onRender: (state) => {
-              state.phi = phi + r.get();
-              if (!reducedMotion) {
-                phi += 0.0005;
-              }
-            },
-          });
-        }
-      };
-  
-      // Initial resize call
-      onResize();
-      window.addEventListener('resize', onResize);
-  
-      return () => {
-        if (globe) globe.destroy();
-        window.removeEventListener('resize', onResize);
-      };
+        let phi = 15.5;
+        let width = 0;
+        const isSmallDevice = window.innerWidth <= 768;
+        let globe: any = null; // To store the globe instance
+
+        const onResize = () => {
+            if (canvasRef.current) {
+                width = canvasRef.current.offsetWidth;
+                // Recreate the globe with the updated size
+                if (globe) globe.destroy();
+                globe = createGlobe(canvasRef.current!, {
+                    devicePixelRatio: 2,
+                    width: width * 2,
+                    height: width * 2,
+                    phi: 15.5,
+                    theta: 0.2,
+                    dark: document.documentElement?.style.colorScheme === 'dark' ? 1 : 0,
+                    diffuse: 4,
+                    mapSamples: isSmallDevice ? 16000 : 64000,
+                    mapBrightness: document.documentElement?.style.colorScheme === 'dark' ? 10 : 1,
+                    baseColor: document.documentElement?.style.colorScheme === 'dark' ? hexToRgbArray(accentColor) : [0.5, 0.5, 0.5],
+                    markerColor: accentColor ? hexToRgbArray(accentColor) : [1, 0.4, 0],
+                    glowColor: document.documentElement?.style.colorScheme === 'dark' ? [0.2, 0.2, 0.2] : [0.5, 0.5, 0.5],
+                    markers: [
+                        { location: [40.7128, -74.006], size: 0.05 }, // New York
+                        { location: [51.5074, -0.1278], size: 0.05 }, // London
+                        { location: [-33.8688, 151.2093], size: 0.05 }, // Sydney
+                        { location: [19.076, 72.8777], size: 0.05 }, // Mumbai
+                        { location: [39.9042, 116.4074], size: 0.05 }, // Beijing
+                        { location: [6.9271, 79.8612], size: 0.1 }, // Colombo
+                    ],
+                    onRender: (state) => {
+                        state.phi = phi + r.get();
+                        if (!reducedMotion) {
+                            phi += 0.0005;
+                        }
+                    },
+                });
+            }
+        };
+
+        // Initial resize call
+        onResize();
+        window.addEventListener('resize', onResize);
+
+        return () => {
+            if (globe) globe.destroy();
+            window.removeEventListener('resize', onResize);
+        };
     }, [r, reducedMotion, accentColor]);
-  
+
     const handlePointerDown = (event: React.PointerEvent) => {
-      pointerInteracting.current = event.clientX;
-      api.stop();
-    };
-  
-    const handlePointerMove = (event: React.PointerEvent) => {
-      if (pointerInteracting.current !== null) {
-        const delta = event.clientX - pointerInteracting.current;
         pointerInteracting.current = event.clientX;
-        pointerInteractionMovement.current += delta;
-        api.start({ r: pointerInteractionMovement.current / 200 });
-      }
+        api.stop();
     };
-  
+
+    const handlePointerMove = (event: React.PointerEvent) => {
+        if (pointerInteracting.current !== null) {
+            const delta = event.clientX - pointerInteracting.current;
+            pointerInteracting.current = event.clientX;
+            pointerInteractionMovement.current += delta;
+            api.start({ r: pointerInteractionMovement.current / 200 });
+        }
+    };
+
     const handlePointerUp = () => {
-      pointerInteracting.current = null;
-      api.start({ r: 0 });
+        pointerInteracting.current = null;
+        api.start({ r: 0 });
     };
-  
+
     const width = window.innerWidth <= 564 ? '100%' : window.innerWidth <= 768 ? '100%' : window.innerWidth <= 1024 ? '10%' : '170%';
 
     return (
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: width,
-          height: 'auto',
-          aspectRatio: 1,
-          cursor: 'grab',
-        }}
-        className={className}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-      />
+        <canvas
+            ref={canvasRef}
+            style={{
+                width: width,
+                height: 'auto',
+                aspectRatio: 1,
+                cursor: 'grab',
+            }}
+            className={className}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerLeave={handlePointerUp}
+        />
     );
 };

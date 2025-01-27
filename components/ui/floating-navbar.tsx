@@ -14,6 +14,8 @@ import { ACCENT_COLORS } from "@/lib/constants";
 import { useSettings } from "../settings-provider";
 import { SettingsPanel } from "../settings-panel";
 import { useTheme } from "next-themes";
+import { IconUser } from '@tabler/icons-react';
+
 
 export const FloatingNav = ({
     navItems,
@@ -86,7 +88,7 @@ export const FloatingNav = ({
                     opacity: 1,
                 }}
                 className={cn(
-                    "flex max-w-fit fixed top-5 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-lg z-[5000] pr-2 pl-8 py-2 items-center justify-center space-x-4",
+                    "flex max-w-fit fixed top-5 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-lg z-[5000] pr-2 pl-2 py-1 items-center justify-center space-x-4",
                     className
                 )}
                 style={{ backgroundColor: accentColor }}
@@ -99,15 +101,7 @@ export const FloatingNav = ({
                             fontSize: `${(fontSize / 16) * 1.25}rem`,
                         }}
                     >
-                        LifeSight_v0.3.3
-                    </span>
-                    <span
-                        className="font-bold text-xl sm:hidden pt-2"
-                        style={{
-                            fontSize: `${(fontSize / 16) * 1}rem`,
-                        }}
-                    >
-                        LifeSight
+                        LifeSight_v0.3.4
                     </span>
                 </Link>
                 {navItems.map((navItem: any, idx: number) => (
@@ -125,56 +119,61 @@ export const FloatingNav = ({
                         </span>
                     </Link>
                 ))}
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setSettingsOpen(true)}
-                            style={{
-                                height: `${(fontSize / 16) * 2.5}rem`,
-                                width: `${(fontSize / 16) * 2.5}rem`,
-                            }}
-                        >
-                            <Settings className="h-5 w-5" />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom" align="center">
-                        {"Settings"}
-                    </TooltipContent>
-                </Tooltip>
-                <SettingsPanel
-                    open={settingsOpen}
-                    onOpenChange={setSettingsOpen}
-                />
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={handleThemeChange}
-                            style={{
-                                height: `${(fontSize / 16) * 2.5}rem`,
-                                width: `${(fontSize / 16) * 2.5}rem`,
-                            }}
-                        >
-                            {theme === "light" ? (
-                                <Moon className="h-5 w-5" />
-                            ) : theme === "dark" ? (
-                                <Sun className="h-5 w-5" />
-                            ) : (
-                                <SunMoon className="h-5 w-5" />
-                            )}
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom" align="center">
-                        {theme === "light"
-                            ? "Switch to Dark Mode"
-                            : theme === "dark"
-                                ? "Switch to Light Mode"
-                                : "Theme Auto (System Default)"}
-                    </TooltipContent>
-                </Tooltip>
+                <div className="h-8 w-px dark:bg-white bg-black"></div>
+                <div className="m-0!important">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => setSettingsOpen(true)}
+                                style={{
+                                    height: `${(fontSize / 16) * 2.5}rem`,
+                                    width: `${(fontSize / 16) * 2.5}rem`,
+                                    margin: '0 !important',
+                                }}
+                            >
+                                <Settings className="h-5 w-5" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom" align="center">
+                            {"Settings"}
+                        </TooltipContent>
+                    </Tooltip>
+                    <SettingsPanel
+                        open={settingsOpen}
+                        onOpenChange={setSettingsOpen}
+                    />
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={handleThemeChange}
+                                style={{
+                                    height: `${(fontSize / 16) * 2.5}rem`,
+                                    width: `${(fontSize / 16) * 2.5}rem`,
+                                    margin: '0 !important',
+                                }}
+                            >
+                                {theme === "light" ? (
+                                    <Moon className="h-5 w-5" />
+                                ) : theme === "dark" ? (
+                                    <Sun className="h-5 w-5" />
+                                ) : (
+                                    <SunMoon className="h-5 w-5" />
+                                )}
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom" align="center">
+                            {theme === "light"
+                                ? "Switch to Dark Mode"
+                                : theme === "dark"
+                                    ? "Switch to Light Mode"
+                                    : "Theme Auto (System Default)"}
+                        </TooltipContent>
+                    </Tooltip>
+                </div>
                 <div className="hidden sm:block">
                     <Tooltip>
                         <TooltipTrigger asChild>
@@ -185,6 +184,7 @@ export const FloatingNav = ({
                                 style={{
                                     height: `${(fontSize / 16) * 2.5}rem`,
                                     width: `${(fontSize / 16) * 2.5}rem`,
+                                    margin: '0 !important',
                                 }}
                             >
                                 <Contrast className="h-5 w-5" />
@@ -197,14 +197,25 @@ export const FloatingNav = ({
                         </TooltipContent>
                     </Tooltip>
                 </div>
+                <div className="h-8 w-px dark:bg-white bg-black"></div>
+
                 <Button
-                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
                     variant="link"
                     size="sm"
                 >
-                    <span>Login</span>
-                    <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent  h-px" />
+                    {/* Show text on larger screens */}
+                    <span className="hidden sm:inline">Login</span>
+
+                    {/* Show icon on smaller screens */}
+                    <span className="sm:hidden">
+                        <IconUser className="h-5 w-5 text-black dark:text-white" />
+                    </span>
+
+                    {/* Decorative underline */}
+                    <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
                 </Button>
+
             </motion.div>
         </AnimatePresence>
     );

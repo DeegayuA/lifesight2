@@ -9,20 +9,18 @@ import { useAIResponse } from '@/hooks/use-ai-response';
 import { AIResponseDisplay } from '@/components/ai-response-display';
 import { useLanguage } from '@/components/language-provider';
 import { cn } from '@/lib/utils';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useSettings } from '@/components/settings-provider';
 import { SettingsPanel } from '@/components/settings-panel';
 import Link from 'next/link';
 import { useSpeech } from '@/hooks/use-speech';
+import { useSearchParams } from "next/navigation";
+
+
 
 export function MainInterface() {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicOn, setIsMicOn] = useState(false);
-  const [textInput, setTextInput] = useState('');
   const [selectedCamera, setSelectedCamera] = useState<string>('');
   const [selectedMic, setSelectedMic] = useState<string>('');
   const [devices, setDevices] = useState<{ cameras: MediaDeviceInfo[], mics: MediaDeviceInfo[] }>({
@@ -31,7 +29,8 @@ export function MainInterface() {
   });
   const [micPausedForPlayback, setMicPausedForPlayback] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-
+  const searchParams = useSearchParams();
+  const [textInput, setTextInput] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const { isLoading, response, getResponse } = useAIResponse();
@@ -39,6 +38,7 @@ export function MainInterface() {
   const recognitionRef = useRef<any | null>(null);
   const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
   const { fontSize, lineHeight, letterSpacing, accentColor } = useSettings();
+  const [loading, setLoading] = useState(true); // Add loading state
   const { speak, stop: stopSpeaking, isPlaying: isSpeechPlaying } = useSpeech({
     onStart: () => {
       if (isMicOn) {
@@ -68,12 +68,12 @@ export function MainInterface() {
         const cameras = devices.filter(device => device.kind === 'videoinput');
         const mics = devices.filter(device => device.kind === 'audioinput');
         setDevices({ cameras, mics });
-  
+
         // Attempt to select the back camera first using facingMode constraint
         const constraints = {
           video: { facingMode: { exact: 'environment' } }
         };
-  
+
         let stream = null;
         try {
           stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -92,7 +92,7 @@ export function MainInterface() {
             stream.getTracks().forEach(track => track.stop());
           }
         }
-  
+
         if (mics.length) {
           setSelectedMic(mics[0].deviceId);
         }
@@ -100,21 +100,22 @@ export function MainInterface() {
         console.error('Error getting devices:', error);
       }
     }
-  
+
     getDevices();
   }, []);
-  
 
   useEffect(() => {
-    const startMedia = async () => {
-      await toggleCamera(true);
-      await toggleMic(true);
-    };
-
+    async function startMedia() {
+      if (devices.cameras.length > 0 && devices.mics.length > 0) {
+        await toggleCamera(true);  // Turn on camera immediately
+        await toggleMic(true);  // Turn on mic immediately
+      }
+    }
     startMedia();
-  }, []);
+  }, [devices]);  // Trigger when devices have been detected
 
   const toggleCamera = async (forceOn: boolean = false) => {
+    if (loading) return;
     try {
       if (isCameraOn || forceOn) {
         if (mediaStreamRef.current) {
@@ -140,6 +141,7 @@ export function MainInterface() {
   };
 
   const toggleMic = async (forceOn: boolean = false) => {
+    if (loading) return;
     try {
       if (isMicOn && !forceOn) {
         if (mediaStreamRef.current) {
@@ -164,6 +166,7 @@ export function MainInterface() {
     }
   };
 
+
   const captureImage = async (): Promise<string | null> => {
     if (!videoRef.current) return null;
 
@@ -175,14 +178,6 @@ export function MainInterface() {
 
     ctx.drawImage(videoRef.current, 0, 0);
     return canvas.toDataURL('image/jpeg').split(',')[1];
-  };
-
-  const handleSubmit = async () => {
-    if (!textInput.trim()) return;
-
-    const imageBase64 = isCameraOn ? await captureImage() : undefined;
-    await getResponse(textInput, typeof imageBase64 === 'string' ? imageBase64 : undefined);
-    setTextInput('');
   };
 
   const handleResponseEnd = () => {
@@ -362,6 +357,36 @@ export function MainInterface() {
     }
   };
 
+
+  useEffect(() => {
+    const handlePageLoad = () => {
+      const input = searchParams.get("input");
+      if (input) {
+        setTextInput(input);  // Set the input field with the query parameter
+        handleSubmit();  // Automatically call handleSubmit
+      }
+      setLoading(false);  // Set loading to false when the page is fully loaded
+    };
+
+    if (document.readyState === "complete") {
+      handlePageLoad();
+    } else {
+      window.addEventListener("load", handlePageLoad);
+      return () => {
+        window.removeEventListener("load", handlePageLoad);
+      };
+    }
+  }, [searchParams]);
+
+  // Modify handleSubmit to ensure proper submission after loading
+  const handleSubmit = async () => {
+    if (loading) return;  // Prevent submission if still loading
+    if (!textInput.trim()) return;
+    const imageBase64 = isCameraOn ? await captureImage() : undefined;
+    await getResponse(textInput, typeof imageBase64 === 'string' ? imageBase64 : undefined);
+    setTextInput('');
+  };
+  
   return (
     <div className="flex w-100 flex-col space-y-4 my-4" style={{ fontSize: `${fontSize / 16}rem`, lineHeight, letterSpacing: `${letterSpacing}px` }}>
       {/* Video Preview - 50vh max */}
@@ -479,14 +504,19 @@ export function MainInterface() {
             onChange={(e) => setTextInput(e.target.value)}
             placeholder="Type your question or command..."
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 handleSubmit();
               }
             }}
             className="flex-1"
           />
-          <Button className="w-10 h-10" variant="accent" onClick={handleSubmit} style={{ backgroundColor: accentColor }}>
-            <Send className="w-8 h-8" />
+          <Button
+            className="w-10 h-10"
+            variant="accent"
+            onClick={handleSubmit}
+            style={{ backgroundColor: accentColor }}
+          >
+            <Send className="w-10 h-10" />
           </Button>
         </div>
       </div>

@@ -173,6 +173,11 @@ export function PlaceholdersAndVanishInput({
     e.preventDefault();
     vanishAndSubmit();
     onSubmit && onSubmit(e);
+  
+    if (inputRef.current?.value) {
+      const submittedValue = inputRef.current.value;
+      window.location.href = `/app?input=${encodeURIComponent(submittedValue)}`;
+    }
   };
   return (
     <form

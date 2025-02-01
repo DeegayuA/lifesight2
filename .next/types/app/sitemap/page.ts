@@ -1,4 +1,4 @@
-// File: /Users/deeghayuadhikari/Documents/LifeSight/app/sitemap/page.tsx
+// File: C:\Users\atldi\OneDrive\Documents\GitHub\lifesight2\app\sitemap\page.tsx
 import * as entry from '../../../../app/sitemap/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

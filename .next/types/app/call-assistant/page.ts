@@ -1,4 +1,4 @@
-// File: /Users/deeghayuadhikari/Documents/LifeSight/app/call-assistant/page.tsx
+// File: C:\Users\atldi\OneDrive\Documents\GitHub\lifesight2\app\call-assistant\page.tsx
 import * as entry from '../../../../app/call-assistant/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

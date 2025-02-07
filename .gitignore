@@ -24,5 +24,15 @@ package-lock.json
 *.sln
 *.sw?
 
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
 # prisma
 /prisma/migrations
+
+# Bold.net
+.bolt

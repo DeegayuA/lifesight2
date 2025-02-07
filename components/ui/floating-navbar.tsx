@@ -15,12 +15,13 @@ import { useSettings } from "../settings-provider";
 import { SettingsPanel } from "../settings-panel";
 import { useTheme } from "next-themes";
 import { IconUser } from '@tabler/icons-react';
+import {fetchApi} from "@/app/core/api.handler";
 
 
 export const FloatingNav = ({
-    navItems,
-    className,
-}: {
+                                navItems,
+                                className,
+                            }: {
     navItems: {
         name: string;
         link: string;
@@ -77,6 +78,23 @@ export const FloatingNav = ({
             }
         }
     };
+
+    const createAdmin = async () => {
+        const data = {
+            email: 'test@gmail.com',
+            password: "pwd",
+        }
+        try {
+            const response = await fetchApi('api/admin/create', 'POST', {
+                // Your data here, e.g., id, name, etc.
+                email: data.email,
+                password: data.password,
+            })
+            console.log( response, 'Admin created')
+        } catch (e) {
+            console.log(e, "Admin creation error")
+        }
+    }
 
     return (
         <AnimatePresence mode="wait">
@@ -198,6 +216,7 @@ export const FloatingNav = ({
                     </Tooltip>
                 </div>
                 <div className="h-8 w-px dark:bg-white bg-black"></div>
+                <button onClick={() => createAdmin()}>Admin</button>
 
                 <Button
                     className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"

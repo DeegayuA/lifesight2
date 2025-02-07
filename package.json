@@ -6,12 +6,15 @@
             "dev": "next dev",
             "build": "next build",
             "start": "next start",
-            "lint": "next lint"
+            "lint": "next lint",
+            "prisma:reset-migrations": "rm -rf prisma/migrations/* && npm run prisma:migrate",
+            "prisma:migrate": "prisma migrate dev --name lifesight"
       },
       "dependencies": {
             "@google/generative-ai": "^0.2.0",
             "@hookform/resolvers": "^3.9.0",
             "@next/swc-wasm-nodejs": "15.1.5",
+            "@prisma/client": "^6.3.1",
             "@radix-ui/react-accordion": "^1.2.0",
             "@radix-ui/react-alert-dialog": "^1.1.1",
             "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -42,6 +45,8 @@
             "@radix-ui/themes": "^3.1.6",
             "@react-spring/web": "^9.7.5",
             "@tabler/icons-react": "^3.29.0",
+            "@types/node": "20.6.2",
+            "@types/react": "18.2.22",
             "@types/react-dom": "18.2.7",
             "@vercel/analytics": "^1.4.1",
             "@vercel/speed-insights": "^1.1.0",
@@ -61,6 +66,7 @@
             "next": "15.1.5",
             "next-themes": "^0.3.0",
             "postcss": "^8.5.1",
+            "prisma": "^6.3.1",
             "react": "18.2.0",
             "react-day-picker": "^8.10.1",
             "react-dom": "18.2.0",
@@ -71,12 +77,8 @@
             "tailwind-merge": "^2.6.0",
             "tailwindcss": "3.3.3",
             "tailwindcss-animate": "^1.0.7",
+            "typescript": "5.2.2",
             "vaul": "^0.9.9",
             "zod": "^3.23.8"
-      },
-      "devDependencies": {
-            "@types/node": "^22.13.0",
-            "@types/react": "^18.3.18",
-            "typescript": "^5.7.3"
       }
 }

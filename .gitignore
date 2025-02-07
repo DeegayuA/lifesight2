@@ -31,8 +31,5 @@ package-lock.json
 # production
 /build
 
-# prisma
-/prisma/migrations
-
 # Bold.net
 .bolt

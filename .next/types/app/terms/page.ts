@@ -1,4 +1,4 @@
-// File: C:\Users\atldi\OneDrive\Documents\GitHub\lifesight2\app\terms\page.tsx
+// File: /Users/nipun/Economicaly Released Project/lifesight2/app/terms/page.tsx
 import * as entry from '../../../../app/terms/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

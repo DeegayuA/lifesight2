@@ -14,8 +14,8 @@ import { ACCENT_COLORS } from "@/lib/constants";
 import { useSettings } from "../settings-provider";
 import { SettingsPanel } from "../settings-panel";
 import { useTheme } from "next-themes";
-import { IconUser } from '@tabler/icons-react';
-import {fetchApi} from "@/app/core/api.handler";
+import {IconUser, IconUserX} from '@tabler/icons-react';
+import {useRouter} from "next/navigation";
 
 
 export const FloatingNav = ({
@@ -39,6 +39,7 @@ export const FloatingNav = ({
     } = useSettings();
     const [settingsOpen, setSettingsOpen] = useState(false);
     const { setTheme, theme } = useTheme();
+    const router = useRouter()
 
     const handleThemeChange = () => {
         let newTheme: "system" | "dark" | "light";
@@ -78,23 +79,6 @@ export const FloatingNav = ({
             }
         }
     };
-
-    const createAdmin = async () => {
-        const data = {
-            email: 'test@gmail.com',
-            password: "pwd",
-        }
-        try {
-            const response = await fetchApi('api/admin/create', 'POST', {
-                // Your data here, e.g., id, name, etc.
-                email: data.email,
-                password: data.password,
-            })
-            console.log( response, 'Admin created')
-        } catch (e) {
-            console.log(e, "Admin creation error")
-        }
-    }
 
     return (
         <AnimatePresence mode="wait">
@@ -216,19 +200,36 @@ export const FloatingNav = ({
                     </Tooltip>
                 </div>
                 <div className="h-8 w-px dark:bg-white bg-black"></div>
-                <button onClick={() => createAdmin()}>Admin</button>
 
                 <Button
                     className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
                     variant="link"
                     size="sm"
+                    onClick={() => router.push('/volunteer/login')}
                 >
                     {/* Show text on larger screens */}
-                    <span className="hidden sm:inline">Login</span>
+                    <span className="hidden sm:inline">Volunteer Login</span>
 
                     {/* Show icon on smaller screens */}
                     <span className="sm:hidden">
                         <IconUser className="h-5 w-5 text-black dark:text-white" />
+                    </span>
+
+                    {/* Decorative underline */}
+                    <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
+                </Button>
+                <Button
+                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
+                    variant="link"
+                    size="sm"
+                    onClick={() => router.push('/admin/login')}
+                >
+                    {/* Show text on larger screens */}
+                    <span className="hidden sm:inline">Admin Login</span>
+
+                    {/* Show icon on smaller screens */}
+                    <span className="sm:hidden">
+                        <IconUserX className="h-5 w-5 text-black dark:text-white" />
                     </span>
 
                     {/* Decorative underline */}

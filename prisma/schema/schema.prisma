@@ -25,3 +25,14 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model contact {
+  id        String   @id @unique @default(uuid()) @map("_id")
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

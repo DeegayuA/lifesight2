@@ -12,10 +12,8 @@ import {
 } from "@/components/ui/tooltip";
 import { ACCENT_COLORS } from "@/lib/constants";
 import { useSettings } from "../settings-provider";
-import { SettingsPanel } from "../settings-panel";
 import { useTheme } from "next-themes";
 import { IconUser } from '@tabler/icons-react';
-
 
 export const FloatingNav = ({
     navItems,
@@ -23,72 +21,32 @@ export const FloatingNav = ({
 }: {
     navItems: {
         name: string;
-        link: string;
+        link?: string;
+        onClick?: () => void;
         icon?: JSX.Element;
+        tooltip?: string; // Tooltip text
+        hideOnMd?: boolean; // New prop to hide nav item on larger screens
     }[];
     className?: string;
 }) => {
     const {
         accentColor,
         fontSize,
-        reducedMotion,
-        highContrast,
-        setHighContrast,
         setAccentColor,
     } = useSettings();
     const [settingsOpen, setSettingsOpen] = useState(false);
     const { setTheme, theme } = useTheme();
 
-    const handleThemeChange = () => {
-        let newTheme: "system" | "dark" | "light";
-        if (theme === "light") {
-            newTheme = "dark";
-        } else if (theme === "dark") {
-            newTheme = "system";
-        } else {
-            newTheme = "light";
-        }
-        setTheme(newTheme);
-
-        const html = document.querySelector("html");
-        if (html) {
-            let mode = newTheme === "light" ? "lightMode" : "darkMode";
-            if (newTheme === "system") {
-                if (
-                    html.style.colorScheme === "light" ||
-                    html.classList.contains("light")
-                ) {
-                    mode = "lightMode";
-                } else {
-                    mode = "darkMode";
-                }
-            }
-            const currentAccent = ACCENT_COLORS.find(
-                (color) =>
-                    color.lightMode === accentColor ||
-                    color.darkMode === accentColor
-            );
-            if (currentAccent) {
-                setAccentColor(currentAccent[mode as "lightMode" | "darkMode"]);
-            } else {
-                setAccentColor(
-                    ACCENT_COLORS[5][mode as "lightMode" | "darkMode"]
-                );
-            }
-        }
-    };
+    // Calculate dynamic font size
+    const dynamicFontSize = `${(fontSize / 16) * 1}rem`;
 
     return (
         <AnimatePresence mode="wait">
             <motion.div
-                initial={{
-                    opacity: 1,
-                }}
-                animate={{
-                    opacity: 1,
-                }}
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
                 className={cn(
-                    "flex max-w-fit fixed top-5 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-lg z-[5000] pr-2 pl-2 py-1 items-center justify-center space-x-4",
+                    "flex max-w-fit fixed top-7 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-lg z-[5000] pr-2 pl-2 py-1 items-center justify-center",
                     className
                 )}
                 style={{ backgroundColor: accentColor }}
@@ -97,125 +55,73 @@ export const FloatingNav = ({
                     <span className="text-2xl hidden sm:inline pt-2">👓</span>
                     <span
                         className="font-bold text-xl hidden sm:inline pt-2"
-                        style={{
-                            fontSize: `${(fontSize / 16) * 1.25}rem`,
-                        }}
+                        style={{ fontSize: dynamicFontSize }}
                     >
-                        LifeSight_v0.3.4
+                        LifeSight_v0.3.5
                     </span>
                 </Link>
-                {navItems.map((navItem: any, idx: number) => (
-                    <Link
-                        key={`link=${idx}`}
-                        href={navItem.link}
-                        className={cn(
-                            "relative items-center flex space-x-0",
-                            "bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground"
-                        )}
-                    >
-                        <span className="block sm:hidden">{navItem.icon}</span>
-                        <span className="hidden sm:block text-sm">
-                            {navItem.name}
-                        </span>
-                    </Link>
-                ))}
-                <div className="h-8 w-px dark:bg-white bg-black"></div>
-                <div className="m-0!important">
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => setSettingsOpen(true)}
-                                style={{
-                                    height: `${(fontSize / 16) * 2.5}rem`,
-                                    width: `${(fontSize / 16) * 2.5}rem`,
-                                    margin: '0 !important',
-                                }}
-                            >
-                                <Settings className="h-5 w-5" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom" align="center">
-                            {"Settings"}
-                        </TooltipContent>
-                    </Tooltip>
-                    <SettingsPanel
-                        open={settingsOpen}
-                        onOpenChange={setSettingsOpen}
-                    />
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={handleThemeChange}
-                                style={{
-                                    height: `${(fontSize / 16) * 2.5}rem`,
-                                    width: `${(fontSize / 16) * 2.5}rem`,
-                                    margin: '0 !important',
-                                }}
-                            >
-                                {theme === "light" ? (
-                                    <Moon className="h-5 w-5" />
-                                ) : theme === "dark" ? (
-                                    <Sun className="h-5 w-5" />
+
+                {navItems.map((navItem, idx) => (
+                    <div key={`nav-item-${idx}`} className={navItem.hideOnMd ? "sm:hidden" : ""}>
+                        <Tooltip>
+                            {/* This Tooltip will only be visible on 'md' and larger devices */}
+                            <TooltipTrigger asChild>
+                                {navItem.link ? (
+                                    <Link
+                                        key={`nav-item-${idx}`}
+                                        href={navItem.link}
+                                        className={cn(
+                                            "relative items-center flex space-x-0 px-3 py-2",
+                                            "bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground",
+                                            navItem.hideOnMd && "md:hidden" // Hide on medium screens
+                                        )}
+                                    >
+                                        <span className="block sm:hidden">{navItem.icon}</span>
+                                        <span
+                                            className="hidden sm:block"
+                                            style={{ fontSize: dynamicFontSize }}
+                                        >
+                                            {navItem.name}
+                                        </span>
+                                    </Link>
                                 ) : (
-                                    <SunMoon className="h-5 w-5" />
+                                    <button
+                                        key={`nav-item-${idx}`}
+                                        onClick={navItem.onClick}
+                                        className={cn(
+                                            "relative items-center flex space-x-0 px-3 py-2",
+                                            "bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground",
+                                            navItem.hideOnMd && "md:hidden" // Hide on medium screens
+                                        )}
+                                    >
+                                        <span className="block sm:hidden">{navItem.icon}</span>
+                                        <span
+                                            className="hidden sm:block"
+                                            style={{ fontSize: dynamicFontSize }}
+                                        >
+                                            {navItem.name}
+                                        </span>
+                                    </button>
                                 )}
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom" align="center">
-                            {theme === "light"
-                                ? "Switch to Dark Mode"
-                                : theme === "dark"
-                                    ? "Switch to Light Mode"
-                                    : "Theme Auto (System Default)"}
-                        </TooltipContent>
-                    </Tooltip>
-                </div>
-                <div className="hidden sm:block">
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => setHighContrast(!highContrast)}
-                                style={{
-                                    height: `${(fontSize / 16) * 2.5}rem`,
-                                    width: `${(fontSize / 16) * 2.5}rem`,
-                                    margin: '0 !important',
-                                }}
-                            >
-                                <Contrast className="h-5 w-5" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom" align="center">
-                            {highContrast
-                                ? "Disable High Contrast"
-                                : "Enable High Contrast"}
-                        </TooltipContent>
-                    </Tooltip>
-                </div>
-                <div className="h-8 w-px dark:bg-white bg-black"></div>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" align="center" className="md:block">
+                                {navItem.tooltip || navItem.name}
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                ))}
 
                 <Button
                     className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
                     variant="link"
                     size="sm"
                 >
-                    {/* Show text on larger screens */}
                     <span className="hidden sm:inline">Login</span>
-
-                    {/* Show icon on smaller screens */}
                     <span className="sm:hidden">
-                        <IconUser className="h-5 w-5 text-black dark:text-white" />
+                        <IconUser className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>
-
-                    {/* Decorative underline */}
                     <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
                 </Button>
-
             </motion.div>
         </AnimatePresence>
     );

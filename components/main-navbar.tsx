@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/tooltip';
 import { ACCENT_COLORS } from '@/lib/constants';
 import { FloatingNav } from './ui/floating-navbar';
-import { IconAppWindow, IconHome, IconMessage } from '@tabler/icons-react';
+import { IconAppWindow, IconHome, IconMessage, IconSettings } from '@tabler/icons-react';
 
 export function MainNavbar() {
   const { setTheme, theme } = useTheme();
@@ -84,20 +84,39 @@ export function MainNavbar() {
     {
       name: "Home",
       link: "/",
-      icon: <IconHome className="h-5 w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+      icon: <IconHome className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+      hideOnMd: true,
     },
     {
       name: "App",
       link: "/app",
-      icon: <IconAppWindow className="h-5 w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+      icon: <IconAppWindow className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
     },
     {
       name: "Contact",
       link: "/contact",
       icon: (
-        <IconMessage className="h-5 w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        <IconMessage className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
       ),
     },
+    {
+      name: "Settings",
+      onClick: () => setSettingsOpen(true),  // Opens the popup instead of navigating
+      icon: <Settings className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+    },
+    {
+      name: theme === "light" ? "Dark Theme" : theme === "dark" ? "Light Theme" : "System Theme",
+      onClick: handleThemeChange,  // Calls the function to toggle themes
+      icon: (
+        theme === "light" ? (
+          <Moon className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        ) : theme === "dark" ? (
+          <Sun className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        ) : (
+          <SunMoon className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        )
+      ),
+    }
   ];
 
   return (
@@ -112,3 +131,4 @@ export function MainNavbar() {
 }
 
 
+ 

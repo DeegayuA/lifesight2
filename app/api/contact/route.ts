@@ -1,0 +1,54 @@
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { v4 as uuidv4 } from "uuid"; // UUID generator
+
+const prisma = new PrismaClient();
+
+export async function POST(request: any) {
+    try {
+        const body = await request.json();
+        console.log("Received form data:", body); // ✅ Debugging
+
+        if (!body.firstName || !body.lastName || !body.email || !body.phone || !body.message) {
+            return NextResponse.json({ error: "All fields are required!" }, { status: 400 });
+        }
+
+        console.log("Inserting into database:", body); // ✅ Debugging before insert
+
+        // ✅ Explicitly provide `id`
+        const newContact = await prisma.contact.create({
+            data: {
+                id: uuidv4(), // Generate UUID if Prisma needs an explicit id
+                firstName: body.firstName,
+                lastName: body.lastName,
+                email: body.email,
+                phone: body.phone,
+                message: body.message,
+                createdAt: new Date()// Ensure timestamp
+            },
+        });
+
+        console.log("Database insert successful:", newContact); // ✅ Confirm insert
+
+        return NextResponse.json({ success: true, data: newContact }, { status: 200 });
+
+    } catch (error: any) {
+        console.error("Prisma Insert Error:", error);
+
+        let errorMessage = "Internal Server Error";
+
+        if (typeof error === "object" && error !== null) {
+            if ("code" in error) {
+                if (error.code === "P2002") {
+                    errorMessage = "A contact with this email already exists.";
+                } else {
+                    errorMessage = `Prisma error code: ${error.code}`;
+                }
+            } else {
+                errorMessage = JSON.stringify(error);
+            }
+        }
+
+        return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
+    }
+}

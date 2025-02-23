@@ -23,11 +23,41 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    alert("Form submitted successfully!");
+  
+    try {
+      console.log("Submitting form data:", formData); // Debugging
+  
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const result = await response.json();
+      
+      if (response.ok) {
+        alert("Form submitted successfully!");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        alert("Error: " + result.error);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("An unexpected error occurred.");
+    }
   };
+  
+  
 
   // Ensure body background color is consistent with the page background
   useEffect(() => {
@@ -70,67 +100,66 @@ export default function Contact() {
       {/* Right Section (Get in Touch) */}
       <div className="md:w-1/2 bg-white p-8 rounded-lg shadow-md md:ml-6 self-start">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700">First name</label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="First name"
-                className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700">Last name</label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Last name"
-                className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              />
-            </div>
-          </div>
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+  <div className="md:col-span-1">
+    <label className="block text-gray-700">First Name</label>
+    <input
+      type="text"
+      name="firstName"
+      value={formData.firstName}
+      onChange={handleChange}
+      className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      required
+    />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-gray-700">Last Name</label>
+    <input
+      type="text"
+      name="lastName"
+      value={formData.lastName}
+      onChange={handleChange}
+      className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      required
+    />
+  </div>
+</div>
 
           <div>
-            <label className="block text-gray-700">Your email</label>
+            <label className="block text-gray-700">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="example@domain.com"
+              //placeholder="example@domain.com"
               className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700">Phone number</label>
+            <label className="block text-gray-700">Contact Number</label>
             <input
               type="text"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="+94"
+              //placeholder="+94"
               className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700">How can we assist you?</label>
+            <label className="block text-gray-700">Message</label>
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
               rows={4}
               maxLength={120}
+              placeholder="Type your message here"
               className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             ></textarea>

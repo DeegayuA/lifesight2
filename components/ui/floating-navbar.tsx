@@ -59,7 +59,7 @@ export const FloatingNav = ({
                         className="font-bold text-xl hidden sm:inline pt-2"
                         style={{ fontSize: dynamicFontSize }}
                     >
-                        LifeSight_v0.3.6
+                        LifeSight_v0.3.7
                     </span>
                 </Link>
 

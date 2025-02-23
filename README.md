@@ -71,6 +71,9 @@ V0.1
 V0.2
 <img width="1026" alt="Screenshot 2025-01-19 at 6 59 09 PM" src="https://github.com/user-attachments/assets/20996fb4-1d6e-461b-8e8f-efcef1aa32a6" />
 <img width="1024" alt="Screenshot 2025-01-19 at 6 59 36 PM" src="https://github.com/user-attachments/assets/9a4c5515-a992-4536-8967-f72cf264c167" />
+V0.3
+<img width="1675" alt="Screenshot 2025-02-23 at 12 39 28 AM" src="https://github.com/user-attachments/assets/fed74741-93f3-4f56-9233-d61ebbe9bb78" />
+
 
 ---
 

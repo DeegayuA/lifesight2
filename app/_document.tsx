@@ -1,10 +1,14 @@
 import { Html, Head, Main, NextScript } from 'next/document';
+import Script from "next/script";
 
 export default function Document() {
   return (
-    <Html suppressHydrationWarning> {/* Add suppressHydrationWarning here */}
+    <Html suppressHydrationWarning>
       <Head>
-        {/* Add any additional head elements here */}
+        <Script
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateInit"
+          strategy="afterInteractive"
+        />
       </Head>
       <body>
         <Main />

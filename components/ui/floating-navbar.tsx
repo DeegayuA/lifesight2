@@ -13,14 +13,15 @@ import {
 import { ACCENT_COLORS } from "@/lib/constants";
 import { useSettings } from "../settings-provider";
 import { useTheme } from "next-themes";
-import {IconUser, IconUserX} from '@tabler/icons-react';
-import {useRouter} from "next/navigation";
+import { IconUser, IconUserX } from '@tabler/icons-react';
+import { useRouter } from "next/navigation";
 
 export const FloatingNav = ({
-                                navItems,
-                                className,
-                            }: {
+    navItems,
+    className,
+}: {
     navItems: {
+        divider?: any;
         name: string;
         link?: string;
         onClick?: () => void;
@@ -53,65 +54,63 @@ export const FloatingNav = ({
                 )}
                 style={{ backgroundColor: accentColor }}
             >
-                <Link href="/" className="flex space-x-2">
+                <Link href="/" className="flex space-x-1">
                     <span className="text-2xl hidden sm:inline pt-2">👓</span>
                     <span
                         className="font-bold text-xl hidden sm:inline pt-2"
                         style={{ fontSize: dynamicFontSize }}
                     >
-                        LifeSight_v0.3.7
+                        LifeSight_v0.3.8
                     </span>
                 </Link>
 
                 {navItems.map((navItem, idx) => (
                     <div key={`nav-item-${idx}`} className={navItem.hideOnMd ? "sm:hidden" : ""}>
-                        <Tooltip>
-                            {/* This Tooltip will only be visible on 'md' and larger devices */}
-                            <TooltipTrigger asChild>
-                                {navItem.link ? (
-                                    <Link
-                                        key={`nav-item-${idx}`}
-                                        href={navItem.link}
-                                        className={cn(
-                                            "relative items-center flex space-x-0 px-3 py-2",
-                                            "bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground",
-                                            navItem.hideOnMd && "md:hidden" // Hide on medium screens
-                                        )}
-                                    >
-                                        <span className="block sm:hidden">{navItem.icon}</span>
-                                        <span
-                                            className="hidden sm:block"
-                                            style={{ fontSize: dynamicFontSize }}
+                        {navItem.divider ? (
+                            <span
+                                className="px-0 !important flex items-center justify-center text-muted-foreground"
+                            >
+                                {navItem.icon}
+                            </span>
+                        ) : (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    {navItem.link ? (
+                                        <Link
+                                            key={`nav-item-${idx}`}
+                                            href={navItem.link}
+                                            className={cn(
+                                                "relative items-center flex space-x-0 px-2 py-2",
+                                                "bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate-10 hover:bg-muted/10 hover:text-accent-foreground",
+                                                navItem.hideOnMd && "md:hidden"
+                                            )}
                                         >
-                                            {navItem.name}
-                                        </span>
-                                    </Link>
-                                ) : (
-                                    <button
-                                        key={`nav-item-${idx}`}
-                                        onClick={navItem.onClick}
-                                        className={cn(
-                                            "relative items-center flex space-x-0 px-3 py-2",
-                                            "bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground",
-                                            navItem.hideOnMd && "md:hidden" // Hide on medium screens
-                                        )}
-                                    >
-                                        <span className="block sm:hidden">{navItem.icon}</span>
-                                        <span
-                                            className="hidden sm:block"
-                                            style={{ fontSize: dynamicFontSize }}
+                                            <span className="block sm:hidden">{navItem.icon}</span>
+                                            <span className="hidden sm:block">{navItem.name}</span>
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            key={`nav-item-${idx}`}
+                                            onClick={navItem.onClick}
+                                            className={cn(
+                                                "relative items-center flex space-x-0 px-2 py-2",
+                                                "bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate-10 hover:bg-muted/10 hover:text-accent-foreground",
+                                                navItem.hideOnMd && "md:hidden"
+                                            )}
                                         >
-                                            {navItem.name}
-                                        </span>
-                                    </button>
-                                )}
-                            </TooltipTrigger>
-                            <TooltipContent side="top" align="center" className="md:block">
-                                {navItem.tooltip || navItem.name}
-                            </TooltipContent>
-                        </Tooltip>
+                                            <span className="block sm:hidden">{navItem.icon}</span>
+                                            <span className="hidden sm:block">{navItem.name}</span>
+                                        </button>
+                                    )}
+                                </TooltipTrigger>
+                                <TooltipContent side="top" align="center" className="md:block">
+                                    {navItem.tooltip || navItem.name}
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
                     </div>
                 ))}
+
 
                 <Button
                     className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full mr-2"
@@ -120,7 +119,7 @@ export const FloatingNav = ({
                     onClick={() => router.push('/volunteer/login')}
                 >
                     {/* Show icon on smaller screens */}
-                    <span className="hidden lg:inline">Volunteer Login</span>
+                    <span className="hidden sm:inline">Volunteer Login</span>
                     <span className="sm:hidden">
                         <IconUser className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>

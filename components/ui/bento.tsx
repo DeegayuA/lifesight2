@@ -22,7 +22,7 @@ export function FeaturesSectionDemo() {
             description:
                 "Manage day-to-day activities and accessibility challenges with an intuitive, user-friendly interface tailored to diverse needs.",
             skeleton: <SkeletonTwo />,
-            className: "border-b col-span-1 lg:col-span-3 dark:border-neutral-600 lg:border-r",
+            className: "border-b col-span-1 lg:col-span-3 dark:border-neutral-700 lg:border-r",
         },
         {
             title: "AI-Powered Object Recognition",
@@ -30,7 +30,7 @@ export function FeaturesSectionDemo() {
                 "Leverage advanced AI and OCR technology to identify objects, extract text, and provide real-time contextual guidance.",
             skeleton: <SkeletonOne />,
             className:
-                "col-span-1 lg:col-span-5 border-b dark:border-neutral-600",
+                "col-span-1 lg:col-span-5 border-b dark:border-neutral-700",
         },
         {
             title: "Interactive Tutorials and Resources",
@@ -38,14 +38,14 @@ export function FeaturesSectionDemo() {
                 "Explore in-depth video tutorials and resources about LifeSight on platforms like YouTube to maximize your experience.",
             skeleton: <SkeletonThree />,
             className:
-                "col-span-1 lg:col-span-5 lg:border-r sm:border-b dark:border-neutral-600 md:border-b-0"
+                "col-span-1 lg:col-span-5 lg:border-r sm:border-b dark:border-neutral-700 md:border-b-0"
         },
         {
             title: "Rapid and Scalable Deployment",
             description:
                 "Our solution is designed for quick and scalable deployment, ensuring accessibility for users across the globe.",
             skeleton: <SkeletonFour />,
-            className: "col-span-1 lg:col-span-3 lg:border-none dark:border-neutral-600",
+            className: "col-span-1 lg:col-span-3 lg:border-none dark:border-neutral-700",
         },
     ];
     return (
@@ -61,7 +61,7 @@ export function FeaturesSectionDemo() {
             </div>
 
             <div className="relative ">
-                <div className="grid grid-cols-1 lg:grid-cols-8 mt-12 xl:border rounded-md dark:border-neutral-600">
+                <div className="grid grid-cols-1 lg:grid-cols-8 mt-12 xl:border rounded-md dark:border-neutral-700">
                     {features.map((feature) => (
                         <FeatureCard key={feature.title} className={feature.className}>
                             <FeatureTitle style={{ fontSize: `${fontSize / 16 * 1.25}rem`, lineHeight, letterSpacing: `${letterSpacing}px` }}>{feature.title}</FeatureTitle>

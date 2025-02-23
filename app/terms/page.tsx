@@ -9,7 +9,7 @@
     export default function TermsPage() {
       const { fontSize, accentColor } = useSettings();
       return (
-        <main className="min-h-screen bg-background p-6" style={{ fontSize: `${fontSize / 16}rem` }}>
+        <main className="min-h-screen bg-background p-6 mt-[7rem]" style={{ fontSize: `${fontSize / 16}rem` }}>
           <div className="max-w-2xl mx-auto space-y-8">
             <Button asChild variant="ghost" className="mb-8">
               <Link href="/">

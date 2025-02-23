@@ -4,7 +4,7 @@ import { BackgroundLines } from '@/components/ui/background-lines';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Eye, MessageSquareText, Phone, Lightbulb, Users, CalendarDays, Newspaper } from 'lucide-react';
+import { Eye, MessageSquareText, Phone, Lightbulb, Users, CalendarDays, Newspaper, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -15,23 +15,74 @@ import { Playfair_Display } from 'next/font/google';
 import { FeaturesSectionDemo } from '@/components/ui/bento';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { PlaceholdersAndVanishInputDemo } from '@/components/vanishing_text';
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { MultiStepLoader as Loader } from "../ui/multi-step-loader";
 import { IconSquareRoundedX } from "@tabler/icons-react";
 
+=======
+>>>>>>> main
 const playfairDisplay = Playfair_Display({ subsets: ['latin'] });
+import React, { useEffect, useState } from "react";
+import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
+import { IconSquareRoundedX } from "@tabler/icons-react";
+
+const loadingStates = [
+  {
+    text: "Enhancing accessibility features...",
+  },
+  {
+    text: "Researching visual impairments...",
+  },
+  {
+    text: "Configuring AI assistance...",
+  },
+  {
+    text: "Setting up OCR for text extraction...",
+  },
+  {
+    text: "Activating voice recognition & TTS...",
+  },
+  {
+    text: "Customizing UI with light/dark modes...",
+  },
+  {
+    text: "Optimizing for gamification & tools...",
+  },
+  {
+    text: "Finalizing social inclusion features...",
+  },
+];
 
 export default function Home() {
   const { reducedMotion, fontSize, accentColor, highContrast } = useSettings();
+  const [loading, setLoading] = useState(true);  // Initializing loading state to true
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
 
+<<<<<<< HEAD
   
+=======
+  useEffect(() => {
+    // Simulate completion of loading process after 1 second
+    const loadingTimeout = setTimeout(() => {
+      setLoading(false);
+    }, 4000);  // Adjusted to 1 second
+
+    return () => {
+      clearTimeout(loadingTimeout); // Cleanup timeout on unmount
+    };
+  }, []);
+>>>>>>> main
   return (
     <main
       className="min-h-screen p-4 sm:p-6"
       style={{
         fontSize: `${fontSize / 16}rem`,
       }}
-    >      {/* Hero Section */}
+    >
+      {!reducedMotion && (
+        <Loader loadingStates={loadingStates} loading={loading} duration={500} />
+      )}        {/* Hero Section */}
       <section
         className="rounded-lg relative h-[70vh] flex items-center justify-center overflow-hidden mx-auto z-20 max-w-[1280px] mt-[5rem]"
         aria-labelledby="hero-heading"
@@ -45,8 +96,8 @@ export default function Home() {
               src="https://pub-f3746e8bbc624ef5a6987eac05efe3f7.r2.dev/hero.jpg"
               alt="Immersive Background"
               className={cn(
-                "object-cover w-full h-full opacity-40 brightness-120",
-                highContrast && "brightness-50 contrast-200"
+                "object-cover w-full h-full opacity-40 brightness-60 contrast-10",
+                highContrast && "brightness-40 contrast-150 border-2 border-white antialiased"
               )}
             />
             <div className="absolute inset-0 bg-black/40"></div>
@@ -70,6 +121,7 @@ export default function Home() {
           </div> */}
         </BackgroundLines>
       </section>
+
 
       <section className='flex items-center justify-center overflow-hidden max-w-[1280px] mx-auto z-20'>
         <FeaturesSectionDemo />
@@ -114,17 +166,26 @@ export default function Home() {
             >
               Sign up now to receive updates and be part of the LifeSight community!
             </p>
-            <Input
-              type="email"
-              placeholder="your-email@example.com"
-              aria-label="Enter your email address"
-              className="rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4"
-              style={{
-                fontSize: `${fontSize / 16 * 0.875}rem`,
-                backgroundColor: "var(--input)", // Using dynamic input color from CSS variables
-                color: "var(--foreground)", // Using dynamic text color from CSS variables
-              }}
-            />
+            <form className="relative w-full">
+              <Input
+                type="email"
+                placeholder="your-email@example.com"
+                aria-label="Enter your email address"
+                className="rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4"
+                style={{
+                  fontSize: `${fontSize / 16 * 0.875}rem`,
+                  backgroundColor: "var(--input)", // Using dynamic input color from CSS variables
+                  color: "var(--foreground)", // Using dynamic text color from CSS variables
+                }}
+              />
+              <Button
+                variant="default"
+                type="submit"
+                className="absolute right-0 top-0 bg-teal-500 text-white p-2 rounded-sm border-r border-y border-neutral-800 focus:ring-2 focus:ring-teal-500"
+              >
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </form>
           </div>
 
           <BackgroundBeams />

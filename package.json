@@ -6,12 +6,15 @@
             "dev": "next dev",
             "build": "next build",
             "start": "next start",
-            "lint": "next lint"
+            "lint": "next lint",
+            "prisma:reset-migrations": "rm -rf prisma/migrations/* && npm run prisma:migrate",
+            "prisma:migrate": "prisma migrate dev --name lifesight"
       },
       "dependencies": {
             "@google/generative-ai": "^0.2.0",
             "@hookform/resolvers": "^3.9.0",
             "@next/swc-wasm-nodejs": "15.1.5",
+            "@prisma/client": "^6.4.1",
             "@radix-ui/react-accordion": "^1.2.0",
             "@radix-ui/react-alert-dialog": "^1.1.1",
             "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -22,7 +25,7 @@
             "@radix-ui/react-dialog": "^1.1.1",
             "@radix-ui/react-dropdown-menu": "^2.1.1",
             "@radix-ui/react-hover-card": "^1.1.1",
-            "@radix-ui/react-label": "^2.1.0",
+            "@radix-ui/react-label": "^2.1.2",
             "@radix-ui/react-menubar": "^1.1.1",
             "@radix-ui/react-navigation-menu": "^1.2.0",
             "@radix-ui/react-popover": "^1.1.1",
@@ -32,7 +35,7 @@
             "@radix-ui/react-select": "^2.1.1",
             "@radix-ui/react-separator": "^1.1.0",
             "@radix-ui/react-slider": "^1.2.0",
-            "@radix-ui/react-slot": "^1.1.0",
+            "@radix-ui/react-slot": "^1.1.2",
             "@radix-ui/react-switch": "^1.1.0",
             "@radix-ui/react-tabs": "^1.1.1",
             "@radix-ui/react-toast": "^1.2.1",
@@ -49,10 +52,12 @@
             "@vercel/speed-insights": "^1.1.0",
             "@vitalets/google-translate-api": "^9.1.0",
             "autoprefixer": "10.4.15",
+            "bcryptjs": "^2.4.3",
             "class-variance-authority": "^0.7.0",
             "clsx": "^2.1.1",
             "cmdk": "^1.0.0",
             "cobe": "^0.6.3",
+            "crypto-js": "^4.2.0",
             "date-fns": "^3.6.0",
             "embla-carousel-react": "^8.3.0",
             "eslint": "8.49.0",
@@ -60,10 +65,13 @@
             "framer-motion": "^12.0.5",
             "fs": "^0.0.1-security",
             "input-otp": "^1.2.4",
+            "jsonwebtoken": "^9.0.2",
             "lucide-react": "^0.446.0",
             "next": "15.1.5",
             "next-themes": "^0.3.0",
             "postcss": "^8.5.1",
+            "prisma": "^6.3.1",
+            "punycode": "^2.3.1",
             "react": "18.2.0",
             "react-day-picker": "^8.10.1",
             "react-dom": "18.2.0",
@@ -77,5 +85,10 @@
             "typescript": "5.2.2",
             "vaul": "^0.9.9",
             "zod": "^3.23.8"
+      },
+      "devDependencies": {
+            "@types/bcryptjs": "^2.4.6",
+            "@types/crypto-js": "^4.2.2",
+            "@types/jsonwebtoken": "^9.0.8"
       }
 }

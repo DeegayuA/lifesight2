@@ -13,12 +13,13 @@ import {
 import { ACCENT_COLORS } from "@/lib/constants";
 import { useSettings } from "../settings-provider";
 import { useTheme } from "next-themes";
-import { IconUser } from '@tabler/icons-react';
+import {IconUser, IconUserX} from '@tabler/icons-react';
+import {useRouter} from "next/navigation";
 
 export const FloatingNav = ({
-    navItems,
-    className,
-}: {
+                                navItems,
+                                className,
+                            }: {
     navItems: {
         name: string;
         link?: string;
@@ -36,6 +37,7 @@ export const FloatingNav = ({
     } = useSettings();
     const [settingsOpen, setSettingsOpen] = useState(false);
     const { setTheme, theme } = useTheme();
+    const router = useRouter()
 
     // Calculate dynamic font size
     const dynamicFontSize = `${(fontSize / 16) * 1}rem`;
@@ -112,16 +114,36 @@ export const FloatingNav = ({
                 ))}
 
                 <Button
-                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
+                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full mr-2"
                     variant="link"
                     size="sm"
+                    onClick={() => router.push('/volunteer/login')}
                 >
-                    <span className="hidden sm:inline">Login</span>
+                    {/* Show icon on smaller screens */}
+                    <span className="hidden lg:inline">Volunteer Login</span>
                     <span className="sm:hidden">
                         <IconUser className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>
                     <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
                 </Button>
+                <Button
+                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
+                    variant="link"
+                    size="sm"
+                    onClick={() => router.push('/admin/login')}
+                >
+                    {/* Show text on larger screens */}
+                    <span className="hidden sm:inline">Admin Login</span>
+
+                    {/* Show icon on smaller screens */}
+                    <span className="sm:hidden">
+                        <IconUserX className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
+                    </span>
+
+                    {/* Decorative underline */}
+                    <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
+                </Button>
+
             </motion.div>
         </AnimatePresence>
     );

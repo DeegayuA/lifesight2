@@ -76,3 +76,10 @@ export const SUPPORTED_LANGUAGES = [
           { name: 'Muted Red', lightMode: '#ff9797', darkMode: '#992b2b' },
           { name: 'Teal Green', lightMode: '#88d3d3', darkMode: '#2b6f6f' },
         ];
+
+        export const LOGGED_TOKEN = '#*&&%^~!@&*%%$$#'
+        export const LOGGED_USER = '#*&%^!@^&*^%$*#'
+export const USER = {
+    ADMIN: 'ADMIN',
+    VOLUNTEER: 'VOLUNTEER'
+}

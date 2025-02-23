@@ -14,12 +14,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Playfair_Display } from 'next/font/google';
 import { FeaturesSectionDemo } from '@/components/ui/bento';
 import { BackgroundBeams } from '@/components/ui/background-beams';
-import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
 import { PlaceholdersAndVanishInputDemo } from '@/components/vanishing_text';
+import { IconSquareRoundedX } from "@tabler/icons-react";
 const playfairDisplay = Playfair_Display({ subsets: ['latin'] });
 import React, { useEffect, useState } from "react";
 import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
-import { IconSquareRoundedX } from "@tabler/icons-react";
 
 const loadingStates = [
   {

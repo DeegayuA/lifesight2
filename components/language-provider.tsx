@@ -36,10 +36,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
 
     window.googleTranslateInit = () => {
-      new google.translate.TranslateElement(
-        { pageLanguage: "en", includedLanguages: SUPPORTED_LANGUAGES.map((l) => l.code).join(",") },
-        "google_translate_element"
-      );
+      if (window.google && window.google.translate) {
+        new window.google.translate.TranslateElement(
+          { pageLanguage: "en", includedLanguages: SUPPORTED_LANGUAGES.map((l) => l.code).join(",") },
+          "google_translate_element"
+        );
+      }
     };
 
     if (window.google?.translate) {

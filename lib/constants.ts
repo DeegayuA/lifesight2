@@ -1,3 +1,5 @@
+"use client";
+
 export const SUPPORTED_LANGUAGES = [
   { code: "en", name: "English", flag: "🇬🇧" },
   { code: "si", name: "සිංහල", flag: "🇱🇰" },

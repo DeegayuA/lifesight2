@@ -72,8 +72,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       sessionStorage.setItem("reload-once", "true");
 
       setTimeout(() => {
-        const frame = document.querySelector(".goog-te-banner-frame");
-        if (frame) {
+        const frame = document.querySelector(".goog-te-banner-frame") as HTMLIFrameElement | null;        if (frame) {
           const resetButton = frame.contentDocument?.querySelector(".goog-te-button") as HTMLElement;
           if (resetButton) resetButton.click();
         }

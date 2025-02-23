@@ -114,16 +114,13 @@ export const FloatingNav = ({
                 ))}
 
                 <Button
-                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
+                    className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full mr-2"
                     variant="link"
                     size="sm"
                     onClick={() => router.push('/volunteer/login')}
                 >
-                    {/* Show text on larger screens */}
-                    <span className="hidden sm:inline">Volunteer Login</span>
-
                     {/* Show icon on smaller screens */}
-                    <span className="hidden sm:inline">Login</span>
+                    <span className="hidden lg:inline">Volunteer Login</span>
                     <span className="sm:hidden">
                         <IconUser className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>
@@ -140,7 +137,7 @@ export const FloatingNav = ({
 
                     {/* Show icon on smaller screens */}
                     <span className="sm:hidden">
-                        <IconUserX className="h-5 w-5 text-black dark:text-white" />
+                        <IconUserX className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>
 
                     {/* Decorative underline */}

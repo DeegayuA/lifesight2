@@ -15,17 +15,10 @@ import { Playfair_Display } from 'next/font/google';
 import { FeaturesSectionDemo } from '@/components/ui/bento';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { PlaceholdersAndVanishInputDemo } from '@/components/vanishing_text';
-<<<<<<< HEAD
-import React, { useState } from "react";
-import { MultiStepLoader as Loader } from "../ui/multi-step-loader";
 import { IconSquareRoundedX } from "@tabler/icons-react";
-
-=======
->>>>>>> main
 const playfairDisplay = Playfair_Display({ subsets: ['latin'] });
 import React, { useEffect, useState } from "react";
 import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
-import { IconSquareRoundedX } from "@tabler/icons-react";
 
 const loadingStates = [
   {
@@ -59,9 +52,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);  // Initializing loading state to true
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
 
-<<<<<<< HEAD
-  
-=======
   useEffect(() => {
     // Simulate completion of loading process after 1 second
     const loadingTimeout = setTimeout(() => {
@@ -72,7 +62,6 @@ export default function Home() {
       clearTimeout(loadingTimeout); // Cleanup timeout on unmount
     };
   }, []);
->>>>>>> main
   return (
     <main
       className="min-h-screen p-4 sm:p-6"

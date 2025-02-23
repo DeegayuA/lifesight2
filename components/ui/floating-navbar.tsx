@@ -119,20 +119,16 @@ export const FloatingNav = ({
                     size="sm"
                     onClick={() => router.push('/volunteer/login')}
                 >
-<<<<<<< HEAD
                     {/* Show text on larger screens */}
                     <span className="hidden sm:inline">Volunteer Login</span>
 
                     {/* Show icon on smaller screens */}
-=======
                     <span className="hidden sm:inline">Login</span>
->>>>>>> main
                     <span className="sm:hidden">
                         <IconUser className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>
                     <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
                 </Button>
-<<<<<<< HEAD
                 <Button
                     className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full sm:px-4 sm:py-2 sm:rounded-full"
                     variant="link"
@@ -151,8 +147,6 @@ export const FloatingNav = ({
                     <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
                 </Button>
 
-=======
->>>>>>> main
             </motion.div>
         </AnimatePresence>
     );

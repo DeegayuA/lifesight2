@@ -11,7 +11,8 @@ import './globals.css';
     import { LayoutWrapper } from '@/components/layout-wrapper';
     import { Theme } from "@radix-ui/themes";
     import { Josefin_Sans } from 'next/font/google';
-
+    import { Analytics } from "@vercel/analytics/react"
+    import { SpeedInsights } from "@vercel/speed-insights/next"
 
     const inter = Inter({ subsets: ['latin'] });
     const josefinSans = Josefin_Sans({ subsets: ['latin'] });
@@ -39,6 +40,8 @@ import './globals.css';
           </head>
           <body className={cn(josefinSans.className, 'h-full min-h-screen')}>
           <Theme>
+          <SpeedInsights/>
+          <Analytics/>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <LanguageProvider>
                 <SettingsProvider>

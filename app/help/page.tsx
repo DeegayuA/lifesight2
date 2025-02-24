@@ -7,19 +7,6 @@ import Link from "next/link";
 import { useSettings } from "@/components/settings-provider";
 import { useState } from "react";
 
-<<<<<<< Updated upstream
-    export default function HelpPage() {
-      const { fontSize, accentColor } = useSettings();
-      return (
-        <main className="min-h-screen bg-background p-6 mt-[7rem]" style={{ fontSize: `${fontSize / 16}rem` }}>
-          <div className="max-w-2xl mx-auto space-y-8">
-            <Button asChild variant="ghost" className="mb-8">
-              <Link href="/">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
-              </Link>
-            </Button>
-=======
 const faqs = [
   {
     question: "What is LifeSight?",
@@ -86,11 +73,10 @@ const faqs = [
       "You can support us through donations, corporate sponsorships, or by spreading awareness about LifeSight.",
   },
 ];
->>>>>>> Stashed changes
 
 export default function HelpPage() {
   const { fontSize, accentColor } = useSettings();
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
     <main
@@ -125,7 +111,7 @@ export default function HelpPage() {
               <div key={index} className="border-b pb-3">
                 <button
                   className="w-full text-left flex justify-between items-center text-lg font-medium text-foreground focus:outline-none"
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  onClick={() => setOpenIndex(index)}
                 >
                   {faq.question}
                   <ChevronDown

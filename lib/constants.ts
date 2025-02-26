@@ -1,5 +1,4 @@
 "use client";
-export const LIFE_SIGHT_VERSION = "LifeSight_v0.3.8";
 
 export const SUPPORTED_LANGUAGES = [
   { code: "en", name: "English", flag: "🇬🇧" },

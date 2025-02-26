@@ -20,7 +20,7 @@ export default function DonatePage() {
 
         <Card className="p-8 text-center space-y-6">
           <HeartHandshake className="w-12 h-12 mx-auto text-primary" />
-          <h1 className="text-3xl font-bold">Buy Us a Coffee</h1>
+          <h1 className="text-3xl font-bold">About Us</h1>
           <p className="text-lg text-muted-foreground">
           Welcome to LifeSight an innovative AI-powered web application designed to empower visually impaired individuals to navigate their world with ease, independence, and confidence. Our mission is to bridge the accessibility gap and provide real-time assistance to those who need it the most, enabling them to carry out everyday tasks without dependency on others.
           </p>

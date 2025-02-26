@@ -33,6 +33,10 @@ export default function DonatePage() {
              About Us Button
             </Link>
           </Button>
+          <h2 className='text-lg'>Our Vision</h2>
+          <p className="text-lg text-muted-foreground">
+          At <b>LifeSight</b>, we believe in a world where everyone, regardless of visual impairments, can explore, engage, and thrive independently. We envision a future where advanced AI solutions not only help individuals perform tasks but also enhance their daily experiences by providing real-time, contextual guidance that is easy to use and adapt to various environments.
+          </p>
         </Card>
       </div>
     </main>

@@ -54,9 +54,9 @@ export const FloatingNav = ({
                 style={{ backgroundColor: accentColor }}
             >
                 <Link href="/" className="flex space-x-1">
-                    {/* <span className="text-2xl hidden sm:inline py-2">👓</span> */}
+                    <span className="text-2xl hidden sm:inline pt-2">👓</span>
                     <span
-                        className="font-bold text-xl hidden sm:inline py-2 pl-2"
+                        className="font-bold text-xl hidden sm:inline pt-2"
                         style={{ fontSize: dynamicFontSize }}
                     >
                         LifeSight_v0.3.8

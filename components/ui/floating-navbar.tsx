@@ -9,7 +9,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ACCENT_COLORS } from "@/lib/constants";
+import { ACCENT_COLORS, LIFE_SIGHT_VERSION } from "@/lib/constants";
 import { useSettings } from "../settings-provider";
 import { useTheme } from "next-themes";
 import { UserCog, User } from 'lucide-react';
@@ -54,12 +54,12 @@ export const FloatingNav = ({
                 style={{ backgroundColor: accentColor }}
             >
                 <Link href="/" className="flex space-x-1">
-                    <span className="text-2xl hidden sm:inline pt-2">👓</span>
+                    {/* <span className="text-2xl hidden sm:inline py-2">👓</span> */}
                     <span
-                        className="font-bold text-xl hidden sm:inline pt-2"
+                        className="font-bold text-xl hidden sm:inline py-2 pl-2"
                         style={{ fontSize: dynamicFontSize }}
                     >
-                        LifeSight_v0.3.8
+                        {LIFE_SIGHT_VERSION}
                     </span>
                 </Link>
 

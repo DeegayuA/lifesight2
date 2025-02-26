@@ -62,6 +62,11 @@ export function MainNavbar() {
   };
 
   const navItems = [
+    { 
+      name: "|", 
+      divider: true, 
+      icon: <Dot className="h-3 w-3 sm:h-3 sm:w-3 text-foreground ml-2" /> 
+    },
     {
       name: "Home",
       link: "/",
@@ -90,7 +95,7 @@ export function MainNavbar() {
     { 
       name: "|", 
       divider: true, 
-      icon: <Dot className="h-3 w-3 sm:h-3 sm:w-3 text-foreground" /> // Styled divider
+      icon: <Dot className="h-3 w-3 sm:h-3 sm:w-3 text-foreground" /> 
     },
     {
       name: "Settings",
@@ -103,7 +108,7 @@ export function MainNavbar() {
       icon: <Globe className="h-3 w-3 sm:h-5 sm:w-5 text-foreground hover:text-accent-foreground" />, // Mobile icon
     },
     {
-      name: theme === "light" ? "Dark Theme" : theme === "dark" ? "Light Theme" : "System Theme",
+      name: theme === "light" ? "Dark" : theme === "dark" ? "Light" : "System",
       onClick: handleThemeChange,  // Calls the function to toggle themes
       icon: (
         theme === "light" ? (
@@ -114,6 +119,11 @@ export function MainNavbar() {
           <SunMoon className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
         )
       ),
+    },
+    { 
+      name: "|", 
+      divider: true, 
+      icon: <Dot className="h-3 w-3 sm:h-3 sm:w-3 text-foreground mr-2" /> 
     },
     
   ];

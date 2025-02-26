@@ -24,15 +24,7 @@ export default function DonatePage() {
           <p className="text-lg text-muted-foreground">
           Welcome to LifeSight an innovative AI-powered web application designed to empower visually impaired individuals to navigate their world with ease, independence, and confidence. Our mission is to bridge the accessibility gap and provide real-time assistance to those who need it the most, enabling them to carry out everyday tasks without dependency on others.
           </p>
-          <Button
-            size="lg"
-            className="w-full"
-            style={{ backgroundColor: accentColor }}
-          >
-            <Link href="#" target="_blank" className="w-full text-white">
-             About Us Button
-            </Link>
-          </Button>
+          
           <h2 className='text-lg'>Our Vision</h2>
           <p className="text-lg text-muted-foreground">
           At <b>LifeSight</b>, we believe in a world where everyone, regardless of visual impairments, can explore, engage, and thrive independently. We envision a future where advanced AI solutions not only help individuals perform tasks but also enhance their daily experiences by providing real-time, contextual guidance that is easy to use and adapt to various environments.

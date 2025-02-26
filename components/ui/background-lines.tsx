@@ -46,7 +46,7 @@ export const BackgroundLines = ({
 };
 
 const pathVariants = {
-  initial: { strokeDashoffset: 800, strokeDasharray: "50 800" },
+  initial: { strokeDashoffset: 800, strokeDasharray: "100 800" },
   animate: {
     strokeDashoffset: 0,
     strokeDasharray: "20 800",
@@ -122,7 +122,7 @@ const SVG = ({
         <motion.path
           d={path}
           stroke={colors[idx]}
-          strokeWidth="2.3"
+          strokeWidth="5"
           strokeLinecap="round"
           variants={pathVariants}
           initial="initial"
@@ -132,32 +132,10 @@ const SVG = ({
             ease: "linear",
             repeat: Infinity,
             repeatType: "loop",
-            delay: Math.floor(Math.random() * 10),
-            repeatDelay: Math.floor(Math.random() * 10 + 2),
+            delay: Math.floor(Math.random() * 5),
+            repeatDelay: Math.floor(Math.random() * 5 + 2),
           }}
           key={`path-first-${idx}`}
-        />
-      ))}
-
-      {/* duplicate for more paths */}
-      {paths.map((path, idx) => (
-        <motion.path
-          d={path}
-          stroke={colors[idx]}
-          strokeWidth="2.3"
-          strokeLinecap="round"
-          variants={pathVariants}
-          initial="initial"
-          animate="animate"
-          transition={{
-            duration: svgOptions?.duration || 10,
-            ease: "linear",
-            repeat: Infinity,
-            repeatType: "loop",
-            delay: Math.floor(Math.random() * 10),
-            repeatDelay: Math.floor(Math.random() * 10 + 2),
-          }}
-          key={`path-second-${idx}`}
         />
       ))}
     </motion.svg>

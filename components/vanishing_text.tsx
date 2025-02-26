@@ -1,7 +1,13 @@
 import { FlipWords } from "./ui/flip-words";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { useSettings } from '@/components/settings-provider';
+import { Playfair_Display } from 'next/font/google';
 
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-playfair',
+});
 export function PlaceholdersAndVanishInputDemo() {
   const { fontSize, highContrast, accentColor } = useSettings(); // Access settings for fontSize and highContrast
   const placeholders = [
@@ -55,8 +61,7 @@ export function PlaceholdersAndVanishInputDemo() {
       }}
     >
 <h1
-  className="mb-5 sm:mb-10 text-xl text-center sm:text-5xl font-bold tracking-tight text-neutral-700 dark:text-neutral-100 relative"
-  // className="notranslate mb-5 sm:mb-10 text-xl text-center sm:text-5xl font-bold tracking-tight text-neutral-700 dark:text-neutral-100 relative"
+  className={`${playfairDisplay.variable} font-playfair mb-5 sm:mb-10 text-xl text-center sm:text-5xl font-bold tracking-tight text-neutral-700 dark:text-neutral-100 relative`}
   style={{
     fontSize: `${fontSize / 16 * 3}rem`,
     color: highContrast ? "var(--color-accent)" : accentColor,
@@ -66,7 +71,7 @@ export function PlaceholdersAndVanishInputDemo() {
   Empowering
   <FlipWords words={words} /> <br />
   Through AI Vision
-</h1 >
+</h1>
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}

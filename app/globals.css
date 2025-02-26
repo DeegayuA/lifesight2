@@ -3,6 +3,7 @@
     @tailwind utilities;
 
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
     :root {
       --foreground-rgb: 0, 0, 0;
@@ -88,6 +89,12 @@
       body {
         @apply bg-background text-foreground;
       }
+  * {
+    font-family: 'Nunito', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair), serif;
+  }
     }
 
     .high-contrast.dark {

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Settings, Moon, Sun, SunMoon } from 'lucide-react';
+import { Settings, Moon, Sun, SunMoon, Globe, EllipsisVertical, Dot } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
@@ -16,36 +16,17 @@ import {
 } from '@/components/ui/tooltip';
 import { ACCENT_COLORS } from '@/lib/constants';
 import { FloatingNav } from './ui/floating-navbar';
-import { IconAppWindow, IconHome, IconMessage } from '@tabler/icons-react';
+import { IconAppWindow, IconHome, IconMessage, IconSettings } from '@tabler/icons-react';
+import { LanguagePanel } from './LanguagePanel';
+
+
 
 export function MainNavbar() {
   const { setTheme, theme } = useTheme();
-  const googleTranslateRef = useRef<HTMLDivElement | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false); // New state for language panel
+
   const { accentColor, fontSize, setAccentColor } = useSettings();
-
-  useEffect(() => {
-    const googleTranslateElementInit = () => {
-      if (typeof window !== 'undefined' && (window as any).google && (window as any).google.translate) {
-        new (window as any).google.translate.TranslateElement(
-          {
-            pageLanguage: "en",
-            autoDisplay: false,
-            layout: (window as any).google.translate.TranslateElement.FloatPosition.TOP_LEFT
-          },
-          "google_translate_element"
-        );
-      }
-    };
-
-    var addScript = document.createElement("script");
-    addScript.setAttribute(
-      "src",
-      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-    );
-    document.body.appendChild(addScript);
-    (window as any).googleTranslateElementInit = googleTranslateElementInit;
-  }, []);
 
   const handleThemeChange = () => {
     let newTheme: 'system' | 'dark' | 'light';
@@ -84,20 +65,50 @@ export function MainNavbar() {
     {
       name: "Home",
       link: "/",
-      icon: <IconHome className="h-5 w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+      icon: <IconHome className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+      hideOnMd: true,
     },
     {
       name: "App",
       link: "/app",
-      icon: <IconAppWindow className="h-5 w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+      icon: <IconAppWindow className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
     },
     {
       name: "Contact",
       link: "/contact",
       icon: (
-        <IconMessage className="h-5 w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        <IconMessage className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
       ),
     },
+    { 
+      name: "|", 
+      divider: true, 
+      icon: <Dot className="h-3 w-3 sm:h-3 sm:w-3 text-foreground" /> // Styled divider
+    },
+    {
+      name: "Settings",
+      onClick: () => setSettingsOpen(true),  // Opens the popup instead of navigating
+      icon: <Settings className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
+    },
+    {
+      name: "Language",
+      onClick: () => setLanguageOpen(true),
+      icon: <Globe className="h-3 w-3 sm:h-5 sm:w-5 text-foreground hover:text-accent-foreground" />, // Mobile icon
+    },
+    {
+      name: theme === "light" ? "Dark Theme" : theme === "dark" ? "Light Theme" : "System Theme",
+      onClick: handleThemeChange,  // Calls the function to toggle themes
+      icon: (
+        theme === "light" ? (
+          <Moon className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        ) : theme === "dark" ? (
+          <Sun className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        ) : (
+          <SunMoon className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
+        )
+      ),
+    },
+    
   ];
 
   return (
@@ -107,8 +118,11 @@ export function MainNavbar() {
         <FloatingNav navItems={navItems} />
       </div>
       <SettingsPanel open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <LanguagePanel open={languageOpen} onOpenChange={setLanguageOpen} />
+
     </header>
   );
 }
 
 
+ 

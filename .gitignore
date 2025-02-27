@@ -26,10 +26,14 @@ package-lock.json
 
 # next.js
 .next/
+.next/cache
 /out/
 
 # production
-/build
+build/
 
 # Bold.net
-.bolt
+.bolt/
+
+#github
+.github/

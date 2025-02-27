@@ -18,7 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useSettings } from '@/components/settings-provider';
 import { Circle, Moon, Sun } from 'lucide-react';
-import { THEME_COLORS, ACCENT_COLORS } from '@/lib/constants';
+import { THEME_COLORS, ACCENT_COLORS, getRandomColor } from '@/lib/constants';
 import {
   Tooltip,
   TooltipContent,
@@ -125,13 +125,43 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
     setScreenReader(false);
     setAntiFlicker(false);
     setHapticFeedback(false);
-    setAccentColor(ACCENT_COLORS[0].lightMode);
+    setAccentColor(ACCENT_COLORS[0].darkMode);
     setPalette('palette-1');
   };
 
+  const [isRandom, setIsRandom] = useState(false);
+
+  useEffect(() => {
+    if (isRandom) {
+      // Retrieve visit count from localStorage
+      const visitCount = parseInt(localStorage.getItem('visitCount') || '0', 10);
+  
+      // Increment visit count
+      localStorage.setItem('visitCount', (visitCount + 1).toString());
+  
+      // Change the accent color once per visit
+      const randomColor = getRandomColor();
+      const mode = theme === 'light' ? 'lightMode' : 'darkMode';
+      setAccentColor(randomColor[mode]);
+    }
+  }, [isRandom, theme]);
+  
+  
+  
+
   const handleAccentColorChange = (color: string) => {
-    setAccentColor(color);
+    if (color === ACCENT_COLORS[0].lightMode || color === ACCENT_COLORS[0].darkMode) {
+      setIsRandom(true);
+      const randomColor = getRandomColor();
+      const mode = theme === 'light' ? 'lightMode' : 'darkMode';
+      setAccentColor(randomColor[mode]);
+    } else {
+      setIsRandom(false);
+      setAccentColor(color);
+    }
   };
+  
+
 
   const handlePaletteChange = (palette: string) => {
     setPalette(palette);
@@ -235,20 +265,19 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
             <Label>Accent Color</Label>
             <div className="flex items-center gap-2 flex-wrap">
               <TooltipProvider>
-                {filteredAccentColors.map((color) => (
+                {filteredAccentColors.map((color, index) => (
                   <Tooltip key={color.value}>
                     <TooltipTrigger asChild>
                       <button
                         onClick={() => handleAccentColorChange(color.value)}
                         className={cn(
-                          'h-6 w-6 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+                          'h-6 w-6 rounded-full border-2 border-transparent flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
                           accentColor === color.value && 'ring-2 ring-primary',
                         )}
                         style={{ backgroundColor: color.value }}
                       >
-                        <span className="sr-only">
-                          {color.name}
-                        </span>
+                        {index === 0 && <span className="text-white text-xs font-bold">R</span>}
+                        <span className="sr-only">{color.name}</span>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="top" align="center">
@@ -258,6 +287,7 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
                 ))}
               </TooltipProvider>
             </div>
+
           </div>
 
           {/* <div className="space-y-2">

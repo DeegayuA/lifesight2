@@ -1,8 +1,9 @@
+import { FlipWords } from "./ui/flip-words";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { useSettings } from '@/components/settings-provider';
 
 export function PlaceholdersAndVanishInputDemo() {
-  const { fontSize, highContrast } = useSettings(); // Access settings for fontSize and highContrast
+  const { fontSize, highContrast, accentColor } = useSettings(); // Access settings for fontSize and highContrast
   const placeholders = [
     "Can you tell me what’s around me right now?",
     "What’s the text on this document?",
@@ -25,8 +26,18 @@ export function PlaceholdersAndVanishInputDemo() {
     "Is there a traffic signal I should know about?",
     "What is the current temperature outside?",
   ];
-  
-
+  const words = [
+    "Independence", 
+    "Empowerment", 
+    "Accessibility", 
+    "Inclusion", 
+    "Equality", 
+    "Support", 
+    "Freedom", 
+    "Clarity", 
+    "Understanding", 
+    "Opportunity"
+  ];
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
   };
@@ -43,20 +54,25 @@ export function PlaceholdersAndVanishInputDemo() {
         fontSize: `${fontSize / 16}rem`,
       }}
     >
-      <h1
-        className="mb-5 sm:mb-10 text-xl text-center sm:text-5xl dark:text-white text-black"
-        style={{
-          fontSize: `${fontSize / 16 * 3}rem`,
-        }}
-        aria-live="polite"
-      >
-        Empowering Independence Through AI Vision
-      </h1>
+<h1
+  className="mb-5 sm:mb-10 text-xl text-center sm:text-5xl font-bold tracking-tight text-neutral-700 dark:text-neutral-100 relative"
+  // className="notranslate mb-5 sm:mb-10 text-xl text-center sm:text-5xl font-bold tracking-tight text-neutral-700 dark:text-neutral-100 relative"
+  style={{
+    fontSize: `${fontSize / 16 * 3}rem`,
+    color: highContrast ? "var(--color-accent)" : accentColor,
+  }}
+  aria-live="polite"
+>
+  Empowering
+  <FlipWords words={words} /> <br />
+  Through AI Vision
+</h1 >
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}
         onSubmit={onSubmit}
         aria-label="Text input for AI-powered questions"
+        
       />
     </div>
   );

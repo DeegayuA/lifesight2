@@ -5,6 +5,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSettings } from "../settings-provider";
 import { useLanguage } from "../language-provider";
+import { Playfair_Display } from 'next/font/google';
+
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-playfair',
+});
 
 export const FlipWords = ({
   words,
@@ -100,7 +107,7 @@ export const FlipWords = ({
               className="inline-block whitespace-nowrap"
             >
               {word.split("").map((letter, letterIndex) => (
-                <motion.span
+                <motion.h2
                   key={word + letterIndex}
                   initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -111,7 +118,7 @@ export const FlipWords = ({
                   className="inline-block"
                 >
                   {letter}
-                </motion.span>
+                </motion.h2>
               ))}
               <span className="inline-block">&nbsp;</span>
             </motion.span>

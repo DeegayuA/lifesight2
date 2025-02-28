@@ -4,16 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Settings, Moon, Sun, SunMoon, Contrast } from "lucide-react";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ACCENT_COLORS } from "@/lib/constants";
+import { ACCENT_COLORS, LIFE_SIGHT_VERSION } from "@/lib/constants";
 import { useSettings } from "../settings-provider";
 import { useTheme } from "next-themes";
-import { IconUser, IconUserX } from '@tabler/icons-react';
+import { UserCog, User } from 'lucide-react';
 import { useRouter } from "next/navigation";
 
 export const FloatingNav = ({
@@ -55,12 +54,12 @@ export const FloatingNav = ({
                 style={{ backgroundColor: accentColor }}
             >
                 <Link href="/" className="flex space-x-1">
-                    <span className="text-2xl hidden sm:inline pt-2">👓</span>
+                    {/* <span className="text-2xl hidden sm:inline py-2">👓</span> */}
                     <span
-                        className="font-bold text-xl hidden sm:inline pt-2"
+                        className="font-bold text-xl hidden sm:inline py-2 pl-2"
                         style={{ fontSize: dynamicFontSize }}
                     >
-                        LifeSight_v0.3.8
+                        {LIFE_SIGHT_VERSION}
                     </span>
                 </Link>
 
@@ -119,9 +118,9 @@ export const FloatingNav = ({
                     onClick={() => router.push('/volunteer/login')}
                 >
                     {/* Show icon on smaller screens */}
-                    <span className="hidden sm:inline">Volunteer Login</span>
+                    <span className="hidden sm:inline">Volunteer</span>
                     <span className="sm:hidden">
-                        <IconUser className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
+                        <User className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>
                     <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px sm:block hidden" />
                 </Button>
@@ -132,11 +131,11 @@ export const FloatingNav = ({
                     onClick={() => router.push('/admin/login')}
                 >
                     {/* Show text on larger screens */}
-                    <span className="hidden sm:inline">Admin Login</span>
+                    <span className="hidden sm:inline">Admin</span>
 
                     {/* Show icon on smaller screens */}
                     <span className="sm:hidden">
-                        <IconUserX className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
+                        <UserCog className="h-3 w-3 sm:h-5 sm:w-5 text-black dark:text-white" />
                     </span>
 
                     {/* Decorative underline */}

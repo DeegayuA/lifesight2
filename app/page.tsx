@@ -1,24 +1,21 @@
 "use client";
 import { useSettings } from '@/components/settings-provider';
 import { BackgroundLines } from '@/components/ui/background-lines';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Eye, MessageSquareText, Phone, Lightbulb, Users, CalendarDays, Newspaper, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Playfair_Display } from 'next/font/google';
 import { FeaturesSectionDemo } from '@/components/ui/bento';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { PlaceholdersAndVanishInputDemo } from '@/components/vanishing_text';
-import { IconSquareRoundedX } from "@tabler/icons-react";
-const playfairDisplay = Playfair_Display({ subsets: ['latin'] });
 import React, { useEffect, useState } from "react";
 import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
+import { Playfair_Display } from 'next/font/google';
+
+const playfairDisplay = Playfair_Display({ subsets: ['latin'] });
+
 
 const loadingStates = [
   {

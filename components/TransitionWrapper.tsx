@@ -19,14 +19,12 @@ export default function TransitionWrapper({ children }: TransitionWrapperProps) 
       return;
     }
 
-    // Start the view transition if necessary (optional, not used in framer-motion)
-    if (!document.startViewTransition) {
-      return;
+    // Check if the browser supports View Transitions (type guard for newer browsers)
+    if ((document as any).startViewTransition) {
+      (document as any).startViewTransition(() => {
+        // This is a placeholder for Next.js route change
+      });
     }
-
-    document.startViewTransition(() => {
-      // This is a placeholder for Next.js route change
-    });
   }, [pathname]);
 
   return (
@@ -37,7 +35,7 @@ export default function TransitionWrapper({ children }: TransitionWrapperProps) 
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: 300, opacity: 0 }}
         transition={{
-          type: "spring",
+          type: 'spring',
           stiffness: 260,
           damping: 20,
         }}

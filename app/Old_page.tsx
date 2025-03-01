@@ -71,10 +71,10 @@
                 </p>
                 <div className="flex justify-center space-x-4">
                   <Button asChild variant="accent" size="lg" style={{ fontSize: `${fontSize / 16 * 0.875}rem`, backgroundColor: accentColor }}>
-                    <Link href="/app">Get Started</Link>
+                    <Link href="/web/app">Get Started</Link>
                   </Button>
                   <Button asChild variant="outline" size="lg" style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}>
-                    <Link href="/learn-more">Learn More</Link>
+                    <Link href="/web/learn-more">Learn More</Link>
                   </Button>
                 </div>
               </div>

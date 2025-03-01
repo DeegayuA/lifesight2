@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { v4 as uuidv4 } from "uuid"; // UUID generator
 
 const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'] // ✅ Enables Prisma query logging

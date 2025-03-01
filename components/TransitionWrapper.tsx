@@ -1,7 +1,8 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TransitionWrapperProps {
   children: React.ReactNode;
@@ -9,7 +10,6 @@ interface TransitionWrapperProps {
 
 export default function TransitionWrapper({ children }: TransitionWrapperProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   useEffect(() => {
@@ -19,17 +19,32 @@ export default function TransitionWrapper({ children }: TransitionWrapperProps) 
       return;
     }
 
-    // Check if the browser supports View Transitions
+    // Start the view transition if necessary (optional, not used in framer-motion)
     if (!document.startViewTransition) {
       return;
     }
 
-    // Start the view transition
     document.startViewTransition(() => {
-      // The actual route change is handled by Next.js,
-      // we just wrap it in a view transition.
+      // This is a placeholder for Next.js route change
     });
   }, [pathname]);
 
-  return <div className="transition-wrapper">{children}</div>;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname} // Make sure each page change triggers the animation
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: 300, opacity: 0 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 20,
+        }}
+        className="transition-wrapper"
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
 }

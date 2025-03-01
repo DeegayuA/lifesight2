@@ -7,9 +7,11 @@ export async function createAdmin(data: any) {
     try {
         return await prisma.admin.create({
             data: {
+                id: data.id,
                 name: data.name,
                 email: data.email,
-                password: data.password
+                password: data.password,
+                updatedAt: data.updatedAt
             }
         })
     } catch (e: any) {

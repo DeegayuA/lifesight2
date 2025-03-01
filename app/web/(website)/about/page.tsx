@@ -28,7 +28,7 @@ export default function AboutPage() {
     <main className="min-h-screen bg-background p-6 mt-[4rem]" style={{ fontSize: `${fontSize / 16}rem` }}>
       <div className="max-w-2xl mx-auto">
         <Button asChild variant="ghost" className="mb-8">
-          <Link href="/">
+          <Link href="/web/public">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
           </Link>

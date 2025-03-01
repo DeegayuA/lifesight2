@@ -21,7 +21,7 @@
               <b>LifeSight</b> is a <u>non-profit</u> organization dedicated to <u>helping</u> the visually impaired people.
             </p>
             <Button asChild variant="outline" style={{ fontSize: `${fontSize / 16 * 0.875}rem` }}>
-              <Link href="/donate">Donate to Support Our Mission</Link>
+              <Link href="/web/donate">Donate to Support Our Mission</Link>
             </Button>
             <div className="flex space-x-4">
 							<TooltipProvider>
@@ -39,10 +39,10 @@
 							</TooltipProvider>
             </div>
             <div className="flex space-x-4">
-            <Link href="/help" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Help Center</Link>
-              {/* <Link href="/sitemap" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Sitemap</Link> */}
-              <Link href="/terms" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Terms of Service</Link>
-              <Link href="/privacy" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Privacy Policy</Link>
+            <Link href="/web/help" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Help Center</Link>
+              {/* <Link href="/web/sitemap" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Sitemap</Link> */}
+              <Link href="/web/terms" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Terms of Service</Link>
+              <Link href="/web/privacy" className="text-xs text-foreground hover:underline" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>Privacy Policy</Link>
             </div>
             <p className="text-xs text-foreground" style={{ fontSize: `${fontSize / 16 * 0.75}rem` }}>
               © {new Date().getFullYear()} LifeSight. All rights reserved.

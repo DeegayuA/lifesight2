@@ -75,19 +75,19 @@ export function MainNavbar() {
     },
     {
       name: "App",
-      link: "/app",
+      link: "/web/app",
       icon: <IconAppWindow className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />,
     },
     {
       name: "Contact",
-      link: "/contact",
+      link: "/web/contact",
       icon: (
         <IconMessage className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
       ),
     },
     {
       name: "About",
-      link: "/about",
+      link: "/web/about",
       icon: (
         <IconUsersGroup className="h-3 w-3 sm:h-5 sm:w-5 bg-transparent text-foreground hover:filter hover:brightness-110 hover:hue-rotate(10deg) hover:bg-muted/10 hover:text-accent-foreground" />
       ),
@@ -142,4 +142,3 @@ export function MainNavbar() {
 }
 
 
- 

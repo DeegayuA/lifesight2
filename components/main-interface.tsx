@@ -490,7 +490,7 @@ export function MainInterface() {
             variant="secondary"
             className="flex-1 relative min-h-[48px]"
           >
-            <Link href="/call-assistant">
+            <Link href="/web/call-assistant">
               <Phone className="mr-2" />
               <span>Call Assistance</span>
             </Link>

@@ -1,5 +1,5 @@
 "use client";
-export const LIFE_SIGHT_VERSION = "V0.4.1_Beta";
+export const LIFE_SIGHT_VERSION = "V0.4.2_Beta";
 
 export const SUPPORTED_LANGUAGES = [
   { code: "en", name: "English", flag: "🇬🇧" },

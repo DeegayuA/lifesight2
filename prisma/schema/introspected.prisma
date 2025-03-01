@@ -8,14 +8,14 @@ model Admin {
 }
 
 model Contact {
-  id String @id @unique @default(auto()) @map("_id")
+  id        Int      @id @default(autoincrement())
   firstName String
   lastName  String?
   email     String
   phone     String
   message   String
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt       
 }
 
 model Volunteer {

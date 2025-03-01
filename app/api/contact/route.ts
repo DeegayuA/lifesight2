@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid"; // UUID generator
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'] // ✅ Enables Prisma query logging
+});
 
 export async function POST(request: any) {
     try {
@@ -13,18 +15,15 @@ export async function POST(request: any) {
             return NextResponse.json({ error: "All fields are required!" }, { status: 400 });
         }
 
-        console.log("Inserting into database:", body); // ✅ Debugging before insert
+        console.log("Inserting into database:", body); 
 
-        // ✅ Explicitly provide `id`
         const newContact = await prisma.contact.create({
             data: {
-                id: uuidv4(), // Generate UUID if Prisma needs an explicit id
                 firstName: body.firstName,
                 lastName: body.lastName,
                 email: body.email,
                 phone: body.phone,
-                message: body.message,
-                createdAt: new Date()// Ensure timestamp
+                message: body.message
             },
         });
 

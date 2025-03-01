@@ -14,4 +14,3 @@ export function decrypt(cypherStr: any): string {
     );
     return bytes.toString(CryptoJS.enc.Utf8);
 }
-

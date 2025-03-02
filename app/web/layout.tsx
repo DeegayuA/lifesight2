@@ -1,15 +1,16 @@
-import {Inter, Josefin_Sans} from "next/font/google";
-import type {Metadata} from "next";
-import {cn} from "@/lib/utils";
-import {LayoutWrapper} from "@/components/layout-wrapper";
-import {MainNavbar} from "@/components/main-navbar";
-import {MainFooter} from "@/components/main-footer";
-import {Toaster} from "@/components/ui/sonner";
+import { Inter, Josefin_Sans } from "next/font/google";
+import type { Metadata } from "next";
+import { cn } from "@/lib/utils";
+import { LayoutWrapper } from "@/components/layout-wrapper";
+import { MainNavbar } from "@/components/main-navbar";
+import { MainFooter } from "@/components/main-footer";
+import { Toaster } from "@/components/ui/sonner";
 import './web.css';
+import TransitionWrapper from "@/components/TransitionWrapper";
 
 
-const inter = Inter({subsets: ['latin']});
-const josefinSans = Josefin_Sans({subsets: ['latin']});
+const inter = Inter({ subsets: ['latin'] });
+const josefinSans = Josefin_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Lifesight - AI Assisted Vision',
@@ -19,20 +20,23 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({children,}: { children: React.ReactNode; }) {
+export default function RootLayout({ children, }: { children: React.ReactNode; }) {
 
     return (
         <div className={cn(josefinSans.className, 'h-full min-h-screen')}>
 
-
+            
             <LayoutWrapper>
-                <MainNavbar/>
+                <TransitionWrapper>
+                <MainNavbar />
                 <div className="flex-1">
                     {children}
                 </div>
-                <MainFooter/>
-                <Toaster/>
-            </LayoutWrapper>
+                <MainFooter />
+                <Toaster />
+            </TransitionWrapper>
+
+        </LayoutWrapper>
 
         </div>
     )

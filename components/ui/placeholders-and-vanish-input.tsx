@@ -182,7 +182,7 @@ export function PlaceholdersAndVanishInput({
   
     if (inputRef.current?.value) {
       const submittedValue = inputRef.current.value;
-      window.location.href = `/app?input=${encodeURIComponent(submittedValue)}`;
+      window.location.href = `/web/app?input=${encodeURIComponent(submittedValue)}`;
     }
   };
   return (

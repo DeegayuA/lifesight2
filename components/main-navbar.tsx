@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Settings, Moon, Sun, SunMoon, Globe, Building2, Dot } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { useTheme } from 'next-themes'; // Importing useTheme
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
 import { SettingsPanel } from './settings-panel';
@@ -22,7 +22,7 @@ import { LanguagePanel } from './LanguagePanel';
 
 
 export function MainNavbar() {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, theme } = useTheme(); // Using useTheme hook
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false); // New state for language panel
 
@@ -37,7 +37,7 @@ export function MainNavbar() {
     } else {
       newTheme = 'light';
     }
-    setTheme(newTheme);
+    setTheme(newTheme); // Calling setTheme to change the theme
 
     // Update accent color based on the new theme
     const html = document.querySelector('html');

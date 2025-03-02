@@ -1,35 +1,102 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TransitionWrapperProps {
   children: React.ReactNode;
+  setLoading: (loading: boolean) => void;
 }
 
-export default function TransitionWrapper({ children }: TransitionWrapperProps) {
+export default function TransitionWrapper({ children, setLoading }: TransitionWrapperProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [isExternalNavigation, setIsExternalNavigation] = useState(false);
+  const [loadingIndex, setLoadingIndex] = useState(0); // Add loadingIndex state
+
+  const loadingStates = [
+    {
+      text: "Enhancing accessibility features...",
+    },
+    {
+      text: "Researching visual impairments...",
+    },
+    {
+      text: "Configuring AI assistance...",
+    },
+    {
+      text: "Setting up OCR for text extraction...",
+    },
+    {
+      text: "Activating voice recognition & TTS...",
+    },
+    {
+      text: "Customizing UI with light/dark modes...",
+    },
+    {
+      text: "Optimizing for gamification & tools...",
+    },
+    {
+      text: "Finalizing social inclusion features...",
+    },
+  ];
 
   useEffect(() => {
-    // Skip the transition on the very first load
+    // Determine if the navigation is external
+    setIsExternalNavigation(!document.referrer.startsWith(window.location.origin));
+
     if (isFirstLoad) {
-      setIsFirstLoad(false);
-      return;
+      setIsFirstLoad(false); // Prevent this effect from running again on subsequent navigations
+
+      // If it's an external navigation, show the loading animation
+      if (!document.referrer.startsWith(window.location.origin)) {
+        setLoading(true); // Show loading screen
+
+        // Cycle through loading messages
+        const intervalId = setInterval(() => {
+          setLoadingIndex((prevIndex) => (prevIndex + 1) % loadingStates.length);
+        }, 4000 / loadingStates.length); // Divide 4 seconds by the number of messages
+
+        // Hide loading screen after 4 seconds
+        const loadingTimeout = setTimeout(() => {
+          setLoading(false);
+          clearInterval(intervalId); // Clear the interval when loading is done
+        }, 4000);
+
+        // Cleanup function to clear timeout and interval if the component unmounts before loading is done
+        return () => {
+          clearTimeout(loadingTimeout);
+          clearInterval(intervalId);
+        };
+      }
+      return; // Exit the effect after the first load
     }
 
-    // Check if the browser supports View Transitions
-    if (!document.startViewTransition) {
-      return;
+    // Check if the browser supports View Transitions (type guard for newer browsers)
+    if ((document as any).startViewTransition) {
+      (document as any).startViewTransition(() => {
+        // This is a placeholder for Next.js route change
+      });
     }
-
-    // Start the view transition
-    document.startViewTransition(() => {
-      // The actual route change is handled by Next.js,
-      // we just wrap it in a view transition.
-    });
   }, [pathname]);
 
-  return <div className="transition-wrapper">{children}</div>;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname} // Make sure each page change triggers the animation
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: 300, opacity: 0 }}
+        transition={{
+          type: 'spring',
+          stiffness: 260,
+          damping: 20,
+        }}
+        className="transition-wrapper"
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
 }

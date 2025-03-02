@@ -73,7 +73,6 @@ export default function TransitionWrapper({ children, setLoading }: TransitionWr
       return; // Exit the effect after the first load
     }
 
-<<<<<<< Updated upstream
     // Check if the browser supports View Transitions (type guard for newer browsers)
     if ((document as any).startViewTransition) {
       (document as any).startViewTransition(() => {
@@ -81,24 +80,6 @@ export default function TransitionWrapper({ children, setLoading }: TransitionWr
       });
     }
   }, [pathname]);
-=======
-    // For internal navigations, use view transitions if available
-    if (!document.startViewTransition) {
-      return;
-    }
-
-    document.startViewTransition(() => {
-      // The actual content update is handled by Next.js;
-      // we just wrap it in startViewTransition to trigger the animation.
-    });
-  }, [pathname, isFirstLoad, setLoading, router]); // Include router in the dependency array
-
-  // Render the children directly, with the loading animation handled by the useEffect
-  // based on isExternalNavigation and isFirstLoad.
-  if (isExternalNavigation && isFirstLoad) {
-    return <div className="transition-wrapper">{children}</div>;
-  }
->>>>>>> Stashed changes
 
   return (
     <AnimatePresence mode="wait">

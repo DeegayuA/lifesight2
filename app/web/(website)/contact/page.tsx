@@ -1,6 +1,7 @@
 "use client"; // Required for using useState
 
 import { useState, useEffect } from "react";
+import { GlobeDemo } from "./globe-component";
 
 type FormDataState = {
   firstName: string;
@@ -95,6 +96,7 @@ export default function Contact() {
             Click here to access the Feedback Form for visually impaired individuals.
           </a>
         </div>
+        <GlobeDemo/>
       </div>
 
       {/* Right Section (Get in Touch) */}

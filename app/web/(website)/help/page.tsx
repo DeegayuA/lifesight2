@@ -6,6 +6,7 @@ import { ArrowLeft, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useSettings } from "@/components/settings-provider";
 import { useState } from "react";
+import { motion } from "framer-motion"; // Import motion from Framer Motion
 
 const faqs = [
   {
@@ -76,60 +77,85 @@ const faqs = [
 
 export default function HelpPage() {
   const { fontSize, accentColor } = useSettings();
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <main
-      className="min-h-screen bg-background p-6"
-      style={{ fontSize: `${fontSize / 16}rem` }}
-    >
-      <div className="max-w-2xl mx-auto space-y-8">
-        <Button asChild variant="ghost" className="mb-8">
-          <Link href="/web/public">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
-          </Link>
-        </Button>
-
-        <Card className="p-8 text-center space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Help Center</h1>
-          <p className="text-lg text-muted-foreground">
-            This is the help center page.
-          </p>
-
-          <Button size="lg" className="w-full" style={{ backgroundColor: accentColor }}>
-            Call Now
+    <main className="bg-background p-6 mt-[2rem] md:mt-[4rem]" style={{ fontSize: `${fontSize / 16}rem` }}>
+      <motion.div
+        initial={{ opacity: 0 }} // Start with opacity 0
+        animate={{ opacity: 1 }} // Fade in to full opacity
+        transition={{ duration: 0.5 }} // Set the duration of the fade-in
+      >
+        <div className="max-w-2xl mx-auto">
+          <Button asChild variant="ghost" className="mb-8">
+            <Link href="/web/public">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Home
+            </Link>
           </Button>
-        </Card>
 
-        <Card className="p-6 space-y-4">
-          <h2 className="text-2xl font-semibold text-foreground text-center">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div key={index} className="border-b pb-3">
-                <button
-                  className="w-full text-left flex justify-between items-center text-lg font-medium text-foreground focus:outline-none"
-                  onClick={() => setOpenIndex(index)}
+          <Card className="p-8 text-center space-y-8">
+            <h1 className="text-3xl font-bold text-foreground">Help Center</h1>
+
+            <Button size="lg" className="w-half" style={{ backgroundColor: accentColor }}>
+              Call Now
+            </Button>
+          </Card>
+
+          <Card className="p-6 space-y-4 mt-4">
+            <h2 className="text-2xl font-semibold text-foreground text-center">
+              Frequently Asked Questions
+            </h2>
+            <motion.div
+              className="space-y-4"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
+            >
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  className="border-b pb-3"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: { opacity: 0, y: 10 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.3, delay: index * 0.1 } },
+                  }}
                 >
-                  {faq.question}
-                  <ChevronDown
-                    className={`h-5 w-5 transition-transform ${
-                      openIndex === index ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {openIndex === index && (
-                  <p className="mt-2 text-muted-foreground text-sm whitespace-pre-line">
-                    {faq.answer}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </Card>
-      </div>
+                  <button
+                    className="w-full text-left flex justify-between items-center text-lg font-medium text-foreground focus:outline-none"
+                    onClick={() => setOpenIndex(index)}
+                  >
+                    {faq.question}
+                    <motion.div
+                      className="h-5 w-5"
+                      initial={{ rotate: 0 }} // Initial rotation (0 degrees)
+                      animate={{ rotate: openIndex === index ? 180 : 0 }} // Rotate 180 degrees when open, back to 0 when closed
+                      transition={{ duration: 0.5 }} // Set transition duration for smoothness
+                    >
+                      <ChevronDown className="transition-transform" />
+                    </motion.div>
+                  </button>
+                  {openIndex === index && (
+                    <motion.p
+                      className="mt-2 text-muted-foreground text-sm whitespace-pre-line"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {faq.answer}
+                    </motion.p>
+                  )}
+                </motion.div>
+              ))}
+            </motion.div>
+          </Card>
+        </div>
+      </motion.div>
     </main>
   );
 }

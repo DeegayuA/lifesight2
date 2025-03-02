@@ -83,20 +83,20 @@ export default function TransitionWrapper({ children, setLoading }: TransitionWr
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
-        key={pathname} // Make sure each page change triggers the animation
-        initial={{ x: 300, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: 300, opacity: 0 }}
-        transition={{
-          type: 'spring',
-          stiffness: 260,
-          damping: 20,
-        }}
-        className="transition-wrapper"
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      key={pathname}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{
+        type: "tween",
+        ease: [0.25, 0.1, 0.25, 1], // cubic-bezier curve for smooth motion
+        duration: 0.4,
+      }}
+      className="transition-wrapper w-full h-full"
+    >
+      {children}
+    </motion.div>
+  </AnimatePresence>
   );
 }

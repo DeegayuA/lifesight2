@@ -1,5 +1,5 @@
 "use client";
-export const LIFE_SIGHT_VERSION = "V0.4.2_Beta";
+export const LIFE_SIGHT_VERSION = "V0.4.3_Beta";
 
 export const SUPPORTED_LANGUAGES = [
   { code: "en", name: "English", flag: "🇬🇧" },
@@ -137,9 +137,20 @@ export const getRandomColor = () => {
   };
 };
 
-// Store a new random color on each refresh
-const newRandomColor = getRandomColor();
-localStorage.setItem('randomAccentColor', JSON.stringify(newRandomColor));
+let newRandomColor = getRandomColor();
+
+if (typeof window !== 'undefined') {
+  const storedColor = localStorage.getItem('randomAccentColor');
+  if (storedColor) {
+    try {
+      newRandomColor = JSON.parse(storedColor);
+    } catch (error) {
+      console.error("Error parsing stored color", error);
+    }
+  } else {
+      localStorage.setItem('randomAccentColor', JSON.stringify(newRandomColor));
+  }
+}
 
 export const ACCENT_COLORS = [
   newRandomColor, // Random color always updates on refresh

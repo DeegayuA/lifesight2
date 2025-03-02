@@ -439,9 +439,9 @@
 
       // --- UI Rendering ---
       return (
-        <div className="flex w-100 flex-col space-y-4 my-4" style={{ fontSize: `${fontSize / 16}rem`, lineHeight, letterSpacing: `${letterSpacing}px` }}>
+        <div className="flex w-100 flex-col space-y-4 mb-4" style={{ fontSize: `${fontSize / 16}rem`, lineHeight, letterSpacing: `${letterSpacing}px` }}>
           {/* Video Preview */}
-          <div className="relative h-[50vh] shrink-0">
+          <div className="relative h-[45vh] shrink-0">
             <Card className="h-full w-full overflow-hidden">
               <video
                 ref={videoRef}

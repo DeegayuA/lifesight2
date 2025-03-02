@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
-import { useThree, Canvas, extend, ThreeElement } from "@react-three/fiber";
+import { Canvas, extend, useThree } from "@react-three/fiber";
 import ThreeGlobe from "three-globe";import { OrbitControls } from "@react-three/drei";
 import countries from "@/data/globe.json";
 declare module "@react-three/fiber" {
     interface ThreeElements {
-      threeGlobe: ThreeElement<typeof ThreeGlobe>;
+      threeGlobe: any;
     }
   }
   
@@ -97,6 +97,10 @@ export function Globe({ globeConfig, data }: WorldProps) {
       _buildMaterial();
     }
   }, [globeRef.current]);
+
+  useEffect(() => {
+  extend({ ThreeGlobe });
+}, []);
 
   const _buildMaterial = () => {
     if (!globeRef.current) return;
@@ -303,3 +307,5 @@ export function genRandomNumbers(min: number, max: number, count: number) {
 
   return arr;
 }
+
+

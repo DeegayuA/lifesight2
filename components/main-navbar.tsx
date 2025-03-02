@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Settings, Moon, Sun, SunMoon, Globe, Building2, Dot } from 'lucide-react';
+import { Settings, Moon, Sun, SunMoon, Globe, Building2, Dot, Home as IconHome, AppWindow as IconAppWindow, MessageSquare as IconMessage, Users as IconUsersGroup } from 'lucide-react';
 import { useTheme } from 'next-themes'; // Importing useTheme
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/tooltip';
 import { ACCENT_COLORS } from '@/lib/constants';
 import { FloatingNav } from './ui/floating-navbar';
-import { IconAppWindow, IconHome, IconMessage, IconUsersGroup } from '@tabler/icons-react';
 import { LanguagePanel } from './LanguagePanel';
 
 

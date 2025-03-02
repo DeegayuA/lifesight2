@@ -572,35 +572,5 @@
             </div>
           </div>
         </div>
-<<<<<<< Updated upstream
       );
     }
-=======
-
-        {/* Input area remains the same */}
-        <div className="flex gap-2 flex-1">
-          <Input
-            value={textInput}
-            onChange={(e) => setTextInput(e.target.value)}
-            placeholder="Type your question or command..."
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSubmit();
-              }
-            }}
-            className="flex-1"
-          />
-          <Button
-            className="w-10 h-10"
-            variant="accent"
-            onClick={handleSubmit}
-            style={{ backgroundColor: accentColor }}
-          >
-            <Send className="w-10 h-10" />
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
->>>>>>> Stashed changes

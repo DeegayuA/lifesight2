@@ -24,7 +24,7 @@
                 This is the terms of service page.
               </p>
               <Button size="lg" className="w-full" style={{ backgroundColor: accentColor }}>
-                Call Now
+                Call
               </Button>
             </Card>
           </div>

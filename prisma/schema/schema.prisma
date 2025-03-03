@@ -1,3 +1,16 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// npm i @prisma/client
+// npx prisma init
+// add  previewFeatures = ["prismaSchemaFolder"]
+// schema add to schema folder
+// prisma client-generate
+// prisma migrate dev --name lifesight
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["prismaSchemaFolder"]
@@ -8,3 +21,10 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+// Script File
+// "prisma:client-generate": "npx prisma generate"
+
+// "prisma:reset-migrations": "rm -rf prisma/migrations/* && npm run prisma:migrate",
+// "prisma:migrate": "prisma migrate dev --name lifesight --create-only",
+// "prisma:migrate": "prisma migrate dev --name lifesight" <<---------------->>Corrent without data lost but migration history should have. TODO find database pull and migration and what happend with this.

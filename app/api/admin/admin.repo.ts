@@ -1,6 +1,5 @@
-import {PrismaClient} from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient()
 
 export async function createAdmin(data: any) {
 
@@ -16,8 +15,6 @@ export async function createAdmin(data: any) {
         })
     } catch (e: any) {
         throw e;
-    } finally {
-        await prisma.$disconnect()
     }
 }
 
@@ -31,8 +28,6 @@ export async function findFirstAdmin(email: string) {
         })
     } catch (e: any) {
         throw e;
-    } finally {
-        await prisma.$disconnect()
     }
 }
 
@@ -46,7 +41,5 @@ export async function findUniqueAdmin(id: string) {
             })
     } catch (e: any) {
         throw e;
-    } finally {
-        await prisma.$disconnect()
     }
 }

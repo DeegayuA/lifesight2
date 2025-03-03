@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { GlobeDemo } from "./globe-component";
 import { useSettings } from "@/components/settings-provider";
 import { cn } from "@/lib/utils";
+import { apiRequest } from "@/core/api.handler";
 
 
 type FormDataState = {
@@ -31,21 +32,12 @@ export default function Contact() {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        alert("Form submitted successfully!");
-        setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
-      } else {
-        alert("Error: " + result.error);
-      }
+      await apiRequest("/api/contact", "POST", formData)
+      alert("Form submitted successfully!");       
+      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     } catch (error) {
       console.error("Submission error:", error);
-      alert("An unexpected error occurred.");
+      alert("An unexpected error occurred. Please try again!");
     }
   };
 

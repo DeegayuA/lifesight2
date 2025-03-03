@@ -1,4 +1,4 @@
-model Admin {
+model Volunteer {
   id        String   @id @unique @default(uuid())
   name      String?
   email     String   @unique

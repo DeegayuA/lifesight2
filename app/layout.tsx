@@ -11,6 +11,7 @@ import { Theme } from "@radix-ui/themes";
 import { LanguageProvider } from "@/components/language-provider";
 import TransitionWrapper from '@/components/TransitionWrapper';
 import { useState } from 'react';
+import { SessionWrapper } from '@/components/SessionWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 const josefinSans = Josefin_Sans({ subsets: ['latin'] });
@@ -38,9 +39,11 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
                         <ThemeProvider>
                             <LanguageProvider>
                                 <SettingsProvider>
-                                    <div id='web' className="flex-1">
-                                        {children}
-                                    </div>
+                                    <SessionWrapper>
+                                        <div className="flex-1">
+                                            {children}
+                                        </div>
+                                    </SessionWrapper>
                                 </SettingsProvider>
                             </LanguageProvider>
                         </ThemeProvider>

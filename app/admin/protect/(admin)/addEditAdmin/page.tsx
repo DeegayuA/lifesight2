@@ -5,7 +5,6 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {FetchApi} from "@/app/core/api.handler";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
@@ -25,16 +24,16 @@ const AddEditAdmin = () => {
 
     const createUpdateAdmin = async (data: any) => {
         try {
-            const response = await FetchApi('/api/admin/create', 'POST', {
-                // Your data here, e.g., id, name, etc.
-                name: data.name,
-                email: data.email,
-                password: data.password,
-            })
-            if (response === 'JWT_EXPIRED') {
-              console.log('Token expired! Please Login again!')
-                return router.push('/')
-            }
+            // const response = await FetchApi('/api/admin/create', 'POST', {
+            //     // Your data here, e.g., id, name, etc.
+            //     name: data.name,
+            //     email: data.email,
+            //     password: data.password,
+            // })
+            // if (response === 'JWT_EXPIRED') {
+            //   console.log('Token expired! Please Login again!')
+            //     return router.push('/')
+            // }
 
             console.log('Admin created')
         } catch (e) {

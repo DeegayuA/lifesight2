@@ -3,7 +3,6 @@
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {FetchApi} from "@/app/core/api.handler";
 import {cn} from "@/lib/utils";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Label} from "@/components/ui/label";
@@ -24,12 +23,12 @@ const Login = () => {
 
     const loginAdmin = async (data: any) => {
         try {
-            const response = await FetchApi('/api/admin/login', 'POST', {
-                email: data.email,
-                password: data.password,
-            })
+            // const response = await FetchApi('/api/admin/login', 'POST', {
+            //     email: data.email,
+            //     password: data.password,
+            // })
             console.log('Admin logged')
-            router.push('/admin/protect/dashboard')
+            // router.push('/admin/protect/dashboard')
         } catch (e) {
             console.log(e, "Admin login error")
         }

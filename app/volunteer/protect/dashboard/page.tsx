@@ -6,7 +6,7 @@ export default function Dashboard() {
     const { data: session } = useSession();
 
     if (!session) {
-        return <p>Loading...</p>;
+        return
     }
     return (
         <div>

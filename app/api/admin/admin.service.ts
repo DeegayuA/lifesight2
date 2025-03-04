@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 import {cookies} from "next/headers";
 import {LOGGED_TOKEN, LOGGED_USER, USER} from "@/lib/constants";
 import {encrypt} from "@/lib/encryption";
-import {JWT_EXPIRE_TIME, JWT_PRIVATE_KEY} from "@/app/api/authenticate";
 
 export async function createAdminService(body: any) {
 
@@ -35,9 +34,9 @@ export async function loginAdminService(body: any) {
             throw new Error(`Invalid credentials!`);
         }
 
-        const token = jwt.sign({id: admin.id, user: USER.ADMIN}, JWT_PRIVATE_KEY, {expiresIn: JWT_EXPIRE_TIME});
-        (await cookies()).set(LOGGED_TOKEN, encrypt(token));
-        (await cookies()).set(LOGGED_USER, encrypt(USER.ADMIN));
+        // const token = jwt.sign({id: admin.id, user: USER.ADMIN}, JWT_PRIVATE_KEY, {expiresIn: JWT_EXPIRE_TIME});
+        // (await cookies()).set(LOGGED_TOKEN, encrypt(token));
+        // (await cookies()).set(LOGGED_USER, encrypt(USER.ADMIN));
 
         return {logging: true}
     } catch (e) {

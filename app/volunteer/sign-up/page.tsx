@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
+import { apiRequest } from '@/core/api.handler';
 
 
 export default function VolunteerForm() {
@@ -34,9 +35,15 @@ export default function VolunteerForm() {
     const { register, handleSubmit, setValue } = useForm<FormValues>();
     const [submitted, setSubmitted] = useState(false);
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        console.log(data);
-        setSubmitted(true);
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
+            try {
+                await apiRequest("/api/volunteer/signup", "POST", data)
+                alert("Form submitted successfully!");
+                setSubmitted(true);
+            } catch (error) {
+                console.error("Submission error:", error);
+                alert("An unexpected error occurred. Please try again!");
+            }
     };
 
     return (

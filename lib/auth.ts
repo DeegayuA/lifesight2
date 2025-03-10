@@ -45,7 +45,7 @@ export const authOptions: {
                     throw new Error("Invalid credentials");
                 }
 
-                user.password = '';
+                delete user.password
                 user.userType = credentials.userType;
                 return user;
             },
@@ -64,7 +64,7 @@ export const authOptions: {
                     throw new Error("No user email in Google");
                 }
 
-                const existingUser = await prisma.volunteer.findUnique({
+                let existingUser = await prisma.volunteer.findUnique({
                     where: { email: user.email },
                 });
 
@@ -72,27 +72,31 @@ export const authOptions: {
                 const hashedPassword = await bcrypt.hash(randomPassword, 10); // Hash the password before storing
 
                 if (!existingUser) {
-                    await prisma.volunteer.create({
+                    existingUser = await prisma.volunteer.create({
                         data: {
                             email: user.email,
                             name: user.name,
-                            password: hashedPassword
+                            password: hashedPassword,
+                            image: user.image
                         },
                     });
                 }
 
+                user.id = existingUser.id
                 user.userType = "VOL"; // Assign userType to Google users
             }
             return true;
         },
         async jwt({ token, user }: any) {
             if (user) {
+                token.userId = user.id
                 token.userType = user.userType
                 token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60; // Expiry set to 1 day
             }
             return token;
         },
         async session({ session, token }: any) {
+            session.user.id = token.userId;
             session.user.userType = token.userType;
             session.expires = new Date(token.exp * 1000).toISOString(); // Session expiry time
             return session;

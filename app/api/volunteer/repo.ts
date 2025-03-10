@@ -12,6 +12,15 @@ export async function findFirstVolunteer(email: string) {
         throw e;
     }
 }
+export async function findUniqueVolunteer(id: string) {
+    try {
+        return await prisma.volunteer.findUnique({
+            where: { id },
+        });
+    } catch (e: any) {
+        throw e;
+    }
+}
 
 export async function createVolunteer(data: any) {
     data.password = await bcrypt.hash(data.password, 10)

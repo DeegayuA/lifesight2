@@ -7,9 +7,10 @@ export async function AuthCheck() {
     try {
         const session = await getServerSession(authOptions);
         if (!session) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+            return  NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
-        return true
+
+        return {authCheck: true}
     } catch (e) {
         throw e
     }

@@ -1,5 +1,4 @@
-import {createVolunteer, findFirstVolunteer} from "@/app/api/volunteer/repo";
-import bcrypt from "bcryptjs";
+import {createVolunteer, findFirstVolunteer, findUniqueVolunteer} from "@/app/api/volunteer/repo";
 import crypto from "crypto";
 
 
@@ -12,8 +11,18 @@ export async function createVolunteerService(body: any) {
         if (!body.password) {
             body.password = crypto.randomBytes(15).toString("hex").slice(0, 10);
         }
-        const result = await createVolunteer(body)
-        result.password = '';
+        const result: any = await createVolunteer(body)
+        delete result.password
+        return result
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function getOneByIdVolunteerService(id: string) {
+    try {
+        const result: any = await findUniqueVolunteer(id)
+        delete result.password
         return result
     } catch (e) {
         throw e;

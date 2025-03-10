@@ -1,3 +1,5 @@
+import {signOut} from "next-auth/react";
+
 export const apiRequest = async (
     endpoint: string,
     method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
@@ -15,6 +17,7 @@ export const apiRequest = async (
         });
 
         if (response.status === 401) {
+            await signOut({ callbackUrl: '/' })
             return {authExpired: true}
         }
         if (!response.ok) {

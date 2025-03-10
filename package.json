@@ -12,6 +12,7 @@
       },
       "dependencies": {
             "@google/generative-ai": "^0.2.0",
+            "@heroui/react": "^2.7.5",
             "@hookform/resolvers": "^3.9.0",
             "@next/swc-wasm-nodejs": "15.1.5",
             "@prisma/client": "^6.4.1",
@@ -65,7 +66,7 @@
             "embla-carousel-react": "^8.3.0",
             "eslint": "8.49.0",
             "eslint-config-next": "13.5.6",
-            "framer-motion": "^12.0.5",
+            "framer-motion": "^12.4.10",
             "fs": "^0.0.1-security",
             "input-otp": "^1.2.4",
             "jsonwebtoken": "^9.0.2",
@@ -95,6 +96,7 @@
             "zod": "^3.23.8"
       },
       "devDependencies": {
+            "@heroui/button": "^2.2.16",
             "@types/bcryptjs": "^2.4.6",
             "@types/chroma-js": "^3.1.1",
             "@types/crypto-js": "^4.2.2",

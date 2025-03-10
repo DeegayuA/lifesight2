@@ -1,38 +1,15 @@
 'use client'
 
-import {z} from "zod";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {cn} from "@/lib/utils";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
-import {useRouter} from "next/navigation";
+import {LoginForm} from "@/components/login-form";
+import {USER} from "@/lib/constants";
 import {signIn} from "next-auth/react";
+import {GalleryVerticalEnd} from "lucide-react";
 
-// Define your schema using Zod
-const loginVolunteerSchema = z.object({
-    email: z.string().email(),
-    password: z.string(),
-});
+export default function LoginPage() {
 
-const Login = () => {
-    const router = useRouter()
-    const {register, handleSubmit, formState: { errors }}
-        = useForm({resolver: zodResolver(loginVolunteerSchema)});
-
-    const formSubmit = async (data: any) => {
-            await loginVolunteer('credentials', {
-                email: data.email,
-                password: data.password,
-                userType: 'VOL',
-            })
-    }
-
-    const loginVolunteer = async (type: string, data?: any) => {
+    const login = async (type: string, data?: any) => {
         try {
-            const result = await signIn(type, {...data, callbackUrl: "/volunteer/protect/dashboard"});
+            const result = await signIn(type, {...data, userType: 'VOL', callbackUrl: "/volunteer/protect/dashboard"});
             if (result?.error) {
                 console.error(result?.error)
             }
@@ -41,67 +18,19 @@ const Login = () => {
         }
     }
 
-    return <>
-        <div className="flex min-h-svh w-full items-center justify-center p-6 md:pb-10 md:px-10 pt-[120px]">
-            <div className="w-full max-w-sm">
-                <div className={cn("flex flex-col gap-6")}>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="text-2xl">Login</CardTitle>
-                            <CardDescription>
-                                Enter your email below to login to your account
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <form onSubmit={handleSubmit(formSubmit)}>
-                                <div className="flex flex-col gap-6">
-                                    <div className="grid gap-2">
-                                        <Label htmlFor="email">Email</Label>
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            placeholder="m@example.com"
-                                            required
-                                            {...register('email')}
-                                        />
-                                        {/*{errors.email && <p className="text-red-500">{errors?.email?.message}</p>}*/}
-                                    </div>
-                                    <div className="grid gap-2">
-                                        <div className="flex items-center">
-                                            <Label htmlFor="password">Password</Label>
-                                            {/*<a*/}
-                                            {/*  href="#"*/}
-                                            {/*  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"*/}
-                                            {/*>*/}
-                                            {/*  Forgot your password?*/}
-                                            {/*</a>*/}
-                                        </div>
-                                        <Input id="password" type="password" required {...register('password')}/>
-                                        {/*{errors.password && <p className="text-red-500">{errors?.password?.message}</p>}*/}
-                                    </div>
-                                    <Button type="submit" className="w-full">
-                                        Login
-                                    </Button>
-                                    {/*<Button variant="outline" className="w-full">*/}
-                                    {/*  Login with Google*/}
-                                    {/*</Button>*/}
-                                </div>
-                                {/*<div className="mt-4 text-center text-sm">*/}
-                                {/*  Don&apos;t have an account?{" "}*/}
-                                {/*  <a href="#" className="underline underline-offset-4">*/}
-                                {/*    Sign up*/}
-                                {/*  </a>*/}
-                                {/*</div>*/}
-                            </form>
-                        </CardContent>
-                    </Card>
-                    <h2 className='my-8'>Or</h2>
-                    <Button onClick={() => loginVolunteer('google')}>Press to log using Gmail</Button>
-                    <Button onClick={() => router.push("/volunteer/sign-up")}>Sign Up</Button>
-                </div>
+
+    return (
+        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+            <div className="flex w-full max-w-sm flex-col gap-6">
+                <a href="#" className="flex items-center gap-2 self-center font-medium">
+                    <div
+                        className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                        <GalleryVerticalEnd className="size-4"/>
+                    </div>
+                    Acme Inc.
+                </a>
+                <LoginForm userType={USER.VOLUNTEER} onLogin={login}/>
             </div>
         </div>
-    </>
+    )
 }
-
-export default Login

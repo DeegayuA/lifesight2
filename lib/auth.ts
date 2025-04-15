@@ -1,12 +1,13 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
+import Volunteer from "@/models/Volunteer";
+import Admin from "@/models/Admin";
+import {connectToDatabase} from "@/lib/mongodb";
 
 
-
-export const authOptions: { 
+export const authOptions: {
     providers: any,
     callbacks: any,
     secret: any,
@@ -18,9 +19,9 @@ export const authOptions: {
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                email: { label: "Email", type: "text" },
-                password: { label: "Password", type: "password" },
-                userType: { label: "User Type", type: "hidden" },
+                email: {label: "Email", type: "text"},
+                password: {label: "Password", type: "password"},
+                userType: {label: "User Type", type: "hidden"},
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
@@ -28,10 +29,11 @@ export const authOptions: {
                 }
 
                 let user: any;
+                await connectToDatabase();
                 if (credentials.userType === "ADMIN") {
-                    user = await prisma.admin.findUnique({ where: { email: credentials.email } });
+                    user = await Admin.findOne({email: credentials.email});
                 } else if (credentials.userType === "VOL") {
-                    user = await prisma.volunteer.findUnique({ where: { email: credentials.email } });
+                    user = await Volunteer.findOne({email: credentials.email});
                 } else {
                     throw new Error("Try with the correct web page");
                 }
@@ -58,27 +60,28 @@ export const authOptions: {
         }),
     ],
     callbacks: {
-        async signIn({ user, account }: any) {
+        async signIn({user, account}: any) {
             if (account?.provider === "google") {
                 if (!user.email) {
                     throw new Error("No user email in Google");
                 }
 
-                let existingUser = await prisma.volunteer.findUnique({
-                    where: { email: user.email },
-                });
+                await connectToDatabase();
+                let existingUser = await Volunteer.findOne({
+                    email: user.email,
+                }).exec();
 
                 const randomPassword = crypto.randomBytes(15).toString("hex").slice(0, 10); // Generate a secure random password
                 const hashedPassword = await bcrypt.hash(randomPassword, 10); // Hash the password before storing
 
                 if (!existingUser) {
-                    existingUser = await prisma.volunteer.create({
-                        data: {
-                            email: user.email,
-                            name: user.name,
-                            password: hashedPassword,
-                            image: user.image
-                        },
+                    existingUser = await Volunteer.create({
+
+                        email: user.email,
+                        name: user.name,
+                        password: hashedPassword,
+                        image: user.image
+
                     });
                 }
 
@@ -87,7 +90,7 @@ export const authOptions: {
             }
             return true;
         },
-        async jwt({ token, user }: any) {
+        async jwt({token, user}: any) {
             if (user) {
                 token.userId = user.id
                 token.userType = user.userType
@@ -95,7 +98,7 @@ export const authOptions: {
             }
             return token;
         },
-        async session({ session, token }: any) {
+        async session({session, token}: any) {
             session.user.id = token.userId;
             session.user.userType = token.userType;
             session.expires = new Date(token.exp * 1000).toISOString(); // Session expiry time

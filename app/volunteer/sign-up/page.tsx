@@ -8,13 +8,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { apiRequest } from '@/core/api.handler';
+import {useRouter} from "next/navigation";
 
 
 export default function VolunteerForm() {
-
+    const router = useRouter()
     type FormValues = {
-        full_name: string;
+        name: string;
         email: string;
+        password: string;
         phone: string;
         location: string;
         language: string;
@@ -40,6 +42,7 @@ export default function VolunteerForm() {
                 await apiRequest("/api/volunteer/signup", "POST", data)
                 alert("Form submitted successfully!");
                 setSubmitted(true);
+                router.push("/volunteer/login")
             } catch (error) {
                 console.error("Submission error:", error);
                 alert("An unexpected error occurred. Please try again!");
@@ -48,14 +51,14 @@ export default function VolunteerForm() {
 
     return (
         <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6">
-            <h2 className="text-2xl font-bold text-center">Volunteer Requirement Gathering Form</h2>
+            <h2 className="text-2xl font-bold text-center dark:text-black">Volunteer Requirement Gathering Form</h2>
             {submitted ? (
-                <p className="text-green-600 text-center">Thank you for submitting the form!</p>
+                <p className="text-green-600 text-center dark:text-black">Thank you for submitting the form!</p>
             ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                        <Input className="w-full" {...register('full_name', { required: true })} />
+                        <Input className="w-full" {...register('name', { required: true })} />
                     </div>
 
                     <div>
@@ -64,8 +67,13 @@ export default function VolunteerForm() {
                     </div>
 
                     <div>
+                        <label className="block text-sm font-medium text-gray-700">Password</label>
+                        <Input type="password" className="w-full" {...register('password', { required: true })} />
+                    </div>
+
+                    <div>
                         <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <Input type="tel" className="w-full" {...register('phone', { required: true })} />
+                        <Input className="w-full" {...register('phone', { required: true })} />
                     </div>
 
                     <div>

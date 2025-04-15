@@ -1,4 +1,4 @@
-import {createVolunteer, findFirstVolunteer, findUniqueVolunteer} from "@/app/api/volunteer/repo";
+import {createVolunteer, findFirstVolunteer, findUniqueVolunteer, updateVolunteer} from "@/app/api/volunteer/repo";
 import crypto from "crypto";
 
 
@@ -12,6 +12,18 @@ export async function createVolunteerService(body: any) {
             body.password = crypto.randomBytes(15).toString("hex").slice(0, 10);
         }
         const result: any = await createVolunteer(body)
+        delete result.password
+        return result
+    } catch (e) {
+        throw e;
+    }
+}
+export async function updateVolunteerService(body: any) {
+    try {
+        if (body.password) {
+            return {validCheck: true, message: "Password can't change here!"}
+        }
+        const result: any = await updateVolunteer(body)
         delete result.password
         return result
     } catch (e) {

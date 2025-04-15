@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import Table from "@/components/hero-ui/Table";
 
 export default function Dashboard() {
     const { data: session }: any = useSession();
@@ -10,8 +11,7 @@ export default function Dashboard() {
     }
     return (
         <div>
-            <h1>Welcome, {session?.user?.email}</h1>
-            <p>Session Expires: {session.expires}</p>
+            <Table></Table>
         </div>
     );
 }

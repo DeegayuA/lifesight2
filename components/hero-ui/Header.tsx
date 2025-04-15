@@ -3,15 +3,16 @@ import {
     NavbarBrand,
     NavbarContent,
     NavbarItem,
-    Link,
     DropdownItem,
     DropdownTrigger,
     Dropdown,
     DropdownMenu,
-    Avatar, Card, CardBody,
+    Avatar, Card, CardBody, Badge,
 } from "@heroui/react";
 import {signOut} from "next-auth/react";
 import {LoggedUser} from "@/components/user-provider";
+import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 export const AcmeLogo = () => {
     return (
@@ -27,6 +28,7 @@ export const AcmeLogo = () => {
 };
 
 export default function Header({className}: {className: string}) {
+    const router = useRouter()
     const { user } = LoggedUser();
 
     return (
@@ -39,18 +41,13 @@ export default function Header({className}: {className: string}) {
                     </NavbarBrand>
 
                     <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                        <NavbarItem >
-                            <Link color="foreground" href="#">
+                        <NavbarItem>
+                            <Link color="foreground" href="/volunteer/protect/dashboard">
                                 Dashboard
                             </Link>
                         </NavbarItem>
-                        <NavbarItem isActive>
-                            <Link aria-current="page" color="foreground" href="#">
-                                Blinders
-                            </Link>
-                        </NavbarItem>
                         <NavbarItem>
-                            <Link color="foreground" href="#">
+                            <Link color="foreground" href="/volunteer/protect/profile">
                                 profile
                             </Link>
                         </NavbarItem>
@@ -59,21 +56,27 @@ export default function Header({className}: {className: string}) {
                     <NavbarContent as="div" justify="end">
                         <Dropdown placement="bottom-end">
                             <DropdownTrigger>
-                                <Avatar
-                                    isBordered
-                                    as="button"
-                                    className="transition-transform"
-                                    color="secondary"
-                                    name="Jason Hughes"
-                                    size="sm"
-                                    src={user?.image}
-                                />
+                                <div className="flex gap-4 items-center">
+                                    <Badge color="danger" content="5" shape="circle">
+                                        <Avatar
+                                            isBordered
+                                            as="button"
+                                            className="transition-transform"
+                                            color="secondary"
+                                            name="Jason Hughes"
+                                            size="sm"
+                                            src={user?.image}
+                                        />
+                                    </Badge>
+                                </div>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                <DropdownItem key="profile" className="h-14 gap-2">
-                                    <p className="font-semibold">Signed in as</p>
+                                <DropdownItem key="profile" onClick={() => router.push('/volunteer/protect/profile')} className="h-14 gap-2">
                                     <p className="font-semibold">{user?.email}</p>
                                     <p>{user?.name}</p>
+                                </DropdownItem>
+                                <DropdownItem key="notification">
+                                    <p className="font-semibold my-2">Notifications</p>
                                 </DropdownItem>
                                 <DropdownItem key="logout" color="danger" className='text-red-900' onClick={() => signOut()}>
                                     Log Out

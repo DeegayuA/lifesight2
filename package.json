@@ -8,14 +8,14 @@
             "start": "next start",
             "lint": "next lint",
             "prisma:reset-migrations": "rm -rf prisma/migrations/* && npm run prisma:migrate",
-            "prisma:migrate": "prisma migrate dev --name lifesight"
+            "prisma:migrate": "prisma migrate dev --name lifesight --schema ./prisma/schema/schema.prisma"
       },
       "dependencies": {
             "@google/generative-ai": "^0.2.0",
             "@heroui/react": "^2.7.5",
             "@hookform/resolvers": "^3.9.0",
             "@next/swc-wasm-nodejs": "15.1.5",
-            "@prisma/client": "^6.4.1",
+            "@prisma/client": "^6.6.0",
             "@radix-ui/react-accordion": "^1.2.0",
             "@radix-ui/react-alert-dialog": "^1.1.1",
             "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -71,12 +71,12 @@
             "input-otp": "^1.2.4",
             "jsonwebtoken": "^9.0.2",
             "lucide-react": "^0.446.0",
+            "mongoose": "^8.13.2",
             "motion": "^12.4.7",
             "next": "^15.2.0",
             "next-auth": "^4.24.11",
             "next-themes": "^0.4.4",
             "postcss": "^8.5.1",
-            "prisma": "^6.3.1",
             "punycode": "^2.3.1",
             "react": "^19.0.0",
             "react-day-picker": "^8.10.1",
@@ -101,7 +101,8 @@
             "@types/chroma-js": "^3.1.1",
             "@types/crypto-js": "^4.2.2",
             "@types/jsonwebtoken": "^9.0.8",
-            "@types/uuid": "^10.0.0"
+            "@types/uuid": "^10.0.0",
+            "prisma": "^6.6.0"
       },
       "overrides": {
             "@react-spring/web": {

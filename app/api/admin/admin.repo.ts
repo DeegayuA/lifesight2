@@ -1,17 +1,18 @@
-import { prisma } from "@/lib/prisma";
+import Admin from "@/models/Admin";
+import {connectToDatabase} from "@/lib/mongodb";
 
 
 export async function createAdmin(data: any) {
 
     try {
-        return await prisma.admin.create({
-            data: {
-                id: data.id,
-                name: data.name,
-                email: data.email,
-                password: data.password,
-                updatedAt: data.updatedAt
-            }
+        await connectToDatabase();
+        return await Admin.create({
+
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            updatedAt: data.updatedAt
+
         })
     } catch (e: any) {
         throw e;
@@ -21,11 +22,10 @@ export async function createAdmin(data: any) {
 export async function findFirstAdmin(email: string) {
 
     try {
-        return await prisma.admin.findFirst({
-            where: {
-                email: email.toLowerCase()
-            }
-        })
+        await connectToDatabase();
+        return await Admin.findOne({
+            email: email.toLowerCase()
+        }).exec()
     } catch (e: any) {
         throw e;
     }
@@ -34,11 +34,9 @@ export async function findFirstAdmin(email: string) {
 export async function findUniqueAdmin(id: string) {
 
     try {
-        return await prisma.admin.findUnique({
-                where: {
-                    id: id
-                }
-            })
+        await connectToDatabase();
+        return await Admin.findById(id
+        ).exec()
     } catch (e: any) {
         throw e;
     }

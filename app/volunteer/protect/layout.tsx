@@ -11,7 +11,7 @@ export default function RootLayout({children}: { children: React.ReactNode; }) {
         <LoggedUserProvider>
             <div>
                 <Header className="sticky top-0 w-full"/>
-                <div className='overflow-auto mx-12'>
+                <div className='overflow-auto mx-12 pb-10'>
                     {children}
                 </div>
                 <Footer className="fixed bottom-0 w-full"/>

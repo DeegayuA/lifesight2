@@ -1,5 +1,6 @@
 import {createVolunteer, findFirstVolunteer, findUniqueVolunteer, updateVolunteer} from "@/app/api/volunteer/repo";
 import crypto from "crypto";
+import {sendEmailService} from "@/lib/mail.config";
 
 
 export async function createVolunteerService(body: any) {
@@ -12,6 +13,12 @@ export async function createVolunteerService(body: any) {
             body.password = crypto.randomBytes(15).toString("hex").slice(0, 10);
         }
         const result: any = await createVolunteer(body)
+        await sendEmailService(
+            '',
+            {},
+            result.email,
+            `Welcome to Life Sight`
+        );
         delete result.password
         return result
     } catch (e) {

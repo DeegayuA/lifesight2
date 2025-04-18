@@ -10,6 +10,9 @@ export interface IContact extends Document {
     lastName: string
     phone: string
     message: string
+    read: boolean
+    open: boolean
+    archived: boolean
 }
 
 const ContactSchema = new Schema<IContact>({
@@ -33,6 +36,18 @@ const ContactSchema = new Schema<IContact>({
         type: String,
         required: true,
         lowercase: true
+    },
+    read: {
+        type: Boolean,
+        default: false
+    },
+    open: {
+        type: Boolean,
+        default: false
+    },
+    archived: {
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,

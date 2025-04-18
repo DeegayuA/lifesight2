@@ -8,6 +8,9 @@ export interface IAdmin extends Document {
     password: string;
     image: string
     phone: string
+    role: string
+    archived: boolean
+    active: boolean
     createdAt: Date
     updatedAt: Date
 }
@@ -32,6 +35,23 @@ const AdminSchema = new Schema<IAdmin>({
     },
     image: {
         type: String,
+    },
+    role: {
+        type: String,
+        enum: [
+            "SUPER_ADMIN",
+            "ADMIN",
+            "EDITOR"
+        ],
+        required: [true, "Role is required"],
+    },
+    archived: {
+        type: Boolean,
+        default: false
+    },
+    active: {
+        type: Boolean,
+        default: true
     },
     createdAt: {
         type: Date,

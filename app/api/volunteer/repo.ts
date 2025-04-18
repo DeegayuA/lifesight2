@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import {connectToDatabase} from "@/lib/mongodb";
 import Volunteer from "@/models/Volunteer";
-import Contact from "@/models/Contact";
 
 export async function findFirstVolunteer(email: string) {
     try {
@@ -35,7 +34,7 @@ export async function createVolunteer(data: any) {
 export async function updateVolunteer(data: any) {
     try {
         await connectToDatabase();
-        return await Volunteer.findByIdAndUpdate(data.id,  {$set: {...data}}, { new: true }).exec();
+        return await Volunteer.findByIdAndUpdate(data.id,  {$set: {...data}}, { new: true }).select('_id name email ').exec();
     } catch (e: any) {
         throw e;
     }
@@ -50,7 +49,9 @@ export const getPagedVolunteerByAdminRepo = async (data: any) => {
 
     return Volunteer.aggregate([
         {
-            $match: {},
+            $match: {
+                archived: false
+            },
         },
         {
             $project: {
@@ -98,3 +99,20 @@ export const getPagedVolunteerByAdminRepo = async (data: any) => {
         },
     ]).exec();
 };
+
+export async function deleteVolunteerByAdminRepo(id: any) {
+    try {
+        await connectToDatabase();
+        return await Volunteer.findByIdAndUpdate(id,  {$set: {archived: true}}, { new: true }).select('_id name email ').exec();
+    } catch (e: any) {
+        throw e;
+    }
+}
+export async function activationVolunteerByAdminRepo(id: any, data: any) {
+    try {
+        await connectToDatabase();
+        return await Volunteer.findByIdAndUpdate(id,  {$set: {active: data.active}}, { new: true }).select('_id name email ').exec();
+    } catch (e: any) {
+        throw e;
+    }
+}

@@ -25,6 +25,7 @@ export interface IVolunteer extends Document {
     updates: string
     signature: string
     active: boolean
+    archived: boolean
 }
 
 const VolunteerSchema = new Schema<IVolunteer>({
@@ -93,6 +94,10 @@ const VolunteerSchema = new Schema<IVolunteer>({
     active: {
         type: Boolean,
         default: true
+    },
+    archived: {
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,

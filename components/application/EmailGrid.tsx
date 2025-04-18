@@ -1,7 +1,7 @@
 // components/EmailGrid.js
 import EmailCard from './EmailCard';
 
-export default function EmailGrid({ emails, page, pageSize, totalPages, onPageChange }: any) {
+export default function EmailGrid({ emails, page, pageSize, totalPages, onPageChange, onOpenStatusChange}: any) {
     const pageCount = (total: number, size: number) => {
         return Math.floor(total / size) + 1
     }
@@ -10,7 +10,7 @@ export default function EmailGrid({ emails, page, pageSize, totalPages, onPageCh
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {emails.map((email: any) => (
-                    <EmailCard key={email.id} email={email} />
+                    <EmailCard key={email.id} email={email} onOpenStatusChange={onOpenStatusChange}/>
                 ))}
             </div>
 

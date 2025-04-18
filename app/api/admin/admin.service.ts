@@ -1,11 +1,12 @@
-import {createAdmin, findFirstAdmin, findUniqueAdmin, updateAdmin} from "@/app/api/admin/admin.repo";
+import {
+    activationAdminByAdminRepo,
+    createAdmin, deleteAdminByAdminRepo,
+    findFirstAdmin,
+    findUniqueAdmin,
+    getPagedAdminByAdminRepo,
+    updateAdmin
+} from "@/app/api/admin/admin.repo";
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import {cookies} from "next/headers";
-import {LOGGED_TOKEN, LOGGED_USER, USER} from "@/lib/constants";
-import {encrypt} from "@/lib/encryption";
-import {findUniqueVolunteer, updateVolunteer} from "@/app/api/volunteer/repo";
-import Admin from "@/models/Admin";
 
 export async function createAdminService(body: any) {
 
@@ -35,10 +36,6 @@ export async function loginAdminService(body: any) {
         if (!validPassword) {
             throw new Error(`Invalid credentials!`);
         }
-
-        // const token = jwt.sign({id: admin.id, user: USER.ADMIN}, JWT_PRIVATE_KEY, {expiresIn: JWT_EXPIRE_TIME});
-        // (await cookies()).set(LOGGED_TOKEN, encrypt(token));
-        // (await cookies()).set(LOGGED_USER, encrypt(USER.ADMIN));
 
         return {logging: true}
     } catch (e) {
@@ -74,5 +71,30 @@ export async function updateAdminService(body: any) {
         return result
     } catch (e) {
         throw e;
+    }
+}
+export async function deleteAdminByAdminService(id: any) {
+    try {
+        const result = await deleteAdminByAdminRepo(id)
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+
+export async function activationAdminByAdminService(data: any) {
+    try {
+        const result = await activationAdminByAdminRepo(data.id, data)
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+export async function getPagedAdminByAdminService(body: any) {
+    try {
+        const result = await getPagedAdminByAdminRepo(body)
+        return result
+    } catch (e) {
+        throw e
     }
 }

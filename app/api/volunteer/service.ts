@@ -1,5 +1,6 @@
 import {
-    createVolunteer,
+    activationVolunteerByAdminRepo,
+    createVolunteer, deleteVolunteerByAdminRepo,
     findFirstVolunteer,
     findUniqueVolunteer,
     getPagedVolunteerByAdminRepo,
@@ -58,6 +59,24 @@ export async function getOneByIdVolunteerService(id: string) {
 export async function getPagedVolunteerByAdminService(body: any) {
     try {
         const result = await getPagedVolunteerByAdminRepo(body)
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+
+export async function deleteVolunteerByAdminService(id: any) {
+    try {
+        const result = await deleteVolunteerByAdminRepo(id)
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+
+export async function activationVolunteerByAdminService(data: any) {
+    try {
+        const result = await activationVolunteerByAdminRepo(data.id, data)
         return result
     } catch (e) {
         throw e

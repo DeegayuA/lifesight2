@@ -18,6 +18,14 @@ export async function createContact(data: any) {
         throw e;
     }
 }
+export async function statusChangeContactRepo(id: any, data: any) {
+    try {
+        await connectToDatabase();
+        return await Contact.findByIdAndUpdate(id, {$set: {...data}}).select('_id email').exec()
+    } catch (e: any) {
+        throw e;
+    }
+}
 
 export const getPagedContactRepo = async (data: any) => {
     await connectToDatabase();
@@ -28,7 +36,9 @@ export const getPagedContactRepo = async (data: any) => {
 
     return Contact.aggregate([
         {
-            $match: {},
+            $match: {
+                archived: false
+            },
         },
         {
             $project: {
@@ -38,6 +48,8 @@ export const getPagedContactRepo = async (data: any) => {
                 lastName: 1,
                 phone: 1,
                 message: 1,
+                read: 1,
+                open: 1,
                 createdAt: 1,
                 searchText: {
                     $concat: ["$email", " ", "$firstName", " ", "$lastName", " ", "$message", " ", "$phone" ],

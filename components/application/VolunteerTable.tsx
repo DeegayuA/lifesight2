@@ -2,7 +2,7 @@ import { PencilSquareIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outl
 import { useState } from 'react';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@heroui/react";
 
-function ActionMenu({ onEdit, onDelete, onToggleActive }: any) {
+function ActionMenu({ vol, onDelete, onToggleActive }: any) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -23,10 +23,10 @@ function ActionMenu({ onEdit, onDelete, onToggleActive }: any) {
                         Delete
                     </button>
                     <button
-                        className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 whitespace-nowrap"
                         onClick={() => { setOpen(false); onToggleActive(); }}
                     >
-                        Toggle Active
+                        {vol.active ? 'Deactivate' : 'Activate'}
                     </button>
                 </div>
             )}
@@ -65,12 +65,12 @@ export default function VolunteerTable({ volunteers, page, pageSize, totalPages,
                                 <p>  {v.name}</p>
                             </div>
                         </TableCell>
-                        <TableCell className="px-4 py-2">{v.email}</TableCell>
+                        <TableCell className="px-4 py-2 whitespace-nowrap">{v.email}</TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">{v.phone}</TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">{v.location}</TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">{v.language}</TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">
-                <span className={`inline-block px-2 py-1 rounded text-xs ${v.active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                <span className={`inline-block px-2 py-1 rounded text-xs ${v.active ? 'bg-green-300 text-green-700' : 'bg-red-100 text-red-500'}`}>
                   {v.active ? 'Active' : 'Inactive'}
                 </span>
                         </TableCell>
@@ -84,6 +84,7 @@ export default function VolunteerTable({ volunteers, page, pageSize, totalPages,
                                 <PencilSquareIcon className="w-5 h-5 text-blue-500" />
                             </button>
                             <ActionMenu
+                                vol={v}
                                 onDelete={() => onDelete(v)}
                                 onToggleActive={() => onToggleActive(v)}
                             />

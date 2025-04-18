@@ -1,7 +1,6 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import Table from "@/components/hero-ui/Table";
 
 export default function Dashboard() {
     const { data: session }: any = useSession();
@@ -9,9 +8,8 @@ export default function Dashboard() {
     if (!session) {
         return
     }
-    return (
-        <div>
-            <Table></Table>
-        </div>
-    );
+    return (<>
+            <h1>Volunteer Dashboard Page</h1>
+        </>);
+
 }

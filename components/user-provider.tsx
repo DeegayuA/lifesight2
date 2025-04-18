@@ -9,6 +9,7 @@ type LoggedUserContextType = {
         name: string,
         email: string,
         image: string,
+        userType: string,
     };
 }
 
@@ -22,6 +23,7 @@ export function LoggedUserProvider({ children }: { children: React.ReactNode }) 
         name: '',
         email: '',
         image: '',
+        userType: ''
     })
 
     useEffect(() => {
@@ -29,7 +31,7 @@ export function LoggedUserProvider({ children }: { children: React.ReactNode }) 
             if (fetchUser && session?.user?.id) {
                 try {
                     const res = await apiRequest(`${session?.user?.userType === "ADMIN" ? '/api/admin/user/' : '/api/volunteer/user/'}${session?.user?.id }`, "GET");
-                    setUser(res)
+                    setUser({...res, userType: session?.user?.userType })
                     setFetchUser(false)
                 } catch (error) {
                     console.error("Logged user fetching error:", error);

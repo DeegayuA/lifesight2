@@ -27,27 +27,48 @@ export const AcmeLogo = () => {
     );
 };
 
-export default function Header({className}: {className: string}) {
+export default function Header({className}: { className: string }) {
     const router = useRouter()
-    const { user } = LoggedUser();
+    const {user} = LoggedUser();
 
     return (
         <Card className={className + ' rounded-none'}>
             <CardBody className='py-0'>
                 <Navbar>
                     <NavbarBrand>
-                        <AcmeLogo />
+                        <AcmeLogo/>
                         <p className="font-bold text-inherit">ACME</p>
                     </NavbarBrand>
 
                     <NavbarContent className="hidden sm:flex gap-4" justify="center">
                         <NavbarItem>
-                            <Link color="foreground" href="/volunteer/protect/dashboard">
+                            <Link color="foreground"
+                                  href={`${user.userType === "ADMIN" ? '/admin/protect/dashboard' : '/volunteer/protect/dashboard'}`}>
                                 Dashboard
                             </Link>
                         </NavbarItem>
+                        {user.userType === 'ADMIN' &&
+                            <div className="flex gap-4">
+                                <NavbarItem>
+                                    <Link color="foreground" href="/admin/protect/admins">
+                                        Admins
+                                    </Link>
+                                </NavbarItem>
+                                <NavbarItem>
+                                    <Link color="foreground" href="/admin/protect/volunteers">
+                                        Volunteers
+                                    </Link>
+                                </NavbarItem>
+                                <NavbarItem>
+                                    <Link color="foreground" href="/admin/protect/mail/inbox">
+                                        Mails
+                                    </Link>
+                                </NavbarItem>
+                            </div>
+                        }
                         <NavbarItem>
-                            <Link color="foreground" href="/volunteer/protect/profile">
+                            <Link color="foreground"
+                                  href={`${user.userType === "ADMIN" ? '/admin/protect/profile' : '/volunteer/protect/profile'}`}>
                                 profile
                             </Link>
                         </NavbarItem>
@@ -71,14 +92,16 @@ export default function Header({className}: {className: string}) {
                                 </div>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                <DropdownItem key="profile" onClick={() => router.push('/volunteer/protect/profile')} className="h-14 gap-2">
+                                <DropdownItem key="profile" onClick={() => router.push(user.userType === "ADMIN" ? '/admin/protect/profile' : '/volunteer/protect/profile')}
+                                              className="h-14 gap-2">
                                     <p className="font-semibold">{user?.email}</p>
                                     <p>{user?.name}</p>
                                 </DropdownItem>
                                 <DropdownItem key="notification">
                                     <p className="font-semibold my-2">Notifications</p>
                                 </DropdownItem>
-                                <DropdownItem key="logout" color="danger" className='text-red-900' onClick={() => signOut()}>
+                                <DropdownItem key="logout" color="danger" className='text-red-900'
+                                              onClick={() => signOut()}>
                                     Log Out
                                 </DropdownItem>
                             </DropdownMenu>

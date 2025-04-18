@@ -2,7 +2,7 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@
 
 export default function TableView() {
     return (
-        <Table aria-label="Example static collection table">
+        <Table aria-label="table" >
             <TableHeader>
                 <TableColumn>NAME</TableColumn>
                 <TableColumn>ROLE</TableColumn>

@@ -1,5 +1,6 @@
 import Admin from "@/models/Admin";
 import {connectToDatabase} from "@/lib/mongodb";
+import Volunteer from "@/models/Volunteer";
 
 
 export async function createAdmin(data: any) {
@@ -35,8 +36,15 @@ export async function findUniqueAdmin(id: string) {
 
     try {
         await connectToDatabase();
-        return await Admin.findById(id
-        ).exec()
+        return await Admin.findById(id).exec()
+    } catch (e: any) {
+        throw e;
+    }
+}
+export async function updateAdmin(data: any) {
+    try {
+        await connectToDatabase();
+        return await Admin.findByIdAndUpdate(data.id,  {$set: {...data}}, { new: true }).exec();
     } catch (e: any) {
         throw e;
     }

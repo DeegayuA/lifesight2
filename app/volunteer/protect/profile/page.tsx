@@ -93,7 +93,7 @@ export default function VolunteerProfile() {
 
             const result = await response.json();
             setValue("image", result[0].url);
-            console.log('Upload success. S3 URL:', result[0].url); // From your backend response
+            setPreviewImage(result[0].url)
         } catch (error) {
             console.error(error instanceof Error ? error.message : 'Upload failed');
         }
@@ -291,12 +291,12 @@ export default function VolunteerProfile() {
             </div>
 
             {submitted ? (
-                <p className="text-green-600 text-center dark:text-black">Thank you for submitting the form!</p>
+                <p className="text-yellow-600 text-end text-2xl">Profile updated successfully!</p>
             ) : "" }
 
             {/* Submit Button */}
             <div className="flex justify-end">
-                <Button
+                <Button type="submit"
                     className="bg-indigo-600 text-white py-4 px-20 rounded-md">
                     Save Profile
                 </Button>

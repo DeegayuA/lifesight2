@@ -8,7 +8,7 @@ const Dashboard = () => {
 
     return <>
         <h1>Admin Dashboard Page</h1>
-        <Button onClick={() => router.push('/admin/protect/addEditAdmin')}>Admin Add Edit</Button>
+        {/*<Button onClick={() => router.push('/admin/protect/addEditAdmin')}>Admin Add Edit</Button>*/}
     </>
 }
 

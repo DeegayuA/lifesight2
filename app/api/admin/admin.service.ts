@@ -1,10 +1,12 @@
-import {createAdmin, findFirstAdmin, findUniqueAdmin} from "@/app/api/admin/admin.repo";
+import {
+    activationAdminByAdminRepo,
+    createAdmin, deleteAdminByAdminRepo,
+    findFirstAdmin,
+    findUniqueAdmin,
+    getPagedAdminByAdminRepo,
+    updateAdmin
+} from "@/app/api/admin/admin.repo";
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import {cookies} from "next/headers";
-import {LOGGED_TOKEN, LOGGED_USER, USER} from "@/lib/constants";
-import {encrypt} from "@/lib/encryption";
-import {JWT_EXPIRE_TIME, JWT_PRIVATE_KEY} from "@/app/api/authenticate";
 
 export async function createAdminService(body: any) {
 
@@ -35,10 +37,6 @@ export async function loginAdminService(body: any) {
             throw new Error(`Invalid credentials!`);
         }
 
-        const token = jwt.sign({id: admin.id, user: USER.ADMIN}, JWT_PRIVATE_KEY, {expiresIn: JWT_EXPIRE_TIME});
-        (await cookies()).set(LOGGED_TOKEN, encrypt(token));
-        (await cookies()).set(LOGGED_USER, encrypt(USER.ADMIN));
-
         return {logging: true}
     } catch (e) {
         throw e
@@ -52,5 +50,51 @@ export async function findAuthAdminService(id: any) {
         return admin
     } catch (e) {
         throw e;
+    }
+}
+export async function getOneByIdAdminService(id: string) {
+    try {
+        const result: any = await findUniqueAdmin(id)
+        result.password = undefined
+        return result
+    } catch (e) {
+        throw e;
+    }
+}
+export async function updateAdminService(body: any) {
+    try {
+        if (body.password) {
+            return {validCheck: true, message: "Password can't change here!"}
+        }
+        const result: any = await updateAdmin(body)
+       result.password = undefined
+        return result
+    } catch (e) {
+        throw e;
+    }
+}
+export async function deleteAdminByAdminService(id: any) {
+    try {
+        const result = await deleteAdminByAdminRepo(id)
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+
+export async function activationAdminByAdminService(data: any) {
+    try {
+        const result = await activationAdminByAdminRepo(data.id, data)
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+export async function getPagedAdminByAdminService(body: any) {
+    try {
+        const result = await getPagedAdminByAdminRepo(body)
+        return result
+    } catch (e) {
+        throw e
     }
 }

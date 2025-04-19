@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import {heroui} from "@heroui/react";
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
@@ -9,6 +10,7 @@ const {
         './pages/**/*.{js,ts,jsx,tsx,mdx}',
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
+        "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}"
       ],
       theme: {
         extend: {
@@ -127,7 +129,7 @@ const {
           },
         },
       },
-      plugins: [require('tailwindcss-animate')], addVariablesForColors,
+      plugins: [require('tailwindcss-animate'), heroui()], addVariablesForColors,
     };
     export default config;
 

@@ -43,6 +43,7 @@ export default function VolunteerTable({ volunteers, page, pageSize, totalPages,
             <Table className="min-w-full bg-white text-gray-500 border rounded shadow">
                 <TableHeader>
                     <TableColumn>Name</TableColumn>
+                    <TableColumn>Image</TableColumn>
                     <TableColumn>Email</TableColumn>
                     <TableColumn>Phone</TableColumn>
                     <TableColumn>Location</TableColumn>
@@ -54,15 +55,14 @@ export default function VolunteerTable({ volunteers, page, pageSize, totalPages,
                 <TableBody>
                 {volunteers.map((v: any) => (
                     <TableRow key={v._id} className="border-t items-center">
+                        <TableCell className="px-4 py-2 whitespace-nowrap"><p>{v.name}</p></TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">
-                            <div className="flex items-center gap-2">
-                                <div className="w-full h-full">
-                                    {v.image
-                                        ?
-                                        <img src={v.image} alt={v.name} className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
-                                        : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
-                                </div>
-                                <p>  {v.name}</p>
+                            <div className="w-full h-full">
+                                {v.image
+                                    ?
+                                    <img src={v.image} alt={v.name}
+                                         className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
+                                    : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
                             </div>
                         </TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">{v.email}</TableCell>

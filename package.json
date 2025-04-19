@@ -4,11 +4,9 @@
       "private": true,
       "scripts": {
             "dev": "next dev --turbopack",
-            "build": "prisma generate && next build",
+            "build": "next build",
             "start": "next start",
-            "lint": "next lint",
-            "prisma:reset-migrations": "rm -rf prisma/migrations/* && npm run prisma:migrate",
-            "prisma:migrate": "prisma migrate dev --name lifesight --schema ./prisma/schema/schema.prisma"
+            "lint": "next lint"
       },
       "dependencies": {
             "@google/generative-ai": "^0.2.0",
@@ -16,7 +14,6 @@
             "@heroui/react": "^2.7.5",
             "@hookform/resolvers": "^3.9.0",
             "@next/swc-wasm-nodejs": "15.1.5",
-            "@prisma/client": "^6.6.0",
             "@radix-ui/react-accordion": "^1.2.0",
             "@radix-ui/react-alert-dialog": "^1.1.1",
             "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -104,8 +101,7 @@
             "@types/crypto-js": "^4.2.2",
             "@types/jsonwebtoken": "^9.0.8",
             "@types/nodemailer": "^6.4.17",
-            "@types/uuid": "^10.0.0",
-            "prisma": "^6.6.0"
+            "@types/uuid": "^10.0.0"
       },
       "overrides": {
             "@react-spring/web": {

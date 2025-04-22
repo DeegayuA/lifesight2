@@ -71,7 +71,7 @@ export default function VolunteerTable({ volunteers, page, pageSize, totalPages,
                         <TableCell className="px-4 py-2 whitespace-nowrap">{v.language}</TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">
                 <span className={`inline-block px-2 py-1 rounded text-xs ${v.active ? 'bg-green-300 text-green-700' : 'bg-red-100 text-red-500'}`}>
-                  {v.active ? 'Active' : 'Inactive'}
+                  {v.active ? 'Active' : 'Banned'}
                 </span>
                         </TableCell>
                         <TableCell className="px-4 py-2 whitespace-nowrap">{new Date(v.createdAt).toLocaleDateString()}</TableCell>

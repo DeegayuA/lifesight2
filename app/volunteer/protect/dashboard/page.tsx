@@ -1,6 +1,8 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import {StarRating} from "@/components/star-rating";
+import React from "react";
 
 export default function Dashboard() {
     const { data: session }: any = useSession();
@@ -8,8 +10,8 @@ export default function Dashboard() {
     if (!session) {
         return
     }
-    return (<>
-            <h1>Volunteer Dashboard Page</h1>
-        </>);
+    return (<div className="my-5">
+        <StarRating starCount={3} title="You gathered value"></StarRating>
+        </div>);
 
 }

@@ -14,6 +14,7 @@ import {useRouter} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
+import Link from "next/link";
 
 interface LoginFormProps extends React.ComponentPropsWithoutRef<"div"> {
     userType: string;
@@ -120,9 +121,8 @@ export function LoginForm({className, userType, onLogin, ...props}: LoginFormPro
                 </CardContent>
             </Card>
             <div
-                className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-                By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-                and <a href="#">Privacy Policy</a>.
+                className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4">
+                By clicking continue, you agree to our <Link className="hover:text-primary" color="foreground" href="/web/terms">Terms of Service</Link> and <Link className="hover:text-primary" color="foreground" href="/web/privacy">Privacy Policy</Link>.
             </div>
         </div>
     )

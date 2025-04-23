@@ -23,31 +23,30 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from "@/components/ui/button"
 
 export function StarRating({ starCount, title, }: any) {
+    const validatedStarCount = Math.min(Math.max(starCount, 0), 5);
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
+    <Card className="w-full">
+      <CardHeader className="items-center">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Label htmlFor="rating">Your rating:</Label>
+        <div className="flex flex-col items-center gap-2">
           <RadioGroup aria-label="Rating" id="rating" className="flex items-center gap-2">
-            {[...Array(starCount)].map((_, index) => {
+            {[...Array(5)].map((_, index) => {
               const ratingValue = starCount - index;
               return (
-                  <>
+                  <div key={index}>
                     <RadioGroupItem value={ratingValue.toString()} id={`rating-${ratingValue}`} className="peer sr-only" key={ratingValue} />
-                    <Label htmlFor={`rating-${ratingValue}`} className="cursor-pointer" title={`${ratingValue} stars`}>
-                      <StarIcon className="h-6 w-6 fill-primary" />
+                    <Label htmlFor={`rating-${ratingValue}`} title={`${ratingValue} stars`}>
+                      <StarIcon className={`h-6 w-6 text-yellow-500 ${starCount <= index ? '' : 'fill-yellow-500'}`} />
                     </Label>
-                  </>
+                  </div>
               );
             })}
           </RadioGroup>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
-        {/*<Button type="submit">Submit</Button>*/}
       </CardFooter>
     </Card>
   )

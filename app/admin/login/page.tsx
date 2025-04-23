@@ -3,7 +3,6 @@
 import {LoginForm} from "@/components/login-form";
 import {USER} from "@/lib/constants";
 import {signIn} from "next-auth/react";
-import {GalleryVerticalEnd} from "lucide-react";
 import Image from "next/image";
 
 export default function LoginPage() {
@@ -27,7 +26,7 @@ export default function LoginPage() {
                     <div
                         className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                         <Image
-                            src="/images/logo/lifesight-logo.jpeg"
+                            src="/images/logo/lifesight-logo.png"
                             alt="LifeSight logo"
                             height={100}
                             width={100}

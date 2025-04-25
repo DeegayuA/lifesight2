@@ -99,6 +99,65 @@ export const getPagedVolunteerByAdminRepo = async (data: any) => {
         },
     ]).exec();
 };
+export const getPagedVolunteerForCommonRepo = async (data: any) => {
+    await connectToDatabase();
+    const {pageIndex, pageSize, sortField, sortOrder, filters} = data;
+    const {
+        searchText,
+        language
+    } = filters;
+
+    return Volunteer.aggregate([
+        {
+            $match: {
+                archived: false,
+                active: true,
+                language: language ? language : ''
+            },
+        },
+        {
+            $project: {
+                id: "$_id",
+                name: 1,
+                email: 1,
+                image: 1,
+                phone: 1,
+                rate: 1,
+                searchText: {
+                    $concat: ["$email", " ", "$name", " ", "$phone"],
+                },
+            },
+        },
+        {
+            $match: {
+                searchText: {
+                    $regex: searchText ? searchText : "",
+                    $options: "i",
+                }
+            },
+        },
+        {
+            $project: {
+                searchText: 0,
+                _id: 0
+            },
+        },
+        {
+            $facet: {
+                metadata: [{$count: "total"}, {$addFields: {page: pageIndex || 1}}],
+                data: [
+                    {
+                        $sort: {
+                            [sortField || "createdAt"]: sortOrder || -1,
+                        },
+                    },
+                    {$skip: (pageSize || 10) * ((pageIndex || 1) - 1) || 0},
+                    {$limit: pageSize || 10},
+                ],
+            },
+        },
+    ]).exec();
+};
 
 export async function deleteVolunteerByAdminRepo(id: any) {
     try {

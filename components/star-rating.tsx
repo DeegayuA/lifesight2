@@ -52,7 +52,7 @@ export function StarRating({ starCount, title, }: any) {
   )
 }
 
-function StarIcon(props: any) {
+export function StarIcon(props: any) {
   return (
     <svg
       {...props}

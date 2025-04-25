@@ -24,6 +24,7 @@ export interface IVolunteer extends Document {
     consent: string
     updates: string
     signature: string
+    rate: number
     active: boolean
     archived: boolean
 }
@@ -94,6 +95,10 @@ const VolunteerSchema = new Schema<IVolunteer>({
     active: {
         type: Boolean,
         default: true
+    },
+    rate: {
+        type: Number,
+        default: 0
     },
     archived: {
         type: Boolean,

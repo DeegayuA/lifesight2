@@ -170,6 +170,7 @@ export const ACCENT_COLORS = [
 
 export const LOGGED_TOKEN = '#*&&%^~!@&*%%$$#'
 export const LOGGED_USER = '#*&%^!@^&*^%$*#'
+export const ASSIST_LANGUAGE = '#*%^@&*%$#'
 export const USER = {
   ADMIN: 'ADMIN',
   VOLUNTEER: 'VOLUNTEER'

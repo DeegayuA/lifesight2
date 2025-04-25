@@ -3,7 +3,7 @@ import {
     createVolunteer, deleteVolunteerByAdminRepo,
     findFirstVolunteer,
     findUniqueVolunteer,
-    getPagedVolunteerByAdminRepo,
+    getPagedVolunteerByAdminRepo, getPagedVolunteerForCommonRepo,
     updateVolunteer
 } from "@/app/api/volunteer/repo";
 import crypto from "crypto";
@@ -59,6 +59,14 @@ export async function getOneByIdVolunteerService(id: string) {
 export async function getPagedVolunteerByAdminService(body: any) {
     try {
         const result = await getPagedVolunteerByAdminRepo(body)
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+export async function getPagedVolunteerForCommonService(body: any) {
+    try {
+        const result = await getPagedVolunteerForCommonRepo(body)
         return result
     } catch (e) {
         throw e

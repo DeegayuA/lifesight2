@@ -1,6 +1,7 @@
 import { PencilSquareIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@heroui/react";
+import SpinnerSection from "@/components/ui/Spinner";
 
 function ActionMenu({ vol, onDelete, onToggleActive }: any) {
     const [open, setOpen] = useState(false);
@@ -37,7 +38,7 @@ const pageCount = (total: number, size: number) => {
     return Math.floor(total / size) + 1
 }
 
-export default function VolunteerTable({ volunteers, page, pageSize, totalPages, onPageChange, onEdit, onDelete, onToggleActive }: any ) {
+export default function VolunteerTable({ volunteers,  loading,  page, pageSize, totalPages, onPageChange, onEdit, onDelete, onToggleActive }: any ) {
     return (
         <div className="overflow-x-auto">
             <Table className="min-w-full bg-white text-gray-500 border rounded shadow">
@@ -46,51 +47,61 @@ export default function VolunteerTable({ volunteers, page, pageSize, totalPages,
                     <TableColumn>Image</TableColumn>
                     <TableColumn>Email</TableColumn>
                     <TableColumn>Phone</TableColumn>
+                    <TableColumn>Active</TableColumn>
                     <TableColumn>Location</TableColumn>
                     <TableColumn>Language</TableColumn>
-                    <TableColumn>Active</TableColumn>
                     <TableColumn>Created</TableColumn>
                     <TableColumn>Actions</TableColumn>
                 </TableHeader>
-                <TableBody>
-                {volunteers.map((v: any) => (
-                    <TableRow key={v._id} className="border-t items-center">
-                        <TableCell className="px-4 py-2 whitespace-nowrap"><p>{v.name}</p></TableCell>
-                        <TableCell className="px-4 py-2 whitespace-nowrap">
-                            <div className="w-full h-full">
-                                {v.image
-                                    ?
-                                    <img src={v.image} alt={v.name}
-                                         className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
-                                    : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
-                            </div>
-                        </TableCell>
-                        <TableCell className="px-4 py-2 whitespace-nowrap">{v.email}</TableCell>
-                        <TableCell className="px-4 py-2 whitespace-nowrap">{v.phone}</TableCell>
-                        <TableCell className="px-4 py-2 whitespace-nowrap">{v.location}</TableCell>
-                        <TableCell className="px-4 py-2 whitespace-nowrap">{v.language}</TableCell>
-                        <TableCell className="px-4 py-2 whitespace-nowrap">
+                <TableBody emptyContent={"No volunteers to display."}>
+                    {!loading ?
+                        (volunteers.map((v: any) => (
+                            <TableRow key={v._id} className="border-t items-center">
+                                <TableCell className="px-4 py-2 whitespace-nowrap"><p>{v.name}</p></TableCell>
+                                <TableCell className="px-4 py-2 whitespace-nowrap">
+                                    <div className="w-full h-full">
+                                        {v.image
+                                            ?
+                                            <img src={v.image} alt={v.name}
+                                                 className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
+                                            : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
+                                    </div>
+                                </TableCell>
+                                <TableCell className="px-4 py-2 whitespace-nowrap">{v.email}</TableCell>
+                                <TableCell className="px-4 py-2 whitespace-nowrap">{v.phone}</TableCell>
+                                <TableCell className="px-4 py-2 whitespace-nowrap">
                 <span className={`inline-block px-2 py-1 rounded text-xs ${v.active ? 'bg-green-300 text-green-700' : 'bg-red-100 text-red-500'}`}>
                   {v.active ? 'Active' : 'Banned'}
                 </span>
-                        </TableCell>
-                        <TableCell className="px-4 py-2 whitespace-nowrap">{new Date(v.createdAt).toLocaleDateString()}</TableCell>
-                        <TableCell className="px-4 py-2 flex items-center gap-2">
-                            <button
-                                className="p-2 rounded hover:bg-gray-100"
-                                onClick={() => onEdit(v)}
-                                aria-label="Edit"
-                            >
-                                <PencilSquareIcon className="w-5 h-5 text-blue-500" />
-                            </button>
-                            <ActionMenu
-                                vol={v}
-                                onDelete={() => onDelete(v)}
-                                onToggleActive={() => onToggleActive(v)}
-                            />
-                        </TableCell>
-                    </TableRow>
-                ))}
+                                </TableCell>
+                                <TableCell className="px-4 py-2 whitespace-nowrap">{v.location}</TableCell>
+                                <TableCell className="px-4 py-2 whitespace-nowrap">{v.language}</TableCell>
+                                <TableCell className="px-4 py-2 whitespace-nowrap">{new Date(v.createdAt).toLocaleDateString()}</TableCell>
+                                <TableCell className="px-4 py-2 flex items-center gap-2">
+                                    <button
+                                        className="p-2 rounded hover:bg-gray-100"
+                                        onClick={() => onEdit(v)}
+                                        aria-label="Edit"
+                                    >
+                                        <PencilSquareIcon className="w-5 h-5 text-blue-500" />
+                                    </button>
+                                    <ActionMenu
+                                        vol={v}
+                                        onDelete={() => onDelete(v)}
+                                        onToggleActive={() => onToggleActive(v)}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                        )))
+                        :
+                        (<TableRow>
+                            <TableCell colSpan={9}>
+                                <div className="flex h-full">
+                                    <SpinnerSection/>
+                                </div>
+                            </TableCell>
+                        </TableRow>)
+                    }
                 </TableBody>
             </Table>
             {/* Pagination */}

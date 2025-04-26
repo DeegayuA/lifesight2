@@ -21,6 +21,7 @@ import {ASSIST_LANGUAGE} from "@/lib/constants";
 import {StarIcon} from "@/components/star-rating";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
+import SpinnerSection from "@/components/ui/Spinner";
 
 
 function StarRating({starCount}: any) {
@@ -83,6 +84,7 @@ const pageCount = (total: number, size: number) => {
 }
 export default function CallAssistantPage() {
     const {fontSize, accentColor} = useSettings();
+    const [loading, setLoading] = useState(false);
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -103,6 +105,7 @@ export default function CallAssistantPage() {
     };
     const fetchVolunteers = async () => {
         try {
+            setLoading(true)
             const payload = {
                 pageIndex,
                 pageSize,
@@ -116,6 +119,8 @@ export default function CallAssistantPage() {
             setTotalPages(res[0]?.metadata[0]?.total ? res[0]?.metadata[0]?.total : 1);
         } catch (error) {
             console.error("Fetching error:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -160,41 +165,52 @@ export default function CallAssistantPage() {
 
 
                     <div className="overflow-x-auto">
-                        <Table className="min-w-full bg-white text-gray-500 border rounded shadow">
+                        <Table className="min-w-full h-full text-gray-500 border rounded shadow">
                             <TableHeader>
                                 <TableColumn>Name</TableColumn>
                                 <TableColumn>Image</TableColumn>
                                 <TableColumn>Rate</TableColumn>
                                 <TableColumn>Contact Action</TableColumn>
                             </TableHeader>
-                            <TableBody>
-                                {volunteers.map((v: any) => (
-                                    <TableRow key={v._id} className="border-t items-center">
-                                        <TableCell className="px-4 py-2 whitespace-nowrap"><p>{v.name}</p></TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">
-                                            <div className="w-full h-full">
-                                                {v.image
-                                                    ?
-                                                    <img src={v.image} alt={v.name}
-                                                         className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
-                                                    : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
+                            <TableBody emptyContent={"No volunteers to display."}>
+                                {!loading ?
+                                    (volunteers.map((v: any) => (
+                                        <TableRow key={v._id} className="border-t items-center">
+                                            <TableCell className="px-4 py-2 whitespace-nowrap"><p>{v.name}</p></TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">
+                                                <div className="w-full h-full">
+                                                    {v.image
+                                                        ?
+                                                        <img src={v.image} alt={v.name}
+                                                             className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
+                                                        : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">
+                                                <StarRating starCount={v.rate} title="You Gathered Rate"></StarRating>
+                                            </TableCell>
+                                            <TableCell className="px-4 py-2 flex flex-col gap-2 ">
+                                                <Button className="w-fit dark:text-white text-md"
+                                                        style={{backgroundColor: accentColor, padding: 7}}
+                                                        onClick={() => openModalWithRow(v)}>Call : {v.phone}
+                                                </Button>
+                                                <Link href={`mailto:${v.email}`}>
+                                                    <Button style={{backgroundColor: accentColor, padding: 7}}>
+                                                        <span className=" mr-2">Mail : </span> {v.email}
+                                                    </Button>
+                                                </Link>
+                                            </TableCell>
+                                        </TableRow>
+                                    )))
+                                        :
+                                    (<TableRow>
+                                        <TableCell colSpan={4}>
+                                            <div className="flex h-full">
+                                                <SpinnerSection/>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">
-                                            <StarRating starCount={v.rate} title="You Gathered Rate"></StarRating>
-                                        </TableCell>
-                                        <TableCell className="px-4 py-2 flex flex-col gap-2 ">
-                                            <Button className="w-fit text-white text-md" style={{backgroundColor: accentColor, padding: 7}}
-                                                    onClick={() => openModalWithRow(v)}>Call : {v.phone}
-                                            </Button>
-                                            <Link href={`mailto:${v.email}`}>
-                                                <Button style={{backgroundColor: accentColor, padding: 7}}>
-                                                    <span className=" mr-2">Mail : </span> {v.email}
-                                                </Button>
-                                            </Link>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                    </TableRow>)
+                                }
                             </TableBody>
                         </Table>
                         <ModalOpen

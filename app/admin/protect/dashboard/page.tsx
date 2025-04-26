@@ -12,11 +12,15 @@ import {Bar, BarChart, XAxis} from "recharts";
 import React, {useEffect, useState} from "react";
 import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@heroui/react";
 import {apiRequest} from "@/core/api.handler";
+import {Button} from "@/components/ui/button";
+import Link from "next/link";
+import SpinnerSection from "@/components/ui/Spinner";
 
 
 const Dashboard = () => {
     const [volunteers, setVolunteers] = useState([]);
     const [admins, setAdmins] = useState([]);
+    const [loading, setLoading] = useState(false);
 
 
     const chartData = [
@@ -71,9 +75,23 @@ const Dashboard = () => {
         }
     };
 
+
     useEffect(() => {
-        fetchVolunteers()
-            fetchAdmins()
+        const fetchAll = async () => {
+            setLoading(true);
+            try {
+                await Promise.all([
+                    fetchVolunteers(),
+                    fetchAdmins()
+                ]);
+            } catch (error) {
+                console.error("Fetching error:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAll();
     }, []);
 
     return (
@@ -121,23 +139,33 @@ const Dashboard = () => {
                                 <TableColumn>Email</TableColumn>
                                 <TableColumn>Language</TableColumn>
                             </TableHeader>
-                            <TableBody>
-                                {volunteers.map((v: any) => (
-                                    <TableRow key={v._id} className="border-t items-center">
-                                        <TableCell className="px-4 py-2 whitespace-nowrap"><p>{v.name}</p></TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">
-                                            <div className="w-full h-full">
-                                                {v.image
-                                                    ?
-                                                    <img src={v.image} alt={v.name}
-                                                         className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
-                                                    : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
+                            <TableBody emptyContent={"No volunteers to display."}>
+                                {!loading ?
+                                    (volunteers.map((v: any) => (
+                                        <TableRow key={v._id} className="border-t items-center">
+                                            <TableCell className="px-4 py-2 whitespace-nowrap"><p>{v.name}</p></TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">
+                                                <div className="w-full h-full">
+                                                    {v.image
+                                                        ?
+                                                        <img src={v.image} alt={v.name}
+                                                             className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
+                                                        : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">{v.email}</TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">{v.language}</TableCell>
+                                        </TableRow>
+                                    )))
+                                    :
+                                    (<TableRow>
+                                        <TableCell colSpan={4}>
+                                            <div className="flex h-full">
+                                                <SpinnerSection/>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">{v.email}</TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">{v.language}</TableCell>
-                                    </TableRow>
-                                ))}
+                                    </TableRow>)
+                                }
                             </TableBody>
                         </Table>
                     </div>
@@ -152,23 +180,33 @@ const Dashboard = () => {
                                 <TableColumn>Email</TableColumn>
                                 <TableColumn>Role</TableColumn>
                             </TableHeader>
-                            <TableBody>
-                                {admins.map((admin: any) => (
-                                    <TableRow key={admin._id} className="border-t items-center">
-                                        <TableCell className="px-4 py-2 whitespace-nowrap"><p>{admin.name}</p></TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">
-                                            <div className="w-full h-full">
-                                                {admin.image
-                                                    ?
-                                                    <img src={admin.image} alt={admin.name}
-                                                         className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
-                                                    : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
+                            <TableBody emptyContent={"No volunteers to display."}>
+                                {!loading ?
+                                    (admins.map((admin: any) => (
+                                        <TableRow key={admin._id} className="border-t items-center">
+                                            <TableCell className="px-4 py-2 whitespace-nowrap"><p>{admin.name}</p></TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">
+                                                <div className="w-full h-full">
+                                                    {admin.image
+                                                        ?
+                                                        <img src={admin.image} alt={admin.name}
+                                                             className="h-8 w-8 rounded-full bg-gray-200 object-cover"/>
+                                                        : <div className="h-8 w-8 rounded-full bg-gray-200"/>}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">{admin.email}</TableCell>
+                                            <TableCell className="px-4 py-2 whitespace-nowrap">{admin.role}</TableCell>
+                                        </TableRow>
+                                    )))
+                                    :
+                                    (<TableRow>
+                                        <TableCell colSpan={4}>
+                                            <div className="flex h-full">
+                                                <SpinnerSection/>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">{admin.email}</TableCell>
-                                        <TableCell className="px-4 py-2 whitespace-nowrap">{admin.role}</TableCell>
-                                    </TableRow>
-                                ))}
+                                    </TableRow>)
+                                }
                             </TableBody>
                         </Table>
                     </div>

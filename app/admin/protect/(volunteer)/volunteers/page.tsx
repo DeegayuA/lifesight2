@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import {apiRequest} from "@/core/api.handler";
 import VolunteerTable from "@/components/application/VolunteerTable";
+import {addToast} from "@heroui/toast";
 
 
 export default function VolunteersPage() {
@@ -11,19 +12,11 @@ export default function VolunteersPage() {
     const [fetchData, setFetchData] = useState(false);
     const [pageSize, setPageSize] = useState(5);
     const [totalPages, setTotalPages] = useState(1);
-    const [submitted, setSubmitted] = useState(false);
-
-
-    const submittedSuccess = () => {
-        const trigger = () => {
-            setSubmitted(true)
-            setTimeout(() => setSubmitted(false), 3000);
-        };
-        trigger()
-    }
+    const [loading, setLoading] = useState(false);
 
     const fetchVolunteers = async () => {
         try {
+            setLoading(true)
             const payload = {
                 pageIndex,
                 pageSize,
@@ -36,27 +29,35 @@ export default function VolunteersPage() {
             setTotalPages(res[0].metadata[0].total);
         } catch (error) {
             console.error("Fetching error:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
     const deleteVolunteer = async (vol: any) => {
         try {
+            setLoading(true)
             const res = await apiRequest(`/api/admin/volunteer/delete/${vol.id}`, "GET")
-            submittedSuccess()
+            addToast({title: "Volunteer Update", description: "Remove successfully!",});
         } catch (error) {
             console.error("Fetching error:", error);
+        } finally {
+            setLoading(false)
         }
     };
     const statusChange = async (vol: any) => {
         try {
+            setLoading(true)
             const payload = {
                 id: vol.id,
                 active: !vol.active
             }
             const res = await apiRequest(`/api/admin/volunteer/activation`, "PUT", payload)
-            submittedSuccess()
+            addToast({title: "Volunteer Update", description: "Status update successfully!",});
         } catch (error) {
             console.error("Fetching error:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -79,8 +80,8 @@ export default function VolunteersPage() {
     return (
         <div className="max-w-6xl mx-auto py-8">
             <h1 className="text-2xl font-bold mb-6">Volunteers</h1>
-            {submitted ? (<p className="text-yellow-600 text-center text-2xl">Updated successfully!</p>) : "" }
             <VolunteerTable
+                loading={loading}
                 volunteers={volunteers}
                 page={pageIndex}
                 pageSize={pageSize}

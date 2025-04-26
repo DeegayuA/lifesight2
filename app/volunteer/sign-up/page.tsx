@@ -12,6 +12,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
 import {ArrowLeft} from "lucide-react";
+import {addToast} from "@heroui/toast";
 
 // Validation schema using Zod
 const UserValidation = z.object({
@@ -70,6 +71,7 @@ export default function VolunteerForm() {
         try {
             setSubmitted(false)
             await apiRequest("/api/volunteer/signup", "POST", data)
+            addToast({title: "Volunteer Sign Up", description: "Thank you for submitting the form!",});
             setSubmitted(true)
             setTimeout(() => {
                 router.push("/volunteer/login")

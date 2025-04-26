@@ -9,6 +9,7 @@ import {Button} from "@heroui/button";
 import {apiRequest} from "@/core/api.handler";
 import {useSession} from "next-auth/react";
 import {Input} from "@/components/ui/input";
+import {addToast} from "@heroui/toast";
 
 // Validation schema using Zod
 const UserValidation = z.object({
@@ -21,7 +22,6 @@ const UserValidation = z.object({
 export default function AdminProfile() {
     const {data: session}: any = useSession();
     const [previewImage, setPreviewImage] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
     const {register, handleSubmit, reset, setValue, getValues, watch, formState: {errors}} = useForm({
         resolver: zodResolver(UserValidation),
         defaultValues: {
@@ -34,10 +34,9 @@ export default function AdminProfile() {
 
     const onSubmit = async (data: any) => {
         try {
-            setSubmitted(false)
             delete data.email
             const res = await apiRequest(`/api/admin/user/${session.user.id}`, "POST", data)
-            setSubmitted(true)
+            addToast({title: "Profile Update", description: "Updated successfully!",});
         } catch (error) {
             console.error("Submission error:", error);
         }
@@ -138,10 +137,6 @@ export default function AdminProfile() {
                 </div>
 
             </div>
-
-            {submitted ? (
-                <p className="text-yellow-600 text-end text-2xl">Profile updated successfully!</p>
-            ) : ""}
 
             {/* Submit Button */}
             <div className="flex justify-end">

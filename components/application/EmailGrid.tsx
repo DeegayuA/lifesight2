@@ -1,7 +1,9 @@
 // components/EmailGrid.js
 import EmailCard from './EmailCard';
+import SpinnerSection from "@/components/ui/Spinner";
+import React from "react";
 
-export default function EmailGrid({ emails, page, pageSize, totalPages, onPageChange, onOpenStatusChange}: any) {
+export default function EmailGrid({ emails, loading, page, pageSize, totalPages, onPageChange, onOpenStatusChange}: any) {
     const pageCount = (total: number, size: number) => {
         return Math.floor(total / size) + 1
     }
@@ -9,9 +11,13 @@ export default function EmailGrid({ emails, page, pageSize, totalPages, onPageCh
     return (
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {emails.map((email: any) => (
+                {loading ? ((Array(3).fill(0)).map((_: any, i: number) => (
+                    <div key={i} className="h-64 w-64 bg-black border-white  rounded-lg p-4 flex">
+                        <SpinnerSection/>
+                    </div>
+                ))) : (emails.map((email: any) => (
                     <EmailCard key={email.id} email={email} onOpenStatusChange={onOpenStatusChange}/>
-                ))}
+                )))}
             </div>
 
             {/* Pagination */}

@@ -11,6 +11,7 @@ import {useSession} from "next-auth/react";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger} from "@/components/ui/select";
 import {Textarea} from "@/components/ui/textarea";
+import {addToast} from "@heroui/toast";
 
 // Validation schema using Zod
 const UserValidation = z.object({
@@ -36,7 +37,6 @@ const UserValidation = z.object({
 export default function VolunteerProfile() {
     const {data: session}: any = useSession();
     const [previewImage, setPreviewImage] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
     const {register, handleSubmit, reset, setValue, getValues, watch, formState: {errors}} = useForm({
         resolver: zodResolver(UserValidation),
         defaultValues: {
@@ -68,10 +68,9 @@ export default function VolunteerProfile() {
 
     const onSubmit = async (data: any) => {
         try {
-            setSubmitted(false)
             delete data.email
             const res = await apiRequest(`/api/volunteer/user/${session.user.id}`, "POST", data)
-            setSubmitted(true)
+            addToast({title: "Profile Update", description: "Updated successfully!",});
         } catch (error) {
             console.error("Submission error:", error);
         }
@@ -289,10 +288,6 @@ export default function VolunteerProfile() {
                     <Input className="w-full" {...register('signature')} />
                 </div>
             </div>
-
-            {submitted ? (
-                <p className="text-yellow-600 text-end text-2xl">Profile updated successfully!</p>
-            ) : "" }
 
             {/* Submit Button */}
             <div className="flex justify-end">

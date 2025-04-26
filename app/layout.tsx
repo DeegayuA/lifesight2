@@ -31,7 +31,7 @@ export default function RootLayout({children}: { children: React.ReactNode; }) {
             <link rel="preload" href="/_next/static/css/app/layout.css?v=1737186472472" as="style"/>
         </head>
         <body className={cn(inter.className, 'h-full min-h-screen')}>
-        <SpeedInsights/>
+        {/* <SpeedInsights/> */}
         <Analytics/>
         <TransitionWrapper setLoading={setLoading}>
             <Theme>

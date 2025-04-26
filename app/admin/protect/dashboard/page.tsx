@@ -24,18 +24,18 @@ const Dashboard = () => {
 
 
     const chartData = [
-        {day: "Monday", admin: 186, volunteer: 80},
-        {day: "Tuesday", admin: 305, volunteer: 200},
-        {day: "Wednesday", admin: 237, volunteer: 120},
-        {day: "Thursday", admin: 73, volunteer: 190},
-        {day: "Friday", admin: 209, volunteer: 130},
-        {day: "Saturday", admin: 20, volunteer: 140},
-        {day: "Sunday", admin: 214, volunteer: 140},
+        {day: "Monday", admin: 2645, volunteer: 80},
+        {day: "Tuesday", admin: 1500, volunteer: 700},
+        {day: "Wednesday", admin: 7953, volunteer: 120},
+        {day: "Thursday", admin: 4000, volunteer: 598},
+        {day: "Friday", admin: 2509, volunteer: 1000},
+        {day: "Saturday", admin: 1956, volunteer: 800},
+        {day: "Sunday", admin: 5884, volunteer: 1423},
     ]
 
     const chartConfig = {
         admin: {
-            label: "Admin",
+            label: "User",
             color: "#2563eb",
         },
         volunteer: {

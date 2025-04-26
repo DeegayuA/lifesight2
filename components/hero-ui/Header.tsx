@@ -126,7 +126,11 @@ export default function Header({className}: { className: string }) {
                                             <DrawerTrigger asChild>
                                                 <p className="font-semibold my-2">Notifications</p>
                                             </DrawerTrigger>
-
+                                        </DropdownItem>
+                                        <DropdownItem key="settings">
+                                            <DrawerTrigger asChild>
+                                                <p className="font-semibold my-2">Settings</p>
+                                            </DrawerTrigger>
                                         </DropdownItem>
                                         <DropdownItem key="logout" color="danger" className='text-red-900'
                                                       onClick={() => signOut()}>

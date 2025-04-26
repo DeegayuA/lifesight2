@@ -17,47 +17,66 @@ import { useRouter } from 'next/navigation'; // Import useRouter
 const playfairDisplay = Playfair_Display({ subsets: ['latin'] });
 
 const loadingStates = [
-  {
-    text: "Enhancing accessibility features...",
-  },
-  {
-    text: "Researching visual impairments...",
-  },
-  {
-    text: "Configuring AI assistance...",
-  },
-  {
-    text: "Setting up OCR for text extraction...",
-  },
-  {
-    text: "Activating voice recognition & TTS...",
-  },
-  {
-    text: "Customizing UI with light/dark modes...",
-  },
-  {
-    text: "Optimizing for gamification & tools...",
-  },
-  {
-    text: "Finalizing social inclusion features...",
-  },
+  { text: "Enhancing accessibility features..." },
+  { text: "Researching visual impairments..." },
+  { text: "Configuring AI assistance..." },
+  { text: "Setting up OCR for text extraction..." },
+  { text: "Activating voice recognition & TTS..." },
+  { text: "Customizing UI with light/dark modes..." },
+  { text: "Optimizing for gamification & tools..." },
+  { text: "Finalizing social inclusion features..." },
 ];
+
+// Define the key for sessionStorage
+const LOADER_SESSION_KEY = 'loaderShownThisSession';
 
 export default function Home() {
   const { reducedMotion, fontSize, accentColor, highContrast } = useSettings();
-  const [loading, setLoading] = useState(true);
-  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+  // Initialize loading state based on sessionStorage ONLY if on the client
+  const [loading, setLoading] = useState(() => {
+      // Check only runs on the client side where sessionStorage is available
+      if (typeof window !== 'undefined') {
+          return !sessionStorage.getItem(LOADER_SESSION_KEY);
+      }
+      // Default to true if window is not defined (e.g., during SSR build)
+      // The useEffect below will correct this on client hydration if needed.
+      return true;
+  });
+//   const [loadingTextIndex, setLoadingTextIndex] = useState(0); // This state seems unused, can be removed if not needed elsewhere
   const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
-    const loadingTimeout = setTimeout(() => {
-      setLoading(false);
-    }, 4000);
+    // This effect runs only once on the client after mounting
+    let timeoutId: NodeJS.Timeout | null = null;
 
+    if (typeof window !== 'undefined') { // Ensure we are on the client
+      const hasLoaderBeenShown = sessionStorage.getItem(LOADER_SESSION_KEY);
+
+      if (!hasLoaderBeenShown) {
+        // Loader hasn't been shown this session
+        // 1. Mark that the loader will be shown
+        sessionStorage.setItem(LOADER_SESSION_KEY, 'true');
+        // 2. Ensure the loading state is true (it should be from useState initialiser, but belt-and-suspenders)
+        setLoading(true);
+        // 3. Set the timeout to hide the loader
+        timeoutId = setTimeout(() => {
+          setLoading(false);
+        }, 4000); // Duration loader is shown
+
+      } else {
+        // Loader HAS been shown this session, ensure it's off
+        setLoading(false);
+      }
+    }
+
+    // Cleanup function: Clear the timeout if the component unmounts
+    // before the timeout finishes (e.g., user navigates away quickly)
     return () => {
-      clearTimeout(loadingTimeout);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
-  }, []);
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
@@ -73,9 +92,11 @@ export default function Home() {
         fontSize: `${fontSize / 16}rem`,
       }}
     >
+      {/* Conditionally render Loader based on loading state AND reducedMotion setting */}
       {!reducedMotion && (
         <Loader loadingStates={loadingStates} loading={loading} duration={500} />
       )}
+
       <section
         className="rounded-lg relative h-[70vh] flex items-center justify-center overflow-hidden mx-auto z-20 max-w-[1280px] mt-[5rem]"
         aria-labelledby="hero-heading"
@@ -95,11 +116,13 @@ export default function Home() {
             />
             <div className="absolute inset-0 bg-black/40"></div>
           </div>
+          {/* Assuming PlaceholdersAndVanishInputDemo doesn't rely on loading state */}
           <PlaceholdersAndVanishInputDemo />
         </BackgroundLines>
       </section>
 
       <section className='flex items-center justify-center overflow-hidden max-w-[1280px] mx-auto z-20'>
+        {/* Assuming FeaturesSectionDemo doesn't rely on loading state */}
         <FeaturesSectionDemo />
       </section>
 
@@ -116,7 +139,7 @@ export default function Home() {
         >
           <div className="max-w-2xl mx-auto p-4">
             <h1
-              id="join-heading"
+              id="join-heading" // Changed ID to be more specific
               className={cn(
                 "relative z-10 text-lg md:text-7xl bg-clip-text text-foreground text-center font-bold",
                 playfairDisplay.className
@@ -141,29 +164,32 @@ export default function Home() {
             >
               Sign up now to receive updates and be part of the LifeSight community!
             </p>
-            <form className="relative w-full" onSubmit={handleSubmit}>
+            <form className="relative w-full mt-4" onSubmit={handleSubmit}> {/* Added margin top */}
               <Input
                 type="email"
-                name="email" // Added name attribute
+                name="email" // Keep name attribute
                 placeholder="your-email@example.com"
                 aria-label="Enter your email address"
-                className="rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4"
+                className="rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10" // Removed mt-4 as form has it now
                 style={{
                   fontSize: `${fontSize / 16 * 0.875}rem`,
                   backgroundColor: "var(--input)",
                   color: "var(--foreground)",
                 }}
               />
+              {/* Adjusted button positioning slightly for better alignment */}
               <Button
                 variant="default"
                 type="submit"
-                className="absolute right-0 top-0 bg-teal-500 text-white p-2 rounded-sm border-r border-y border-neutral-800 focus:ring-2 focus:ring-teal-500"
+                className="absolute right-[1px] top-[1px] bottom-[1px] bg-teal-500 hover:bg-teal-600 text-white px-3 rounded-r-lg border-l border-neutral-800 focus:ring-2 focus:ring-teal-500 focus:z-10"
+                aria-label="Submit email"
               >
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </form>
           </div>
 
+          {/* BackgroundBeams should ideally render regardless of loading state */}
           <BackgroundBeams />
         </div>
       </section>

@@ -156,7 +156,7 @@ export default function CallAssistantPage() {
                                 {selectedLanguage || "Select a language"}
                             </SelectTrigger>
                             <SelectContent>
-                                {["English", "Spanish", "French", "German", "Chinese", "Japanese", "Korean", "Hindi", "Arabic", "Portuguese"].map(lang => (
+                                {["English", "Sinhala", "Spanish", "French", "German", "Chinese", "Japanese", "Korean", "Hindi", "Arabic", "Portuguese"].map(lang => (
                                     <SelectItem key={lang} value={lang}>{lang}</SelectItem>
                                 ))}
                             </SelectContent>
